@@ -1,0 +1,12 @@
+{
+  "name": "sitla-docs",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "secretlint": "secretlint --secretlintignore .gitignore \"**/*\""
+  },
+  "devDependencies": {
+    "@secretlint/secretlint-rule-preset-recommend": "^13.0.7",
+    "secretlint": "^13.0.7"
+  }
+}
