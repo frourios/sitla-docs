@@ -15,7 +15,7 @@
 | Terms / privacy | `https://sitla.frourio.com/terms`, `https://sitla.frourio.com/privacy` |
 | Documentation repository | `https://github.com/frourios/sitla-docs` |
 | Raw documentation base | `https://raw.githubusercontent.com/frourios/sitla-docs/` followed by the pinned commit and file path |
-| Commercial conditions | [Commercial Model](commercial.md), actual transaction terms and provider agreement |
+| Commercial conditions | [Commercial Model](business-model.md), actual transaction terms and provider agreement |
 
 These publication addresses do not confer issuer authority. No universal trust list or required recovery signer belongs to Frourio. WebAuthn/OAuth metadata, authority keys, witness configuration and authenticated operator discovery must be published and tested before their proposed capabilities are offered; this document does not fabricate deployed values.
 
@@ -49,4 +49,4 @@ The service calendar, policy revision/digest, actual recovery contacts, accepted
 
 Current service capabilities include email-code authentication and paid profile disclosure through Stripe. Proposed passkeys, OAuth/DPoP, root/VC custody, constrained recovery, transparency logs, offline facilities and proof packages are not deployed merely by publishing these documents. No runtime defaults or payment fees are changed by this documentation update.
 
-Other operators implement [Core](protocol.md) and the [Operator Profile](protocol-operators.md) with their own parameters and supported profiles. They need not use these URLs, timings, Stripe, Cloudflare, Japanese branding or the [20% commercial fee](commercial.md).
+Other operators implement [Core](protocol.md) and the [Operator Profile](protocol-operators.md) with their own parameters and supported profiles. They need not use these URLs, timings, Stripe, Cloudflare, Japanese branding or the [20% commercial fee](business-model.md).

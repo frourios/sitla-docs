@@ -1,7 +1,7 @@
 # Operator Profile
 
-*SITLA Protocol v0.1 — Required Configuration and Interoperability Profile*  
-**License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)  
+*SITLA Protocol v0.2 — Required Configuration and Interoperability Profile*\
+**License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
 **Date:** November 14, 2026
 
 ## 1. Independent Deployment
@@ -34,12 +34,12 @@ An illustrative descriptor uses reserved example domains and symbolic digests; i
 
 ```json
 {
-  "protocol": "sitla/0.1",
+  "protocol": "sitla/0.2",
   "operator_id": "https://operator.example",
   "descriptor_revision": "deployment-1",
   "issued_at": "2026-11-14T00:00:00Z",
   "expires_at": "2026-12-14T00:00:00Z",
-  "profiles": [{"id":"core","version":"0.1","spec_digest":"<authenticated-spec-digest>"}],
+  "profiles": [{"id":"core","version":"0.2","spec_digest":"<authenticated-spec-digest>"}],
   "endpoints": {"mcp":"https://operator.example/mcp"},
   "policy_refs": {"recovery":{"uri":"https://operator.example/policies/recovery","digest":"<authenticated-policy-digest>"}},
   "unsupported_profiles": ["disaster-offline", "proof-packages", "marketplace"]
@@ -70,4 +70,4 @@ Exports retain original issuer signatures, status references and accepted key hi
 | OP-4 | Present another operator’s token, local account UUID or continuity VC as local login authority | Wrong audience/authority is rejected; continuity needs explicit acceptance |
 | OP-5 | Exchange incompatible profiles or matching package versions with different digests | Explicit mismatch, never a silent downgrade or substituted artifact |
 
-Conformance statements identify Core and each optional profile/revision, actual compatible artifacts and independent test results. The [SITLA deployment](sitla-operator.md) is one operator’s provisional configuration; its implementation status is not the status of every protocol implementation. The specification remains v0.1 and is not yet a complete production wire standard.
+Conformance statements identify Core and each optional profile/revision, actual compatible artifacts and independent test results. The [SITLA deployment](sitla-operator.md) is one operator’s provisional configuration; its implementation status is not the status of every protocol implementation. The specification remains v0.2 and is not yet a complete production wire standard.

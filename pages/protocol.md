@@ -2,9 +2,9 @@
 
 *Core: Portable Identity, Evidence, Authentication and Recovery*
 
-**Version:** 0.1 — Design Draft  
-**License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)  
-**Date:** November 14, 2026  
+**Version:** 0.2 — Design Draft\
+**License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
+**Date:** November 14, 2026\
 **Author:** SITLA / Frourio, Inc.
 
 ## Abstract
@@ -20,7 +20,7 @@ SITLA Protocol defines interoperable online delegates for discovery and the circ
 
 *Start with the evidence you need. Add a profile only when the use case needs it.*
 
-This document is the core. All technical documents remain unpublished **v0.1** drafts; publication does not implement them.
+This document is the core. All technical documents are **v0.2 design drafts**; draft status describes maturity, not access restrictions. Publication does not implement them.
 
 | Document | Responsibility |
 | --- | --- |
@@ -31,7 +31,7 @@ This document is the core. All technical documents remain unpublished **v0.1** d
 | [Wire Artifacts](protocol-wire.md) | Minimum JSON schemas, canonical records and fixed test vectors |
 | [Operator Profile](protocol-operators.md) | Operator-neutral configuration and cross-operator requirements |
 | [SITLA Deployment](sitla-operator.md) | Founding operator values, outside protocol conformance |
-| [Commercial Model](commercial.md) | Founding operator business terms, outside protocol conformance |
+| [Commercial Model](business-model.md) | Founding operator business terms, outside protocol conformance |
 
 A buyer's agent can search using service JSON, ask for an issuer credential or a named proof, validate it independently, negotiate work, obtain any agreed signatures, and authorize payment. For an informal question, the buyer may accept an unverified description. A consequential task may require evidence from specific authorities. The marketplace profile expands these examples; it does not prescribe a work lifecycle.
 
@@ -72,22 +72,22 @@ An account may buy and sell. Sellers need not be Japanese or hold official crede
 }
 ```
 
-Serialize with [JCS, RFC 8785](https://www.rfc-editor.org/rfc/rfc8785), UTF-8 encode, hash with SHA3-512, and encode the digest as unpadded base64url. The DID is not its own hash input. Reconstruct the exact signing-only document locally; reject duplicate/extra fields, unknown versions, invalid key lengths, noncanonical encodings and altered relationships. The [wire artifacts](protocol-wire.md) provide derivation schemas and fixed byte vectors; independent wallet interoperation remains a deployment prerequisite. This experimental method is not registered or an AMT identifier.
+Serialize with [JCS, RFC 8785](https://www.rfc-editor.org/rfc/rfc8785), UTF-8 encode, hash with SHA3-512, and encode the digest as unpadded base64url. The DID is not its own hash input. Reconstruct the exact signing-only document locally using the fixed AKP JWK representation in [Wire Artifacts](protocol-wire.md); reject duplicate/extra fields, unknown versions, invalid key lengths, noncanonical encodings and altered relationships. The [wire artifacts](protocol-wire.md) provide derivation schemas and fixed byte vectors; independent wallet interoperation remains a deployment prerequisite. This experimental method is not registered or an AMT identifier.
 
-**KEY-1.** A wallet MUST retain the root secret under user control and support encrypted backup/export. An operator receives scoped presentation authority, not implicit access to a root secret. Hardware-wrapped software storage is not native ML-DSA hardware signing; synced passkeys have separate provider/recovery assumptions. A future ML-DSA passkey profile may declare actual authenticator/browser/server support; v0.1 does not assume it. Hosted-only root custody is outside the portable-holder profile.
+**KEY-1.** A wallet MUST retain the root secret under user control and support encrypted backup/export. An operator receives scoped presentation authority, not implicit access to a root secret. Hardware-wrapped software storage is not native ML-DSA hardware signing; synced passkeys have separate provider/recovery assumptions. A future ML-DSA passkey profile may declare actual authenticator/browser/server support; v0.2 does not assume it. Hosted-only root custody is outside the portable-holder profile.
 
-**KEY-2.** Root-signed `OperationalKeyAuthorization` records carry replaceable communication or application keys outside the immutable root descriptor. A record binds the root, operational/pairwise DID, exact public keys and roles, audience/purpose, authorization-series ID, sequence, predecessor-record digest, issue/expiry times and status reference. Signing and agreement keys are independent. An agreement-key rotation creates a new record or pairwise DID, not a new root or credential-continuity event. Receivers retain the highest authenticated sequence per root and authorization series they know, without conflating unrelated scopes; offline evidence may omit later changes. Static-key replacement alone does not establish forward secrecy for past ciphertext.
+**KEY-2.** Root-signed `OperationalKeyAuthorization` records carry replaceable communication or application keys outside the immutable root descriptor. Each `replace-operational-keys` record replaces the entire key set for its fixed authorization series; omitted keys lose that authority. A `revoke-operational-keys` record has an empty set and terminates the series. Reauthorization requires a new root-approved series, never resurrection of an older record. A record binds the root, operational/pairwise DID, exact public keys and roles, audience/purpose, authorization-series ID, sequence, predecessor-record digest, issue/expiry times and status reference. Signing and agreement keys are independent. An agreement-key rotation creates a new record or pairwise DID, not a new root or credential-continuity event. Receivers retain the highest authenticated sequence per root and authorization series they know, without conflating unrelated scopes; offline evidence may omit later changes. Static-key replacement alone does not establish forward secrecy for past ciphertext.
 
 **KEY-3.** Sensitive local interactions default to fresh **pairwise communication DIDs for transport only** with independent conventional signing and X25519 keys. The baseline uses [Peer DID method 2](https://identity.foundation/peer-did-method-spec/#method-2-multiple-inception-key-without-doc) (`did:peer:2`) with its clarified encoding and independently generated Ed25519 verification and X25519 encryption keys. No persistent service endpoint is required; local invitations negotiate delivery. Resolver vectors and independent-wallet tests must pin the method revision. A root DID is not automatically a DIDComm endpoint. A wallet may hold a root-signed delegation privately, but sending that delegation to every peer would disclose a common root and defeat the intended privacy.
 
-Pairwise transport does not promise unlinkable qualification presentation. v0.1 defines no general ZKP that hides a root-bound subject while transferring its binding to an arbitrary pairwise key. Deployments MUST advertise only a supported presentation route, not infer privacy from a new DID.
+Pairwise transport does not promise unlinkable qualification presentation. v0.2 defines no general ZKP that hides a root-bound subject while transferring its binding to an arbitrary pairwise key. Deployments MUST advertise only a supported presentation route, not infer privacy from a new DID.
 
 | Presentation route | Qualification/presenter binding | Linkability and availability |
 | --- | --- | --- |
 | Root-bound VC plus disclosed root delegation | Root and exact peer key are checked | Linkable to the root; requires explicit disclosure consent |
 | Issuer-preissued single-use peer-key VC | Issuer signs the exact disposable key; peer proves possession with a fresh challenge | Can avoid a common root in verifier-visible fields if issuer format/payload/status identifiers also avoid stable correlators; issuer can still correlate issuance |
 | Issuer-preissued bearer VC | Issuer signature only; no fresh holder-key binding | No holder assurance; copying/sharing/repeated serials remain possible; not interchangeable with key-bound evidence |
-| Root-hiding ZKP / anonymous credential | Must prove accepted subject-to-peer-key relation | Not specified by v0.1; unavailable unless a separately identified, reviewed package actually implements it |
+| Root-hiding ZKP / anonymous credential | Must prove accepted subject-to-peer-key relation | Not specified by v0.2; unavailable unless a separately identified, reviewed package actually implements it |
 | Anonymous assistance | No qualification-to-person binding | Only explicitly permitted low-assurance decisions; never label as verified qualification |
 
 A practical issuer route pre-enrolls independently generated one-time signing keys while connected, authenticates the subject under its own process, and issues separate minimal credentials for those keys. Each credential binds its own key, issuer, narrow claims, expiry and status policy without repeating the root, account handle, batch ID or other unnecessary common subject fields. The holder caches original signed credentials and proves possession of the selected key over the audience, request/challenge, purpose and credential digest. This is a format-specific issuer capability, not a new universal VC format. Verifiers must inspect remaining identifiers, claim combinations, issuance timestamps and status-access metadata; batch issuance does not guarantee anonymity from the issuer or colluding parties. Reuse is linkable and an offline verifier cannot guarantee global single use. If no accepted route exists, explicitly consent to a linkable presentation, use permitted anonymous assistance, or refuse. No silent privacy downgrade or invented holder assurance is allowed. Public professional DIDs remain optional; their use is not the default for patients or evacuees.
@@ -96,7 +96,7 @@ A practical issuer route pre-enrolls independently generated one-time signing ke
 
 *PQC protects selected root and archival operations. Conventional transport and proofs retain their own declared assumptions.*
 
-**CRYPTO-1.** Native root records use pure ML-DSA-44 via the [FIPS 204](https://csrc.nist.gov/pubs/fips/204/final) external interface with hedged signing and fresh 32-byte randomness. Failure of randomness fails signing. HashML-DSA and silent deterministic fallback are excluded. Context bytes are `SITLA/0.1/root`, `SITLA/0.1/continuity` or `SITLA/0.1/archive`, according to record class. Sign the full domain-separated canonical record, with operation, role, scope, recipient, nonce/request ID and expiry; do not add an undocumented prehash.
+**CRYPTO-1.** Native root records use pure ML-DSA-44 via the [FIPS 204](https://csrc.nist.gov/pubs/fips/204/final) external interface with hedged signing and fresh 32-byte randomness. Failure of randomness fails signing. HashML-DSA and silent deterministic fallback are excluded. Context bytes are `SITLA/0.2/root`, `SITLA/0.2/continuity` or `SITLA/0.2/archive`, according to record class. Sign the full domain-separated canonical record, with operation, role, scope, recipient, nonce/request ID and expiry; do not add an undocumented prehash.
 
 **CRYPTO-2.** Long-lived authority/continuity records can use a declared hybrid profile requiring independently checked conventional and PQC signatures over the same payload. Attaching a PQC signature is not verification. A circuit checking only the conventional component reports a classical proof. Issuer formats, native signatures, in-circuit verification and device storage require separate measurements. A supported signed Boolean credential may suffice without general-purpose proving. End-to-end quantum resistance and quantum-resistant encryption are not claimed.
 
@@ -146,51 +146,55 @@ As checked November 14, 2026, [RFC 9964](https://www.rfc-editor.org/rfc/rfc9964)
 | `issuer-credential` | An issuer secured a disclosed claim | Issuer scope/truthfulness, holder binding and status |
 | `zkp` | An approved circuit's predicates/bindings verified | Accepted circuit, proof assumptions and issuers |
 
-**EVID-2.** A generic approved-action record binds operation, actor, external event/contract reference, terms or payload digest, amount/currency if applicable, audience, challenge, expiry and session/recovery epoch. A custody key cannot replace a required user key. A signature does not prove human authorship or reasoning; see Section 2.
+**EVID-2.** The v0.2 [ApprovedAction wire record](protocol-wire.md) binds operation, actor, external event/contract reference, terms or payload digest, amount/currency if applicable, audience, challenge, expiry and session/recovery epoch. A custody key cannot replace a required user key. A signature does not prove human authorship or reasoning; see Section 2.
 
-An agent can make the following conceptual request after authentication; this is not an implemented endpoint or tool contract:
+The minimum request schema and bound response are fixed in [Wire Artifacts](protocol-wire.md). This fixture requests `service-json`; a ZKP request instead names exact package/circuit digests and parameters in `requirements`. These are wire artifacts, not deployed MCP tool names:
 
 ```json
 {
-  "protocol":"sitla/0.1",
-  "operation":"request-evidence",
-  "request_id":"<unique-id>",
-  "subject_reference":"<reviewed-account-or-pairwise-reference>",
-  "evidence_level":"zkp",
-  "audience":"<authenticated-requester>",
-  "purpose":"task-eligibility",
-  "challenge":"<fresh-verifier-challenge>",
-  "requirements":[{"package_ref":"<pinned-package-version-and-manifest-digest>","circuit":"age-at-least","parameters":{"years":18}}]
+  "protocol": "sitla/0.2",
+  "operation": "request-evidence",
+  "request_id": "evidence-request-1",
+  "operator_id": "https://operator.example",
+  "subject_reference": "did:sitla:v1:z8BUv__O4gUxjAJfloWZ2yZZe3YngHVjdhCG8VFzkCC6xKDNHH0D8VGQMUQ1ySww34aN8QTWZWRx42wAsyKtag",
+  "evidence_level": "service-json",
+  "audience": "https://requester.example",
+  "purpose": "work-transaction",
+  "challenge": "__79_Pv6-fj39vX08_Lx8O_u7ezr6uno5-bl5OPi4eA",
+  "issued_at": "2026-11-14T00:02:00Z",
+  "expires_at": "2026-11-14T00:07:00Z",
+  "policy_digest": "ab84835d9d27e383686314c2c8e4cfffd37e823b1e4d674576558c7cccb9ec11",
+  "requirements": []
 }
 ```
 
-The buyer chooses the level per decision: ordinary data for `service-json`, a bound action artifact for `user-signed`, a supported issuer disclosure for `issuer-credential`, or pinned predicates for `zkp`. [Wire Artifacts](protocol-wire.md) fixes the envelope schema and common result enums; artifact-specific checks and limitations supply the details. This complete service-JSON envelope is the public format fixture, not a response to the conceptual proof request above:
+Its matching response includes SHA-256 of the request’s canonical bytes. It reports service trust without inventing independent issuer verification:
 
 ```json
 {
-  "protocol": "sitla/0.1",
+  "protocol": "sitla/0.2",
   "profile": "core-evidence-v1",
   "operator_id": "https://operator.example",
-  "request_id": "vector-request-2",
-  "request_digest": "e9d87fe099e877be2f52a742f65c178f6da9f32b000e3e87de5fc3c0e8be72b4",
+  "request_id": "evidence-request-1",
+  "request_digest": "e00c58f667f523ab019ffbea3e430de45372b99c36d775728608026ba789d5d1",
   "mode": "online",
   "audience": "https://requester.example",
-  "purpose": "seller-discovery",
+  "purpose": "work-transaction",
   "challenge": "__79_Pv6-fj39vX08_Lx8O_u7ezr6uno5-bl5OPi4eA",
-  "issued_at": "2026-11-14T00:00:00Z",
-  "expires_at": "2026-11-14T00:05:00Z",
+  "issued_at": "2026-11-14T00:02:00Z",
+  "expires_at": "2026-11-14T00:07:00Z",
   "evidence_level": "service-json",
   "verified_by": {
     "authority": "https://operator.example",
     "method": "authenticated-response",
-    "implementation": "format-vector-only"
+    "implementation": "format-fixture-v0.2"
   },
   "verification_result": "not_independently_verified",
   "acceptance_decision": "not_evaluated",
-  "policy_digest": "9c1748d72cd666c94fa87a3c699fb35f80a4d801f0ef4959714fd7c4ac376ab1",
+  "policy_digest": "ab84835d9d27e383686314c2c8e4cfffd37e823b1e4d674576558c7cccb9ec11",
   "status_observations": [],
   "limitations": [
-    "Service assertion; no independent issuer or holder verification."
+    "Format fixture; no independent real-world or current-status assertion."
   ],
   "evidence_digest": null
 }
@@ -254,7 +258,7 @@ Current deployed capabilities include email-code authentication, profile disclos
 
 **INTEROP-1.** Conformance is to an exact version and declared profiles, not membership in a central registry. Independent operators MUST apply the [Operator Profile](protocol-operators.md), preserve portable signed artifacts, and test compatible producers/consumers from independently maintained implementations. No operator’s origin, accounts, fees, trust list, signatures, package registry or payment provider is a global prerequisite. A recovery authority can restore only its own account authority; accepting its continuity elsewhere requires an explicit verifier/issuer policy.
 
-The `did:sitla:v1` method name, `sitla/0.1`, evidence labels and `SITLA/0.1/*` cryptographic contexts are shared protocol identifiers. For a claim of compatibility with this exact byte-level profile, these identifiers MUST remain unchanged. This is a conformance/terminology rule, not a CC0 license restriction: anyone may rename or fork the text, but changed identifiers describe a different profile. Origins, RP IDs, OAuth issuers, endpoints, service keys, policy values and local identifiers are deployment parameters. The [Wire Artifacts](protocol-wire.md) now fix schemas, canonical bytes and positive/negative vectors for ID-1, KEY-2 and EVID-1. They are a minimum interoperability subset; complete securing-format adapters, discovery schemas, independent implementations and production reviews remain outstanding.
+The `did:sitla:v1` method name, `sitla/0.2`, evidence labels and `SITLA/0.2/*` cryptographic contexts are shared protocol identifiers. For a claim of compatibility with this exact byte-level profile, these identifiers MUST remain unchanged. This is a conformance/terminology rule, not a CC0 license restriction: anyone may rename or fork the text, but changed identifiers describe a different profile. Origins, RP IDs, OAuth issuers, endpoints, service keys, policy values and local identifiers are deployment parameters. The [Wire Artifacts](protocol-wire.md) fix schemas, canonical bytes and positive/negative vectors for ID-1, KEY-2, request/evidence binding and EVID-2 approvals/service assertions. They are a minimum interoperability subset; complete securing-format adapters, discovery schemas, independent implementations and production reviews remain outstanding.
 
 ## References and Publication Notes
 

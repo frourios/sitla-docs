@@ -1,7 +1,7 @@
 # Marketplace Profile
 
-*SITLA Protocol v0.1 — Optional Design Profile*  
-**License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)  
+*SITLA Protocol v0.2 — Optional Design Profile*\
+**License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
 **Date:** November 14, 2026
 
 ## 1. Open-Market Scope
@@ -26,7 +26,7 @@ The institution's authority, participation conditions and ability to use an inte
 
 **MARKET-2.** Payment instructions bind payer, payee, amount/currency, terms reference, idempotency key and explicitly approved execution conditions. When a party delegates condition evaluation to an inspector, agent or external contract system, the instruction names that authority and accepted signal. Unexpected event types, unsupported required proofs or missing authority do not trigger execution. Provider-confirmed events matched to the instruction are payment evidence; a browser return or qualification proof is not.
 
-Payment execution/payout custody use an actual external provider. Escrow, milestone capture/release, refunds, disputes and adjudication require separately declared capabilities and agreements. No offline financial finality is implied by the disaster profile. Numerical fees and who pays processing costs are [commercial information](commercial.md), not protocol requirements or an assurance level.
+Payment execution/payout custody use an actual external provider. Escrow, milestone capture/release, refunds, disputes and adjudication require separately declared capabilities and agreements. No offline financial finality is implied by the disaster profile. Numerical fees and who pays processing costs are [commercial information](business-model.md), not protocol requirements or an assurance level.
 
 **MARKET-3.** Parties may issue/export work records and publish selected references under public DIDs. Neither a standard portfolio nor reciprocal ratings/job-count schemas are required. A buyer's public seller profile does not permit publication of its purchases, name, exact prices or deliverables without the applicable disclosure permission. Independently created accounts are not automatically linked. Buyer-selected evidence policies assess prominent-name bindings, collusion, invented work and repeated references.
 

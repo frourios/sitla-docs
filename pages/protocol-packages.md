@@ -1,7 +1,7 @@
 # Proof Package Profile
 
-*SITLA Protocol v0.1 — Experimental Optional Design Profile*  
-**License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)  
+*SITLA Protocol v0.2 — Experimental Optional Design Profile*\
+**License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
 **Date:** November 14, 2026
 
 ## 1. Roles and Distribution
