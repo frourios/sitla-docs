@@ -1,6 +1,6 @@
 {
   "name": "sitla-docs",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSING.md",
   "type": "module",
   "scripts": {
     "secretlint": "secretlint --secretlintignore .gitignore \"**/*\""

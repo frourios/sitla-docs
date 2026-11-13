@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sitla:0.1:schema:identity-descriptor",
+  "title": "identity-descriptor",
+  "$comment": "SPDX-License-Identifier: CC0-1.0; structural validation is not cryptographic verification",
+  "type": "object",
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "identitySuite": {
+      "const": "ML-DSA-44"
+    },
+    "identityPublicKey": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1750}$"
+    }
+  },
+  "required": [
+    "version",
+    "identitySuite",
+    "identityPublicKey"
+  ],
+  "additionalProperties": false
+}

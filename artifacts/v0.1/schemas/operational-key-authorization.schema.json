@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sitla:0.1:schema:operational-key-authorization",
+  "title": "operational-key-authorization",
+  "$comment": "SPDX-License-Identifier: CC0-1.0; structural validation is not cryptographic verification",
+  "type": "object",
+  "properties": {
+    "payload": {
+      "type": "object",
+      "properties": {
+        "protocol": {
+          "const": "sitla/0.1"
+        },
+        "type": {
+          "const": "OperationalKeyAuthorization"
+        },
+        "operation": {
+          "const": "authorize-operational-keys"
+        },
+        "role": {
+          "const": "identity-root"
+        },
+        "root": {
+          "type": "string",
+          "pattern": "^did:sitla:v1:[A-Za-z0-9_-]{86}$"
+        },
+        "operational_did": {
+          "type": "string",
+          "pattern": "^did:[a-z0-9]+:.+$"
+        },
+        "keys": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "suite": {
+                "enum": [
+                  "Ed25519",
+                  "X25519"
+                ]
+              },
+              "public_key": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{43}$"
+              },
+              "role": {
+                "enum": [
+                  "authentication",
+                  "assertion",
+                  "key-agreement"
+                ]
+              }
+            },
+            "required": [
+              "id",
+              "suite",
+              "public_key",
+              "role"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "suite": {
+                      "const": "X25519"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "role": {
+                      "const": "key-agreement"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "role": {
+                      "enum": [
+                        "authentication",
+                        "assertion"
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 16
+        },
+        "audience": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "authorization_series_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "predecessor_digest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "issued_at": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        },
+        "expires_at": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        },
+        "status_reference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      },
+      "required": [
+        "protocol",
+        "type",
+        "operation",
+        "role",
+        "root",
+        "operational_did",
+        "keys",
+        "audience",
+        "purpose",
+        "authorization_series_id",
+        "sequence",
+        "predecessor_digest",
+        "issued_at",
+        "expires_at",
+        "status_reference",
+        "request_id"
+      ],
+      "additionalProperties": false
+    },
+    "signature": {
+      "type": "object",
+      "properties": {
+        "suite": {
+          "const": "ML-DSA-44"
+        },
+        "context": {
+          "const": "SITLA/0.1/root"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{3227}$"
+        }
+      },
+      "required": [
+        "suite",
+        "context",
+        "value"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "payload",
+    "signature"
+  ],
+  "additionalProperties": false
+}
