@@ -1,6 +1,6 @@
 # Account Lifecycle Profile
 
-*SITLA Protocol v0.3 — Core Lifecycle Semantics and Optional Exchange Profile*\
+*SITLA Protocol v0.4 — Core Lifecycle Semantics and Optional Exchange Profile*\
 **Exchange profile:** `sitla-account-lifecycle/1`\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
@@ -49,6 +49,10 @@ A completed revocation stops future authorized effects at the operator’s recor
 
 Offer data/VC export before confirmation, show remaining jobs, payments, balances, withdrawal of grants, retained-record rules and the consequence for external copies. The user may knowingly proceed without exporting; export completion or an external wallet’s availability is not a compulsory deletion prerequisite. Lost-key users can use an operator-reviewed alternative intake with independent identity/authority checks; an unauthenticated support report cannot execute deletion. Core pending/restricted recovery cannot approve irreversible deletion or bypass competing ownership review.
 
+**DELETE-SAFETY-1.** For accounts with balances or active mandates, operators SHOULD notify a pre-enrolled independent recovery route and offer a short cancellation grace period before irreversible purge. Publish `deletionCancellationGraceSeconds` (a nonnegative integer), its scope, the exact deadline, notification behavior and the reason if no grace is offered; the protocol fixes no universal duration. Freeze the applicable policy/deadline at acceptance and do not shorten an in-flight grace. Quiescence and revocation still begin immediately; grace is not continued login, payout, disclosure or mandate authority. Preserve only the data needed to honor the declared grace and retention policy, and do not claim completion while the account remains restorable under that grace.
+
+Cancellation, if offered, requires a **separate explicitly negotiated operation**, fresh owner approval and independent-route verification or equivalent reviewed evidence. The original deletion approval, revoked session, read-only status capability or possession of an email notification cannot cancel it. A contested/compromised recovery cannot approve restoration by default; route it to independent ownership review. Record cancellation before the deadline/purge barrier; reject races that arrive after the irreversible cutoff. Cancellation does not reactivate old sessions, revoked mandates or retired credentials: any renewed login, grant or credential needs its own current authorization. State explicitly which data can still be restored and what is already irrecoverable. The existing lifecycle request/receipt schemas intentionally contain no `cancel-delete` operation or `cancelled` state; implementations need a separately named adapter rather than inventing values in `sitla-account-lifecycle/1`. Lawful privacy requests remain a separate process; a convenience grace must not obstruct their timely handling.
+
 **DELETE-2.** An accepted deletion request commits an immediate quiescence barrier: disable all account sessions and RP credential associations, withdraw owner-controlled mandates/descendants, stop new login/issuance/disclosure/sales/task acceptance and suspend affected operator account/handle credentials. Keep the account URI and retired handles non-reassignable. A recovery callback, delayed webhook, agent retry or new browser session must not resurrect the account. Disabling the local RP association does not erase a private passkey from a hardware authenticator or other RPs.
 
 Process remaining storage/presentation links, media URLs, queued work and credential status consistently with that barrier. Do not claim revocation of a previously issued signed media URL before its verifier/expiry actually enforces it. Reconcile existing payment/work obligations through separately authorized settlement operations with restricted access; deletion is not a payment cancellation, balance confiscation or a grant to change a beneficiary. A delayed settlement must not restore ordinary account access. An active or restricted account must never be shown as completely erased merely because a delete button was clicked.
@@ -89,7 +93,7 @@ The [receipt schema](../artifacts/lifecycle-v1/receipt.schema.json) binds the re
 | --- | --- | --- |
 | LOGOUT-1–2, LIFE-2 | Refresh/reconnect races; another device; autonomous grant | Appropriate session families stop; no old-epoch renewal; independent mandate scope is explicit |
 | MANDATE-1 | Guess another owner's ID; derive a child token after withdrawal | No unauthorized target action; descendants stop; unrelated grants remain |
-| DELETE-1–3 | Recovery-only caller; export unavailable; delayed provider callback; retained dispute record | No destructive recovery bypass; informed deletion remains possible; no resurrection; retention explained |
+| DELETE-1–3, DELETE-SAFETY-1 | Recovery-only caller; export unavailable; delayed provider callback; retained dispute record | No destructive recovery bypass; informed deletion remains possible; no resurrection; retention explained |
 | LIFE-2–3 | Retry changed target/key; query after session revocation | No wider effects, duplicate operation or bearer-status leak |
 | LIFE-3–5 | Claim completion with active account, unchanged credentials, missing cutoff or old offline status | Structural/semantic rejection or explicit uncertainty; no fabricated global erasure |
 

@@ -39,8 +39,8 @@ export function signatureValid(fixture: Fixture, vectors: Vectors, overrideConte
   if (!jwk || signature.suite !== "Ed25519") return false;
   return verify(null, Buffer.from(canonical(payload)), createPublicKey({ key: jwk, format: "jwk" }), base64urlBytes(signature.value as string, 64));
 }
-export async function verifyVectors(directory = new URL("../artifacts/wire-v1/", import.meta.url)) {
-  const vectors: Vectors = JSON.parse(await readFile(new URL("vectors/core.json", directory), "utf8"));
+export async function verifyVectors(directory = new URL("../artifacts/wire-v1/", import.meta.url), filename = "core.json") {
+  const vectors: Vectors = JSON.parse(await readFile(new URL(`vectors/${filename}`, directory), "utf8"));
   const ajv = new Ajv2020({ strict: true, allErrors: true });
   const names = ["identity-descriptor", "did-document", "operational-key-authorization", "request-evidence", "evidence-envelope", "approved-action", "service-assertion", "passkey-approved-action"];
   const schemas = new Map();

@@ -22,7 +22,7 @@ mutations.push({ name: "request_digest", file: "codec.ts", from: 'if (payload.re
 mutations.push({ name: "request_expiry_bound", file: "codec.ts", from: 'parseTime(payload.expires_at) > parseTime(request.expires_at) || ', to: '' });
 mutations.push({ name: "request_issue_bound", file: "codec.ts", from: ' || parseTime(payload.issued_at) < parseTime(request.issued_at)', to: '' });
 mutations.push({ name: "artifact_expiry", file: "codec.ts", from: 'if (now >= parseTime(payload.expires_at))', to: 'if (false)' });
-for (const error of ["webauthn_type", "webauthn_origin", "webauthn_cross_origin", "webauthn_challenge", "webauthn_rp_id", "webauthn_flags", "webauthn_counter", "webauthn_user_handle", "webauthn_authority"])
+for (const error of ["webauthn_type", "webauthn_origin_missing", "webauthn_origin", "webauthn_cross_origin", "webauthn_challenge", "webauthn_rp_id", "webauthn_flags", "webauthn_counter", "webauthn_user_handle", "webauthn_authority"])
   mutations.push({ name: error, file: "webauthn.ts", from: `throw new Error("${error}")`, to: "void 0" });
 mutations.push({ name: "webauthn_signature", file: "webauthn.ts", from: 'return verify(', to: 'return true || verify(' });
 
@@ -33,7 +33,7 @@ try {
   for (const file of ["codec.ts", "webauthn.ts", "conformance.ts"])
     await cp(new URL(file, reference), join(temporary, file));
   await symlink(fileURLToPath(new URL("../node_modules", import.meta.url)), join(temporary, "node_modules"), "dir");
-  const program = `import { verifyVectors } from ${JSON.stringify(pathToFileURL(join(temporary, "conformance.ts")).href)}; await verifyVectors(new URL(${JSON.stringify(directory.href)}));`;
+  const program = `import { verifyVectors } from ${JSON.stringify(pathToFileURL(join(temporary, "conformance.ts")).href)}; await verifyVectors(new URL(${JSON.stringify(directory.href)})); await verifyVectors(new URL(${JSON.stringify(directory.href)}), "passkey-synced.json");`;
   execFileSync(process.execPath, ["--input-type=module", "-e", program], { timeout: 10000, stdio: "pipe" });
   for (const mutation of mutations) {
     const original = await readFile(new URL(mutation.file, reference), "utf8");

@@ -1,0 +1,305 @@
+{
+  "license": "CC0-1.0",
+  "description": "Supplemental synthetic synced-passkey fixtures; BE=BS=1, zero-to-zero counter, disposable signing secrets discarded. No authenticator attestation.",
+  "descriptor": {
+    "version": 1,
+    "identitySuite": "ML-DSA-44",
+    "identityPublicKey": "jAeRnaYFGzv0wyVp_5gogZmTTVYFXvt7HNYDEYQDMg3E4qkR_-M6-H5kNreZjPoRvOgDrA8YNisMd1qH_-hhCUbykueISUwpDl1lie18yXvwCAx22ZyOr4xC2aFvODXUMdKLzGnLXDTgmGoHENauxkLJpZAekyjTowqJTzvGpmC2vRRz-WuY1ckpmOF8sPQD2TYkV6oc1BG8QbLh0p38HDaS0tEmvdLCRMNSyB8SSOfbsYVrv1yYAPzTS_6q9PanEBGDpIeJr0kkIHqoWCmF5r0-QlLmK8tJ9pu8pCSmIfHE5isMHNrrFaG83eQ-WRnfS9N78Zs9To1Vcfz8urg6tqZUPhEXK1apqSgdC7hIh6rcrpXQy9SMhK4z4obWxir0ntCMQhpxJLz9zO3OVXnGTnKfDTBQRIT6V1MfA3mT024broytnNR99bGSLpfOGcF_dGPyom8cDGJ68LzwtSAOET7mtPRZuBdiHTXEojd7mJWPiHYfEedP9KtTIQAc0mqHZwexlTNdAag6B8XqS87AT6Ap2NQIvcCoWxD1wXxFbSki131CKjpY3oOE9EmdkfrjjRr3VHjWs8AoTMvUvs-7wW58JI-lZdv4q-OVHevwefXD8YnWa4dGZzVmO4zkdNQKfI5gmmO14zBonxvjpqGdLyd5xU4vuPA4keMpUFHx6ASj5IaZ2E-qAbUiTKp73INgaWpEmXNOojHJSDjUZXHlVu0_3S74N04V30AQ9Pd4XafOlu7QS8alW_Pk2-dTeEWrLH1oFWB62PwOmDPmHsAuxYwR7vNvQ_1SfTT39fgmLrCxn0xj9_pg7p8dm43eQnV4-VYAyh7jQLZAkSG2PLA4oBNviHZbKaYGTPVtl-mvAo3Eg5c8yZg1Bf06cBbvEpYg3kK-sbXJlziOyAQXWMtzBF9KoBiivAS7dHm_8-OKKlVSg6gEY8DKwDFXOPhAEgONzLr5gD9Dps2YNybu0yF-cAf5JFmz4DXRSY0gz_qb4Ytc1JTgZsw-fsfxrkzqiDGRU7iDIsrV2JEKtUs0GhaZEcawdsdK2ZIJ_M1PqoNQUWRZJigICjjpTwYsSpn2D2eUzD54Zj1dXmLMtpNtv5ePsYEVV11cJrpSd551kYQe5yDYgTztvK1MX0ZZ-vmxOaa6NLkVMKR8g_uzqJruoG71frLjzaH4HZSdPGI9kLEj4tKVHy0mkAd55vLs1BqVO2dy0wqqOeLR0SHUzcVyxT3jk3Qa80qe3CUl7x8d0pLjJnRHsgWrssKY5rDVoubDFS1GsdJyP_cxuTqr3UDvofZOh-HU8mE2bbFc6mi1EIyu3Lh__Iihh15Jwmn25zJV3AJasofJo9gk9RBr5h3aZ7icOaRNP2d0hfuNAZOIYsgBvLnIRyt8mYJ7lpNUU28hFG57be-geenDZ7O3htyRgnPnjCddUE8qC6kncsrIALrrFJIkav9tbPDqq2VbyYYV7vsFqpOWCD5JpCBCM_sN8TXp9OPv7UPT-RH7PfxDlXRZmJHOixdsq5HeAo7YpSu9Izej4DUREA2nJBxKjrnE1CunW45m_NLWafdw7zicjWH0RgKxdvTVNFlx2vYP8a4le68xSc16yGc4vMR8Za_LtD0pWPtTFalrsFgmR5QqWksL1qXFA6xiHFdXlyZYkS2FtNhCJR3MeFCFIplNfB6yzcsGVSLpbwRHEQz1W069MpHaRDshftVCU2XNgILIlEFdpE6M4tDct0cmiedHeIPLSfn32A"
+  },
+  "verification_keys": {},
+  "policy": {
+    "path": "policies/example-policy.json",
+    "bytes_utf8": "{\n  \"profile\": \"sitla-policy/1\",\n  \"authority\": \"https://operator.example\",\n  \"purpose\": \"work-transaction\",\n  \"allowed_evidence\": [\n    \"service-json\",\n    \"service-signed\",\n    \"user-signed\"\n  ],\n  \"max_age_seconds\": 300\n}\n",
+    "digest": "2b4edcd3dc6c8740e7c4f54b39434ffb41fcc5c1a26e47b408a8ea24959da333"
+  },
+  "data_assets": {},
+  "webauthn_credentials": {
+    "Zml4dHVyZS13ZWJhdXRobi1jcmVkZW50aWFsLTE": {
+      "id": "Zml4dHVyZS13ZWJhdXRobi1jcmVkZW50aWFsLTE",
+      "key_id": "did:example:passkey#approval",
+      "actor": "did:sitla:v1:D3jHx9mQ_tOlUQoKQaf6V8dxSvo-rRbCOyt_Ak9RTJRCK_NxKe4lgFNMCIWMh6tzZ6I8tYvaM4JFnfGYX3i78g",
+      "operator_id": "https://operator.example",
+      "rp_id": "operator.example",
+      "allowed_origins": [
+        "https://operator.example"
+      ],
+      "public_key": {
+        "kty": "EC",
+        "x": "p6zttXcOBrrpJyHd9TR-DHqSUxv2YxzG_9LPs_DXm7o",
+        "y": "_LNKXxMMAQougo1TvtVhHqFprcAabQoHvzxDtuq5upo",
+        "crv": "P-256"
+      },
+      "user_handle": "Zml4dHVyZS1sb2NhbC11c2Vy",
+      "sign_count": 0,
+      "backup_eligible": true
+    },
+    "Zml4dHVyZS13ZWJhdXRobi1jcmVkZW50aWFsLTELQ": {
+      "id": "Zml4dHVyZS13ZWJhdXRobi1jcmVkZW50aWFsLTELQ",
+      "key_id": "did:example:passkey#approval",
+      "actor": "did:sitla:v1:D3jHx9mQ_tOlUQoKQaf6V8dxSvo-rRbCOyt_Ak9RTJRCK_NxKe4lgFNMCIWMh6tzZ6I8tYvaM4JFnfGYX3i78g",
+      "operator_id": "https://operator.example",
+      "rp_id": "operator.example",
+      "allowed_origins": [
+        "https://operator.example"
+      ],
+      "public_key": {
+        "kty": "EC",
+        "x": "p6zttXcOBrrpJyHd9TR-DHqSUxv2YxzG_9LPs_DXm7o",
+        "y": "_LNKXxMMAQougo1TvtVhHqFprcAabQoHvzxDtuq5upo",
+        "crv": "P-256"
+      },
+      "user_handle": "Zml4dHVyZS1sb2NhbC11c2Vy",
+      "sign_count": 2,
+      "backup_eligible": true
+    }
+  },
+  "positive": [
+    {
+      "id": "authorization-initial",
+      "schema": "operational-key-authorization",
+      "value": {
+        "payload": {
+          "protocol": "sitla-wire/1",
+          "type": "OperationalKeyAuthorization",
+          "operation": "replace-operational-keys",
+          "role": "identity-root",
+          "root": "did:sitla:v1:D3jHx9mQ_tOlUQoKQaf6V8dxSvo-rRbCOyt_Ak9RTJRCK_NxKe4lgFNMCIWMh6tzZ6I8tYvaM4JFnfGYX3i78g",
+          "operational_did": "did:example:passkey",
+          "keys": [
+            {
+              "id": "did:example:passkey#approval",
+              "suite": "P-256",
+              "public_key": "BKes7bV3Dga66Sch3fU0fgx6klMb9mMcxv_Sz7Pw15u6_LNKXxMMAQougo1TvtVhHqFprcAabQoHvzxDtuq5upo",
+              "role": "assertion"
+            }
+          ],
+          "audience": "https://requester.example",
+          "purpose": "work-transaction",
+          "authorization_series_id": "passkey-approval-1",
+          "sequence": 0,
+          "predecessor_digest": null,
+          "issued_at": "2026-11-14T00:00:00Z",
+          "expires_at": "2026-12-14T00:00:00Z",
+          "status_reference": "https://operator.example/status/work-approval-1",
+          "request_id": "passkey-grant-1"
+        },
+        "signature": {
+          "suite": "ML-DSA-44",
+          "context": "SITLA/root/1",
+          "value": "01Iwl2UXx6jlZNeMnashAxR49svOdLdB7oNHCbLEmVzb9geAOsy6X2yeCA6uT2_1vvF5lOb2aK-KzFVEPIlsFQYm3iwYQuD1Yx8O8r9493w0AkZHGPNczp2v9ZGccZexhv3XNXtWT0AOAYF0NWwXV7zOJVlvSubANFTkXY40_UDhpx2XWOwnqLOKk9NRagjtT-XMgOkbsv8yewKOeGSJqn3Jkvvcm-aEZ5HpBditzn6h5J3DQnmv70c_IARTAHhqWK7jUpCsB1l6JSyV-uF_LrKdJ2EoFzIMVF1sRb3TAK5kfAhPY41bolQYemgJh-MfCI09Im0EBy3u130_kUOxQl1jkhUtwen5xg9AJBW16WBtyhXdXnkogk39jTWlT2wCpihTbmomcdHHfVfaOtT7vmQieQ71lDMTKrWTntzM0_3BotEEK4GdispCRA3v5iUzbmqLIoiZrbAsxLQPa7FCAfXiFXA4zcMoBX-dKn6NscSqLwoSwyaWslsdBUcBxsTUqxMs6p8-86uvP6E3-4GlHGeuvbYBCFbNhYhevRtwgQr-FXlJtkRJ0gh2NANd1ep36wWIrFGa2K0nvOtqGgK7Ux4C4Z2Mu73GhqLm5AkzTJF9HmT3-2EfyAhSwrW7jQ8qyTVFZRrugDzKRkttkiAahhIXWuicZT4teWFj5MjE8Z_0yVeFDTRB_YJ3aW5cxi1xYt7PS4TV7lfSYwNwHiY0LHVbXaV2gJLhqo-pWJTa7oLVarEZVi-k8LLO3a0vVi2YPk2YJkXFjwEUJW06PiLAoG2HM3I4KCP9Z9IzgxW8SfmZTyN3zjMOM1fkDGuvRVTJHgwKhR9YK57Qs99DSWtjj6UK9BmzaFE5PTE4b4yJNWlLO7Tx6UKgIkwpZIB8WfTlWMF5InF4DB6RADdFPuM0AZs4wxeUJioFKqojCFdcK3bHNaOpVuPHkCpgtHR4nbCXdEZeYP-hVKjMdL9NAqW2JUGr-QuQTFI4NRtD_mEXULR3j2wuFZK-IGCXMf0ffzQJjh4Z64qX796Nz91lYi-LKOsrVlxQsIwu3Ar3VPzfgeOFqRetv7KI6r20uuD8faUs1oZZzidyBNiFbWGx0VjD-rpeY3n5vHtafGvQgszcma822nRYo6JgRJKfKC6wNo0HhCM0rI1Q_H3JdzZyxil3vd7TeSpDmAoEYZOSJLldOlMpyLjQLR7V6n7l76avQqHp5hkyVHU22ajh1fjDJUFFQOojBf8_UKuH5974XXABzCNARTkkoctUWnEicpg40N6j0BtUk8SnXb2clnYNLM6pIn3P2PYA0YXFbwEbCg2f0XcHzNZI7BjrQ-BPrzxN4EYZF3m2e5-R-EfYjbH-MOinRjpxglWVfUY6T8Yup75z2uefIEpz2_GCTDPqaH4kTYPaGnMspFXDWM6CmXV7ogVbnUNTiAdxWvC5GrVo72HFfM6cVEPevTdCZGM9GLXDjrAbAaRoK99UYgdMu2-zqQJd2TjINnm1blxnzcSTxjPR_vXWDDLwMnP6VmJDEgeYbhNXJWZmE0fYO66ppX7Su9niunQCjTAlViVgXJsU5fXh8qEEz03t6MaqhzX4_31ce-EtV-CuPAoZnBuJpe0C4zLABpKXvY2yinDeeVsjW0IObOijBPVHxkcJS9lz6qPCyeYpfHOOFjvJQ68jckoEK5SFtwFj5y-ZQdghY9ZpdVPt7mvZDnaxJ-Tfcn5wgNzHYGvOVO-dUfslkbfSn7DoowOf3dJmbxz0iZRPQuzJOsveGOImB1WvX0eovsEYw0qFbJ0W2WQ6WZYGb74-wi8Ul5qDrKcPAoO9zASYEnTLRjzsl_OlPxCe55GrYMP9-VFix_ISLQy0cQ156KhitVaKlZHtVFOwoGlJaw-GqTJA-PqUr8gATj-4eDrsLbOKnUACaHkBFuFMjNn8np4eb3UVy9eRcORpffChbKCw0gFDgRVJKh1f58FtOjYurocKCWNjHujyWPXO_lZTAH--O-JrjXU6GzbQhyz4ZY_Y-24T-wTpZmFyGN4lebuF_EtrX3WYtA9HbQkqj_YLEdOLH1tgRokjcLn_HYi4gRMiSAMfy9XRrPshGjx2GFstrz1z5mjsZQNTO1FCP1bObnxaKv27LrcL-hThmCm94QBKbrdoLIewgu7UjJNzbiwjm-jBVOMm3ANWhniZQS79qVVVvE7n2iyp3nyl-Fqg7nL3GDyx1iO51TRLczmoNx-NEWAZ5E9qpZV2K7XeCReAor9afFa2jG_u0LFZZXHp-9ShjmLyWXHKQKgfeI4qGTSydNUhle0qCByQl-pRBHsbsnzqhU3DbipoNwkD00fjKeszB58cuGzZFxKO5ddrIeYDGhRbNbvlVtS9NNfL4AKtHla4i9n4XDffPPlexbS1nReeAdcXlr6JwJoSvX_EAHzs8sCPaPnd2cqdzZkecyzRrQ0ZdSN0MMsRxs6MDrbnyo-ezyP53FZPP2j8Ly25EBQnjgdRls-fvtUk0lpXq6iNR0wVCim3_IhZOcEiIXL578QB4NYSmisGre7fHp7eOBGoqAC7oDm33xfFmKVy8WNPXhn1hjzQe6QZdTiED9tKxQ2e32QmZmnPdoG2RWOnxCvHKXM946H_wK_TMTc_jSfHV3VK3yyZYAWMolyYJhHUlQtmw0X4bqMZ_roryE_DPjlJeZkrrvc2i8oEkmJN_XeBVsB6rFIF5mdqugeq9bKQj2_xYtJna8uRVxsEuZEvtPGh94-POw_D4zm95ArQ9Q3STMwiPQdOl4uXYxB-1XL0pW8TiZMMYtXSHeAWL4hU3MzZqAflJOp4dflM2QOkkmEgsHuNw-UxF5J1zYrrkS41UCRRIhKpL23JE_ugnBUE_vb7LGhYcN-VAy40-coefVIgrqM0garEBwFZkPV7KaN1CG759IyKLNmjTP2Qsu1WGig_mPwF-1Sw0y1eEWLc50h5wSUnLHhGCjITfCRMGJYdCHn5m-5PeEsGGVt5AEBxoYteVWzNGgFRhEUTaXUHH4FV3tQIbLHlxldgVT62eBasfRuH5U9csxAxLEP_8gMMkkc9_gd_vwR5bTf5upXs2niTuuI890aUJvpWHrOmdIGFMyG0L_cmL8CVI0AgJyswTE9mdY6Poa3h8PT2HClFUVeDl5ijqt7f9Rk0Okxkg5qeO2BnaYKIn7jBxtvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAdJTE"
+        }
+      },
+      "canonical_utf8": "{\"payload\":{\"audience\":\"https://requester.example\",\"authorization_series_id\":\"passkey-approval-1\",\"expires_at\":\"2026-12-14T00:00:00Z\",\"issued_at\":\"2026-11-14T00:00:00Z\",\"keys\":[{\"id\":\"did:example:passkey#approval\",\"public_key\":\"BKes7bV3Dga66Sch3fU0fgx6klMb9mMcxv_Sz7Pw15u6_LNKXxMMAQougo1TvtVhHqFprcAabQoHvzxDtuq5upo\",\"role\":\"assertion\",\"suite\":\"P-256\"}],\"operation\":\"replace-operational-keys\",\"operational_did\":\"did:example:passkey\",\"predecessor_digest\":null,\"protocol\":\"sitla-wire/1\",\"purpose\":\"work-transaction\",\"request_id\":\"passkey-grant-1\",\"role\":\"identity-root\",\"root\":\"did:sitla:v1:D3jHx9mQ_tOlUQoKQaf6V8dxSvo-rRbCOyt_Ak9RTJRCK_NxKe4lgFNMCIWMh6tzZ6I8tYvaM4JFnfGYX3i78g\",\"sequence\":0,\"status_reference\":\"https://operator.example/status/work-approval-1\",\"type\":\"OperationalKeyAuthorization\"},\"signature\":{\"context\":\"SITLA/root/1\",\"suite\":\"ML-DSA-44\",\"value\":\"01Iwl2UXx6jlZNeMnashAxR49svOdLdB7oNHCbLEmVzb9geAOsy6X2yeCA6uT2_1vvF5lOb2aK-KzFVEPIlsFQYm3iwYQuD1Yx8O8r9493w0AkZHGPNczp2v9ZGccZexhv3XNXtWT0AOAYF0NWwXV7zOJVlvSubANFTkXY40_UDhpx2XWOwnqLOKk9NRagjtT-XMgOkbsv8yewKOeGSJqn3Jkvvcm-aEZ5HpBditzn6h5J3DQnmv70c_IARTAHhqWK7jUpCsB1l6JSyV-uF_LrKdJ2EoFzIMVF1sRb3TAK5kfAhPY41bolQYemgJh-MfCI09Im0EBy3u130_kUOxQl1jkhUtwen5xg9AJBW16WBtyhXdXnkogk39jTWlT2wCpihTbmomcdHHfVfaOtT7vmQieQ71lDMTKrWTntzM0_3BotEEK4GdispCRA3v5iUzbmqLIoiZrbAsxLQPa7FCAfXiFXA4zcMoBX-dKn6NscSqLwoSwyaWslsdBUcBxsTUqxMs6p8-86uvP6E3-4GlHGeuvbYBCFbNhYhevRtwgQr-FXlJtkRJ0gh2NANd1ep36wWIrFGa2K0nvOtqGgK7Ux4C4Z2Mu73GhqLm5AkzTJF9HmT3-2EfyAhSwrW7jQ8qyTVFZRrugDzKRkttkiAahhIXWuicZT4teWFj5MjE8Z_0yVeFDTRB_YJ3aW5cxi1xYt7PS4TV7lfSYwNwHiY0LHVbXaV2gJLhqo-pWJTa7oLVarEZVi-k8LLO3a0vVi2YPk2YJkXFjwEUJW06PiLAoG2HM3I4KCP9Z9IzgxW8SfmZTyN3zjMOM1fkDGuvRVTJHgwKhR9YK57Qs99DSWtjj6UK9BmzaFE5PTE4b4yJNWlLO7Tx6UKgIkwpZIB8WfTlWMF5InF4DB6RADdFPuM0AZs4wxeUJioFKqojCFdcK3bHNaOpVuPHkCpgtHR4nbCXdEZeYP-hVKjMdL9NAqW2JUGr-QuQTFI4NRtD_mEXULR3j2wuFZK-IGCXMf0ffzQJjh4Z64qX796Nz91lYi-LKOsrVlxQsIwu3Ar3VPzfgeOFqRetv7KI6r20uuD8faUs1oZZzidyBNiFbWGx0VjD-rpeY3n5vHtafGvQgszcma822nRYo6JgRJKfKC6wNo0HhCM0rI1Q_H3JdzZyxil3vd7TeSpDmAoEYZOSJLldOlMpyLjQLR7V6n7l76avQqHp5hkyVHU22ajh1fjDJUFFQOojBf8_UKuH5974XXABzCNARTkkoctUWnEicpg40N6j0BtUk8SnXb2clnYNLM6pIn3P2PYA0YXFbwEbCg2f0XcHzNZI7BjrQ-BPrzxN4EYZF3m2e5-R-EfYjbH-MOinRjpxglWVfUY6T8Yup75z2uefIEpz2_GCTDPqaH4kTYPaGnMspFXDWM6CmXV7ogVbnUNTiAdxWvC5GrVo72HFfM6cVEPevTdCZGM9GLXDjrAbAaRoK99UYgdMu2-zqQJd2TjINnm1blxnzcSTxjPR_vXWDDLwMnP6VmJDEgeYbhNXJWZmE0fYO66ppX7Su9niunQCjTAlViVgXJsU5fXh8qEEz03t6MaqhzX4_31ce-EtV-CuPAoZnBuJpe0C4zLABpKXvY2yinDeeVsjW0IObOijBPVHxkcJS9lz6qPCyeYpfHOOFjvJQ68jckoEK5SFtwFj5y-ZQdghY9ZpdVPt7mvZDnaxJ-Tfcn5wgNzHYGvOVO-dUfslkbfSn7DoowOf3dJmbxz0iZRPQuzJOsveGOImB1WvX0eovsEYw0qFbJ0W2WQ6WZYGb74-wi8Ul5qDrKcPAoO9zASYEnTLRjzsl_OlPxCe55GrYMP9-VFix_ISLQy0cQ156KhitVaKlZHtVFOwoGlJaw-GqTJA-PqUr8gATj-4eDrsLbOKnUACaHkBFuFMjNn8np4eb3UVy9eRcORpffChbKCw0gFDgRVJKh1f58FtOjYurocKCWNjHujyWPXO_lZTAH--O-JrjXU6GzbQhyz4ZY_Y-24T-wTpZmFyGN4lebuF_EtrX3WYtA9HbQkqj_YLEdOLH1tgRokjcLn_HYi4gRMiSAMfy9XRrPshGjx2GFstrz1z5mjsZQNTO1FCP1bObnxaKv27LrcL-hThmCm94QBKbrdoLIewgu7UjJNzbiwjm-jBVOMm3ANWhniZQS79qVVVvE7n2iyp3nyl-Fqg7nL3GDyx1iO51TRLczmoNx-NEWAZ5E9qpZV2K7XeCReAor9afFa2jG_u0LFZZXHp-9ShjmLyWXHKQKgfeI4qGTSydNUhle0qCByQl-pRBHsbsnzqhU3DbipoNwkD00fjKeszB58cuGzZFxKO5ddrIeYDGhRbNbvlVtS9NNfL4AKtHla4i9n4XDffPPlexbS1nReeAdcXlr6JwJoSvX_EAHzs8sCPaPnd2cqdzZkecyzRrQ0ZdSN0MMsRxs6MDrbnyo-ezyP53FZPP2j8Ly25EBQnjgdRls-fvtUk0lpXq6iNR0wVCim3_IhZOcEiIXL578QB4NYSmisGre7fHp7eOBGoqAC7oDm33xfFmKVy8WNPXhn1hjzQe6QZdTiED9tKxQ2e32QmZmnPdoG2RWOnxCvHKXM946H_wK_TMTc_jSfHV3VK3yyZYAWMolyYJhHUlQtmw0X4bqMZ_roryE_DPjlJeZkrrvc2i8oEkmJN_XeBVsB6rFIF5mdqugeq9bKQj2_xYtJna8uRVxsEuZEvtPGh94-POw_D4zm95ArQ9Q3STMwiPQdOl4uXYxB-1XL0pW8TiZMMYtXSHeAWL4hU3MzZqAflJOp4dflM2QOkkmEgsHuNw-UxF5J1zYrrkS41UCRRIhKpL23JE_ugnBUE_vb7LGhYcN-VAy40-coefVIgrqM0garEBwFZkPV7KaN1CG759IyKLNmjTP2Qsu1WGig_mPwF-1Sw0y1eEWLc50h5wSUnLHhGCjITfCRMGJYdCHn5m-5PeEsGGVt5AEBxoYteVWzNGgFRhEUTaXUHH4FV3tQIbLHlxldgVT62eBasfRuH5U9csxAxLEP_8gMMkkc9_gd_vwR5bTf5upXs2niTuuI890aUJvpWHrOmdIGFMyG0L_cmL8CVI0AgJyswTE9mdY6Poa3h8PT2HClFUVeDl5ijqt7f9Rk0Okxkg5qeO2BnaYKIn7jBxtvmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAdJTE\"}}",
+      "wire_sha256": "5cc5ed0de1b9be143e678e8c269de8142bb5f4d3249184a0ab17cb7a97a5b817"
+    },
+    {
+      "id": "request-approval",
+      "schema": "request-evidence",
+      "value": {
+        "protocol": "sitla-wire/1",
+        "operation": "request-evidence",
+        "request_id": "evidence-request-2",
+        "operator_id": "https://operator.example",
+        "subject_reference": "did:sitla:v1:MXEvdrCXg_SR8h1mF1U8MUtwyaTF8cqatgV0n6rVuPZpi5--IquMBNmp_xySiNC86dr8PeRCXj19ZsLBWezTSA",
+        "evidence_level": "user-signed",
+        "audience": "https://requester.example",
+        "purpose": "work-transaction",
+        "challenge": "__79_Pv6-fj39vX08_Lx8O_u7ezr6uno5-bl5OPi4eA",
+        "issued_at": "2026-11-14T00:02:00Z",
+        "expires_at": "2026-11-14T00:07:00Z",
+        "policy_digest": "2b4edcd3dc6c8740e7c4f54b39434ffb41fcc5c1a26e47b408a8ea24959da333",
+        "requirements": []
+      },
+      "canonical_utf8": "{\"audience\":\"https://requester.example\",\"challenge\":\"__79_Pv6-fj39vX08_Lx8O_u7ezr6uno5-bl5OPi4eA\",\"evidence_level\":\"user-signed\",\"expires_at\":\"2026-11-14T00:07:00Z\",\"issued_at\":\"2026-11-14T00:02:00Z\",\"operation\":\"request-evidence\",\"operator_id\":\"https://operator.example\",\"policy_digest\":\"2b4edcd3dc6c8740e7c4f54b39434ffb41fcc5c1a26e47b408a8ea24959da333\",\"protocol\":\"sitla-wire/1\",\"purpose\":\"work-transaction\",\"request_id\":\"evidence-request-2\",\"requirements\":[],\"subject_reference\":\"did:sitla:v1:MXEvdrCXg_SR8h1mF1U8MUtwyaTF8cqatgV0n6rVuPZpi5--IquMBNmp_xySiNC86dr8PeRCXj19ZsLBWezTSA\"}",
+      "wire_sha256": "0cab216f84c1c393b6c797d3994d971c3ea663da4cfd1ad69ca47779d448a272"
+    },
+    {
+      "id": "passkey-synced-zero-counter",
+      "schema": "passkey-approved-action",
+      "value": {
+        "payload": {
+          "protocol": "sitla-wire/1",
+          "operator_id": "https://operator.example",
+          "request_id": "evidence-request-2",
+          "request_digest": "0cab216f84c1c393b6c797d3994d971c3ea663da4cfd1ad69ca47779d448a272",
+          "audience": "https://requester.example",
+          "purpose": "work-transaction",
+          "challenge": "__79_Pv6-fj39vX08_Lx8O_u7ezr6uno5-bl5OPi4eA",
+          "issued_at": "2026-11-14T00:02:00Z",
+          "expires_at": "2026-11-14T00:07:00Z",
+          "policy_digest": "2b4edcd3dc6c8740e7c4f54b39434ffb41fcc5c1a26e47b408a8ea24959da333",
+          "type": "ApprovedAction",
+          "domain": "SITLA/approval/1",
+          "operation": "authorize-payment",
+          "actor": "did:sitla:v1:D3jHx9mQ_tOlUQoKQaf6V8dxSvo-rRbCOyt_Ak9RTJRCK_NxKe4lgFNMCIWMh6tzZ6I8tYvaM4JFnfGYX3i78g",
+          "key_authorization_digest": "5cc5ed0de1b9be143e678e8c269de8142bb5f4d3249184a0ab17cb7a97a5b817",
+          "event_reference": "https://operator.example/transactions/example-1",
+          "payload_digest": "39e97a61d11b0efd41fde7f2404442980031b4a610f0eeb8b38b965b3c0dfbd1",
+          "terms_digest": "b6f68c41280571c698b99904191b72883384a4df3f3e12bb55a5eeb0cd86b79f",
+          "amount_minor": 1000,
+          "currency": "JPY",
+          "session_epoch": 1,
+          "recovery_epoch": 0
+        },
+        "proof": {
+          "profile": "SITLA/webauthn-approval/1",
+          "suite": "WebAuthn-ES256",
+          "credential_id": "Zml4dHVyZS13ZWJhdXRobi1jcmVkZW50aWFsLTE",
+          "client_data_json": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiTlpyX3lpaExiWWVMRkcwcUZXRHlIUkc5YjI1SGZGenk2elNmcGRieHF0cyIsIm9yaWdpbiI6Imh0dHBzOi8vb3BlcmF0b3IuZXhhbXBsZSIsImNyb3NzT3JpZ2luIjpmYWxzZX0",
+          "authenticator_data": "fvEjCvs6hgvMb_3DDmZJ7kfUxv1gPQbBqb9fpdLNiosdAAAAAA",
+          "signature": "MEQCIBgaGLn8PkSmbihZ0ay2hBr6t-0Njt_ivq3UIr1qbobFAiAwIhdJDwS3oCKaoiqeJqtcAuYbd73G09gMirug5V92wA",
+          "user_handle": "Zml4dHVyZS1sb2NhbC11c2Vy"
+        }
+      },
+      "canonical_utf8": "{\"payload\":{\"actor\":\"did:sitla:v1:D3jHx9mQ_tOlUQoKQaf6V8dxSvo-rRbCOyt_Ak9RTJRCK_NxKe4lgFNMCIWMh6tzZ6I8tYvaM4JFnfGYX3i78g\",\"amount_minor\":1000,\"audience\":\"https://requester.example\",\"challenge\":\"__79_Pv6-fj39vX08_Lx8O_u7ezr6uno5-bl5OPi4eA\",\"currency\":\"JPY\",\"domain\":\"SITLA/approval/1\",\"event_reference\":\"https://operator.example/transactions/example-1\",\"expires_at\":\"2026-11-14T00:07:00Z\",\"issued_at\":\"2026-11-14T00:02:00Z\",\"key_authorization_digest\":\"5cc5ed0de1b9be143e678e8c269de8142bb5f4d3249184a0ab17cb7a97a5b817\",\"operation\":\"authorize-payment\",\"operator_id\":\"https://operator.example\",\"payload_digest\":\"39e97a61d11b0efd41fde7f2404442980031b4a610f0eeb8b38b965b3c0dfbd1\",\"policy_digest\":\"2b4edcd3dc6c8740e7c4f54b39434ffb41fcc5c1a26e47b408a8ea24959da333\",\"protocol\":\"sitla-wire/1\",\"purpose\":\"work-transaction\",\"recovery_epoch\":0,\"request_digest\":\"0cab216f84c1c393b6c797d3994d971c3ea663da4cfd1ad69ca47779d448a272\",\"request_id\":\"evidence-request-2\",\"session_epoch\":1,\"terms_digest\":\"b6f68c41280571c698b99904191b72883384a4df3f3e12bb55a5eeb0cd86b79f\",\"type\":\"ApprovedAction\"},\"proof\":{\"authenticator_data\":\"fvEjCvs6hgvMb_3DDmZJ7kfUxv1gPQbBqb9fpdLNiosdAAAAAA\",\"client_data_json\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiTlpyX3lpaExiWWVMRkcwcUZXRHlIUkc5YjI1SGZGenk2elNmcGRieHF0cyIsIm9yaWdpbiI6Imh0dHBzOi8vb3BlcmF0b3IuZXhhbXBsZSIsImNyb3NzT3JpZ2luIjpmYWxzZX0\",\"credential_id\":\"Zml4dHVyZS13ZWJhdXRobi1jcmVkZW50aWFsLTE\",\"profile\":\"SITLA/webauthn-approval/1\",\"signature\":\"MEQCIBgaGLn8PkSmbihZ0ay2hBr6t-0Njt_ivq3UIr1qbobFAiAwIhdJDwS3oCKaoiqeJqtcAuYbd73G09gMirug5V92wA\",\"suite\":\"WebAuthn-ES256\",\"user_handle\":\"Zml4dHVyZS1sb2NhbC11c2Vy\"}}",
+      "wire_sha256": "9e2d1fe3bca19ca4f49b2a07f44445c374c9a905788d0b5d473e73fefe54f933",
+      "authorization_ref": "authorization-initial",
+      "request_ref": "request-approval",
+      "now": "2026-11-14T00:03:00Z"
+    }
+  ],
+  "negative": [
+    {
+      "id": "synced-origin-missing",
+      "schema": "passkey-approved-action",
+      "value": {
+        "payload": {
+          "protocol": "sitla-wire/1",
+          "operator_id": "https://operator.example",
+          "request_id": "evidence-request-2",
+          "request_digest": "0cab216f84c1c393b6c797d3994d971c3ea663da4cfd1ad69ca47779d448a272",
+          "audience": "https://requester.example",
+          "purpose": "work-transaction",
+          "challenge": "__79_Pv6-fj39vX08_Lx8O_u7ezr6uno5-bl5OPi4eA",
+          "issued_at": "2026-11-14T00:02:00Z",
+          "expires_at": "2026-11-14T00:07:00Z",
+          "policy_digest": "2b4edcd3dc6c8740e7c4f54b39434ffb41fcc5c1a26e47b408a8ea24959da333",
+          "type": "ApprovedAction",
+          "domain": "SITLA/approval/1",
+          "operation": "authorize-payment",
+          "actor": "did:sitla:v1:D3jHx9mQ_tOlUQoKQaf6V8dxSvo-rRbCOyt_Ak9RTJRCK_NxKe4lgFNMCIWMh6tzZ6I8tYvaM4JFnfGYX3i78g",
+          "key_authorization_digest": "5cc5ed0de1b9be143e678e8c269de8142bb5f4d3249184a0ab17cb7a97a5b817",
+          "event_reference": "https://operator.example/transactions/example-1",
+          "payload_digest": "39e97a61d11b0efd41fde7f2404442980031b4a610f0eeb8b38b965b3c0dfbd1",
+          "terms_digest": "b6f68c41280571c698b99904191b72883384a4df3f3e12bb55a5eeb0cd86b79f",
+          "amount_minor": 1000,
+          "currency": "JPY",
+          "session_epoch": 1,
+          "recovery_epoch": 0
+        },
+        "proof": {
+          "profile": "SITLA/webauthn-approval/1",
+          "suite": "WebAuthn-ES256",
+          "credential_id": "Zml4dHVyZS13ZWJhdXRobi1jcmVkZW50aWFsLTE",
+          "client_data_json": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiTlpyX3lpaExiWWVMRkcwcUZXRHlIUkc5YjI1SGZGenk2elNmcGRieHF0cyIsImNyb3NzT3JpZ2luIjpmYWxzZX0",
+          "authenticator_data": "fvEjCvs6hgvMb_3DDmZJ7kfUxv1gPQbBqb9fpdLNiosdAAAAAA",
+          "signature": "MEQCIFWRnULMrA108P0NhgH2VU3VDnPoeo3wbGSMYRh3h5i7AiAyu4IrCZK_ohIQdoMXW0BQuNKhYdBv4XIQtfS5HHnVLg",
+          "user_handle": "Zml4dHVyZS1sb2NhbC11c2Vy"
+        }
+      },
+      "canonical_utf8": "{\"payload\":{\"actor\":\"did:sitla:v1:D3jHx9mQ_tOlUQoKQaf6V8dxSvo-rRbCOyt_Ak9RTJRCK_NxKe4lgFNMCIWMh6tzZ6I8tYvaM4JFnfGYX3i78g\",\"amount_minor\":1000,\"audience\":\"https://requester.example\",\"challenge\":\"__79_Pv6-fj39vX08_Lx8O_u7ezr6uno5-bl5OPi4eA\",\"currency\":\"JPY\",\"domain\":\"SITLA/approval/1\",\"event_reference\":\"https://operator.example/transactions/example-1\",\"expires_at\":\"2026-11-14T00:07:00Z\",\"issued_at\":\"2026-11-14T00:02:00Z\",\"key_authorization_digest\":\"5cc5ed0de1b9be143e678e8c269de8142bb5f4d3249184a0ab17cb7a97a5b817\",\"operation\":\"authorize-payment\",\"operator_id\":\"https://operator.example\",\"payload_digest\":\"39e97a61d11b0efd41fde7f2404442980031b4a610f0eeb8b38b965b3c0dfbd1\",\"policy_digest\":\"2b4edcd3dc6c8740e7c4f54b39434ffb41fcc5c1a26e47b408a8ea24959da333\",\"protocol\":\"sitla-wire/1\",\"purpose\":\"work-transaction\",\"recovery_epoch\":0,\"request_digest\":\"0cab216f84c1c393b6c797d3994d971c3ea663da4cfd1ad69ca47779d448a272\",\"request_id\":\"evidence-request-2\",\"session_epoch\":1,\"terms_digest\":\"b6f68c41280571c698b99904191b72883384a4df3f3e12bb55a5eeb0cd86b79f\",\"type\":\"ApprovedAction\"},\"proof\":{\"authenticator_data\":\"fvEjCvs6hgvMb_3DDmZJ7kfUxv1gPQbBqb9fpdLNiosdAAAAAA\",\"client_data_json\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiTlpyX3lpaExiWWVMRkcwcUZXRHlIUkc5YjI1SGZGenk2elNmcGRieHF0cyIsImNyb3NzT3JpZ2luIjpmYWxzZX0\",\"credential_id\":\"Zml4dHVyZS13ZWJhdXRobi1jcmVkZW50aWFsLTE\",\"profile\":\"SITLA/webauthn-approval/1\",\"signature\":\"MEQCIFWRnULMrA108P0NhgH2VU3VDnPoeo3wbGSMYRh3h5i7AiAyu4IrCZK_ohIQdoMXW0BQuNKhYdBv4XIQtfS5HHnVLg\",\"suite\":\"WebAuthn-ES256\",\"user_handle\":\"Zml4dHVyZS1sb2NhbC11c2Vy\"}}",
+      "wire_sha256": "2422bd95902844fead8545f82051f6e6b436c317d031aafc015c151d5433695e",
+      "authorization_ref": "authorization-initial",
+      "request_ref": "request-approval",
+      "now": "2026-11-14T00:03:00Z",
+      "stage": "semantic",
+      "error": "webauthn_origin_missing",
+      "signature_valid": true
+    },
+    {
+      "id": "synced-counter-rollback",
+      "schema": "passkey-approved-action",
+      "value": {
+        "payload": {
+          "protocol": "sitla-wire/1",
+          "operator_id": "https://operator.example",
+          "request_id": "evidence-request-2",
+          "request_digest": "0cab216f84c1c393b6c797d3994d971c3ea663da4cfd1ad69ca47779d448a272",
+          "audience": "https://requester.example",
+          "purpose": "work-transaction",
+          "challenge": "__79_Pv6-fj39vX08_Lx8O_u7ezr6uno5-bl5OPi4eA",
+          "issued_at": "2026-11-14T00:02:00Z",
+          "expires_at": "2026-11-14T00:07:00Z",
+          "policy_digest": "2b4edcd3dc6c8740e7c4f54b39434ffb41fcc5c1a26e47b408a8ea24959da333",
+          "type": "ApprovedAction",
+          "domain": "SITLA/approval/1",
+          "operation": "authorize-payment",
+          "actor": "did:sitla:v1:D3jHx9mQ_tOlUQoKQaf6V8dxSvo-rRbCOyt_Ak9RTJRCK_NxKe4lgFNMCIWMh6tzZ6I8tYvaM4JFnfGYX3i78g",
+          "key_authorization_digest": "5cc5ed0de1b9be143e678e8c269de8142bb5f4d3249184a0ab17cb7a97a5b817",
+          "event_reference": "https://operator.example/transactions/example-1",
+          "payload_digest": "39e97a61d11b0efd41fde7f2404442980031b4a610f0eeb8b38b965b3c0dfbd1",
+          "terms_digest": "b6f68c41280571c698b99904191b72883384a4df3f3e12bb55a5eeb0cd86b79f",
+          "amount_minor": 1000,
+          "currency": "JPY",
+          "session_epoch": 1,
+          "recovery_epoch": 0
+        },
+        "proof": {
+          "profile": "SITLA/webauthn-approval/1",
+          "suite": "WebAuthn-ES256",
+          "credential_id": "Zml4dHVyZS13ZWJhdXRobi1jcmVkZW50aWFsLTELQ",
+          "client_data_json": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiTlpyX3lpaExiWWVMRkcwcUZXRHlIUkc5YjI1SGZGenk2elNmcGRieHF0cyIsIm9yaWdpbiI6Imh0dHBzOi8vb3BlcmF0b3IuZXhhbXBsZSIsImNyb3NzT3JpZ2luIjpmYWxzZX0",
+          "authenticator_data": "fvEjCvs6hgvMb_3DDmZJ7kfUxv1gPQbBqb9fpdLNiosdAAAAAQ",
+          "signature": "MEUCIG6bvLt7Y4FyC63ImsAzvLrGaFVxgBHazriyoeXMFKDdAiEAlbR0tRGjwu3F4Hyd-GIxGN76qd9aC6DTS94VvtRAH8Y",
+          "user_handle": "Zml4dHVyZS1sb2NhbC11c2Vy"
+        }
+      },
+      "canonical_utf8": "{\"payload\":{\"actor\":\"did:sitla:v1:D3jHx9mQ_tOlUQoKQaf6V8dxSvo-rRbCOyt_Ak9RTJRCK_NxKe4lgFNMCIWMh6tzZ6I8tYvaM4JFnfGYX3i78g\",\"amount_minor\":1000,\"audience\":\"https://requester.example\",\"challenge\":\"__79_Pv6-fj39vX08_Lx8O_u7ezr6uno5-bl5OPi4eA\",\"currency\":\"JPY\",\"domain\":\"SITLA/approval/1\",\"event_reference\":\"https://operator.example/transactions/example-1\",\"expires_at\":\"2026-11-14T00:07:00Z\",\"issued_at\":\"2026-11-14T00:02:00Z\",\"key_authorization_digest\":\"5cc5ed0de1b9be143e678e8c269de8142bb5f4d3249184a0ab17cb7a97a5b817\",\"operation\":\"authorize-payment\",\"operator_id\":\"https://operator.example\",\"payload_digest\":\"39e97a61d11b0efd41fde7f2404442980031b4a610f0eeb8b38b965b3c0dfbd1\",\"policy_digest\":\"2b4edcd3dc6c8740e7c4f54b39434ffb41fcc5c1a26e47b408a8ea24959da333\",\"protocol\":\"sitla-wire/1\",\"purpose\":\"work-transaction\",\"recovery_epoch\":0,\"request_digest\":\"0cab216f84c1c393b6c797d3994d971c3ea663da4cfd1ad69ca47779d448a272\",\"request_id\":\"evidence-request-2\",\"session_epoch\":1,\"terms_digest\":\"b6f68c41280571c698b99904191b72883384a4df3f3e12bb55a5eeb0cd86b79f\",\"type\":\"ApprovedAction\"},\"proof\":{\"authenticator_data\":\"fvEjCvs6hgvMb_3DDmZJ7kfUxv1gPQbBqb9fpdLNiosdAAAAAQ\",\"client_data_json\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiTlpyX3lpaExiWWVMRkcwcUZXRHlIUkc5YjI1SGZGenk2elNmcGRieHF0cyIsIm9yaWdpbiI6Imh0dHBzOi8vb3BlcmF0b3IuZXhhbXBsZSIsImNyb3NzT3JpZ2luIjpmYWxzZX0\",\"credential_id\":\"Zml4dHVyZS13ZWJhdXRobi1jcmVkZW50aWFsLTELQ\",\"profile\":\"SITLA/webauthn-approval/1\",\"signature\":\"MEUCIG6bvLt7Y4FyC63ImsAzvLrGaFVxgBHazriyoeXMFKDdAiEAlbR0tRGjwu3F4Hyd-GIxGN76qd9aC6DTS94VvtRAH8Y\",\"suite\":\"WebAuthn-ES256\",\"user_handle\":\"Zml4dHVyZS1sb2NhbC11c2Vy\"}}",
+      "wire_sha256": "697b76745dffbe8d6630c033b9dc2a863f41eaca89f3aff099fb79911d93a0a1",
+      "authorization_ref": "authorization-initial",
+      "request_ref": "request-approval",
+      "now": "2026-11-14T00:03:00Z",
+      "stage": "semantic",
+      "error": "webauthn_counter",
+      "signature_valid": true
+    },
+    {
+      "id": "synced-bs-without-be",
+      "schema": "passkey-approved-action",
+      "value": {
+        "payload": {
+          "protocol": "sitla-wire/1",
+          "operator_id": "https://operator.example",
+          "request_id": "evidence-request-2",
+          "request_digest": "0cab216f84c1c393b6c797d3994d971c3ea663da4cfd1ad69ca47779d448a272",
+          "audience": "https://requester.example",
+          "purpose": "work-transaction",
+          "challenge": "__79_Pv6-fj39vX08_Lx8O_u7ezr6uno5-bl5OPi4eA",
+          "issued_at": "2026-11-14T00:02:00Z",
+          "expires_at": "2026-11-14T00:07:00Z",
+          "policy_digest": "2b4edcd3dc6c8740e7c4f54b39434ffb41fcc5c1a26e47b408a8ea24959da333",
+          "type": "ApprovedAction",
+          "domain": "SITLA/approval/1",
+          "operation": "authorize-payment",
+          "actor": "did:sitla:v1:D3jHx9mQ_tOlUQoKQaf6V8dxSvo-rRbCOyt_Ak9RTJRCK_NxKe4lgFNMCIWMh6tzZ6I8tYvaM4JFnfGYX3i78g",
+          "key_authorization_digest": "5cc5ed0de1b9be143e678e8c269de8142bb5f4d3249184a0ab17cb7a97a5b817",
+          "event_reference": "https://operator.example/transactions/example-1",
+          "payload_digest": "39e97a61d11b0efd41fde7f2404442980031b4a610f0eeb8b38b965b3c0dfbd1",
+          "terms_digest": "b6f68c41280571c698b99904191b72883384a4df3f3e12bb55a5eeb0cd86b79f",
+          "amount_minor": 1000,
+          "currency": "JPY",
+          "session_epoch": 1,
+          "recovery_epoch": 0
+        },
+        "proof": {
+          "profile": "SITLA/webauthn-approval/1",
+          "suite": "WebAuthn-ES256",
+          "credential_id": "Zml4dHVyZS13ZWJhdXRobi1jcmVkZW50aWFsLTE",
+          "client_data_json": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiTlpyX3lpaExiWWVMRkcwcUZXRHlIUkc5YjI1SGZGenk2elNmcGRieHF0cyIsIm9yaWdpbiI6Imh0dHBzOi8vb3BlcmF0b3IuZXhhbXBsZSIsImNyb3NzT3JpZ2luIjpmYWxzZX0",
+          "authenticator_data": "fvEjCvs6hgvMb_3DDmZJ7kfUxv1gPQbBqb9fpdLNiosVAAAAAA",
+          "signature": "MEUCIQDPPHRg0J8Sd0OCkkl-rTkAbw8oymp1D8U-h7MYN3s6MgIgWhdBmX-mOEFwwr9QZ7fZkSYkDBnCdf7ZkckfCdTJJeU",
+          "user_handle": "Zml4dHVyZS1sb2NhbC11c2Vy"
+        }
+      },
+      "canonical_utf8": "{\"payload\":{\"actor\":\"did:sitla:v1:D3jHx9mQ_tOlUQoKQaf6V8dxSvo-rRbCOyt_Ak9RTJRCK_NxKe4lgFNMCIWMh6tzZ6I8tYvaM4JFnfGYX3i78g\",\"amount_minor\":1000,\"audience\":\"https://requester.example\",\"challenge\":\"__79_Pv6-fj39vX08_Lx8O_u7ezr6uno5-bl5OPi4eA\",\"currency\":\"JPY\",\"domain\":\"SITLA/approval/1\",\"event_reference\":\"https://operator.example/transactions/example-1\",\"expires_at\":\"2026-11-14T00:07:00Z\",\"issued_at\":\"2026-11-14T00:02:00Z\",\"key_authorization_digest\":\"5cc5ed0de1b9be143e678e8c269de8142bb5f4d3249184a0ab17cb7a97a5b817\",\"operation\":\"authorize-payment\",\"operator_id\":\"https://operator.example\",\"payload_digest\":\"39e97a61d11b0efd41fde7f2404442980031b4a610f0eeb8b38b965b3c0dfbd1\",\"policy_digest\":\"2b4edcd3dc6c8740e7c4f54b39434ffb41fcc5c1a26e47b408a8ea24959da333\",\"protocol\":\"sitla-wire/1\",\"purpose\":\"work-transaction\",\"recovery_epoch\":0,\"request_digest\":\"0cab216f84c1c393b6c797d3994d971c3ea663da4cfd1ad69ca47779d448a272\",\"request_id\":\"evidence-request-2\",\"session_epoch\":1,\"terms_digest\":\"b6f68c41280571c698b99904191b72883384a4df3f3e12bb55a5eeb0cd86b79f\",\"type\":\"ApprovedAction\"},\"proof\":{\"authenticator_data\":\"fvEjCvs6hgvMb_3DDmZJ7kfUxv1gPQbBqb9fpdLNiosVAAAAAA\",\"client_data_json\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiTlpyX3lpaExiWWVMRkcwcUZXRHlIUkc5YjI1SGZGenk2elNmcGRieHF0cyIsIm9yaWdpbiI6Imh0dHBzOi8vb3BlcmF0b3IuZXhhbXBsZSIsImNyb3NzT3JpZ2luIjpmYWxzZX0\",\"credential_id\":\"Zml4dHVyZS13ZWJhdXRobi1jcmVkZW50aWFsLTE\",\"profile\":\"SITLA/webauthn-approval/1\",\"signature\":\"MEUCIQDPPHRg0J8Sd0OCkkl-rTkAbw8oymp1D8U-h7MYN3s6MgIgWhdBmX-mOEFwwr9QZ7fZkSYkDBnCdf7ZkckfCdTJJeU\",\"suite\":\"WebAuthn-ES256\",\"user_handle\":\"Zml4dHVyZS1sb2NhbC11c2Vy\"}}",
+      "wire_sha256": "0010f657b2d799dd17d271a2dd20fdaef15145e9c52b9b07aac3f562ed0a80c5",
+      "authorization_ref": "authorization-initial",
+      "request_ref": "request-approval",
+      "now": "2026-11-14T00:03:00Z",
+      "stage": "semantic",
+      "error": "webauthn_flags",
+      "signature_valid": true
+    }
+  ],
+  "invalid_wire": []
+}

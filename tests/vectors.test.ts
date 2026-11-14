@@ -27,3 +27,15 @@ test("DID representation is JSON-only and editorial revisions preserve old root 
   assert.throws(() => parseJsonStrict(Buffer.from('{"outer":{"a":1,"a":2}}')), /duplicate_property/);
   assert.deepEqual(parseJsonStrict(Buffer.from(' { "origin": "https://example.org" } ')), { origin: "https://example.org" });
 });
+
+test("synced passkeys accept BE/BS with zero counters and reject signed malformed ceremonies", async () => {
+  const vectors = JSON.parse(await readFile(new URL("../artifacts/wire-v1/vectors/passkey-synced.json", import.meta.url), "utf8"));
+  const positive = vectors.positive.find(item => item.id === "passkey-synced-zero-counter").value;
+  const credential = vectors.webauthn_credentials[positive.proof.credential_id];
+  const authenticator = Buffer.from(positive.proof.authenticator_data, "base64url");
+  assert.equal(credential.backup_eligible, true);
+  assert.equal(credential.sign_count, 0);
+  assert.equal(authenticator[32] & 0x18, 0x18);
+  assert.equal(authenticator.readUInt32BE(33), 0);
+  console.log(await verifyVectors(undefined, "passkey-synced.json"));
+});

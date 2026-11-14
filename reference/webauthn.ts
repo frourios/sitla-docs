@@ -39,7 +39,8 @@ export function validateWebAuthnApproval(value: Value, credential: RegisteredCre
   const client = parseJsonStrict(clientBytes) as Value;
   if (!client || typeof client !== "object" || Array.isArray(client) || client.type !== "webauthn.get") throw new Error("webauthn_type");
   if (client.origin !== undefined && !credential.allowed_origins.includes(client.origin as string)) throw new Error("webauthn_origin");
-  if (!client.origin || client.crossOrigin === true || client.topOrigin !== undefined ||
+  if (client.origin === undefined) throw new Error("webauthn_origin_missing");
+  if (client.crossOrigin === true || client.topOrigin !== undefined ||
       (client.crossOrigin !== undefined && client.crossOrigin !== false)) throw new Error("webauthn_cross_origin");
   if (client.challenge !== Buffer.from(sha256(canonical(payload)), "hex").toString("base64url")) throw new Error("webauthn_challenge");
   const auth = base64urlBytes(proof.authenticator_data as string, 37);

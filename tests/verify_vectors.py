@@ -224,7 +224,8 @@ def verify_passkey(value, credential, grant):
     client = json.loads(b64(proof["client_data_json"]).decode("utf-8"), object_pairs_hook=unique_object)
     check(isinstance(client, dict) and client.get("type") == "webauthn.get", "webauthn_type")
     check(client.get("origin") is None or client["origin"] in credential["allowed_origins"], "webauthn_origin")
-    check(bool(client.get("origin")) and client.get("crossOrigin", False) is False and "topOrigin" not in client, "webauthn_cross_origin")
+    check("origin" in client, "webauthn_origin_missing")
+    check(client.get("crossOrigin", False) is False and "topOrigin" not in client, "webauthn_cross_origin")
     expected = base64.urlsafe_b64encode(hashlib.sha256(encoded(payload)).digest()).decode().rstrip("=")
     check(client["challenge"] == expected, "webauthn_challenge")
     auth = b64(proof["authenticator_data"], 37)
@@ -296,3 +297,31 @@ authorization2 = next(item for item in legacy2["positive"] if item["schema"] == 
 check(did(identity2["value"]) == identity2["expected_did"], "legacy2_did")
 check(ML_DSA_44.verify(b64(identity2["value"]["identityPublicKey"], 1312), encoded(authorization2["value"]["payload"]), b64(authorization2["value"]["signature"]["value"], 2420), ctx=b"SITLA/0.2/root"), "legacy2_signature")
 print(f"Independent Python verification passed: {len(SCHEMAS)} schemas, {len(VECTORS['positive'])} positive, {len(VECTORS['negative'])} negative, {len(VECTORS['invalid_wire'])} malformed-wire fixtures; v0.1/v0.2 legacy derivations/signatures retained.")
+
+# Separate supplemental set: frozen core fixtures remain byte-for-byte unchanged.
+VECTORS = json.loads((DIRECTORY / "vectors/passkey-synced.json").read_text())
+BY_ID = {item["id"]: item for item in VECTORS["positive"]}
+synced = BY_ID["passkey-synced-zero-counter"]["value"]
+credential = VECTORS["webauthn_credentials"][synced["proof"]["credential_id"]]
+authenticator = b64(synced["proof"]["authenticator_data"], 37)
+check(credential["backup_eligible"] and credential["sign_count"] == 0 and authenticator[32] & 0x18 == 0x18 and int.from_bytes(authenticator[33:37], "big") == 0, "synced_fixture_flags_counter")
+for item in VECTORS["positive"]:
+    SCHEMAS[item["schema"]].validate(item["value"])
+    check(canonical(item["value"]) == item["canonical_utf8"], "synced_canonical")
+    check(digest(item["value"]) == item["wire_sha256"], "synced_digest")
+    semantics(item)
+    if "signature" in item["value"] or "proof" in item["value"]:
+        check(signature(item), "synced_signature")
+for item in VECTORS["negative"]:
+    SCHEMAS[item["schema"]].validate(item["value"])
+    check(signature(item), "synced_negative_signature")
+    try:
+        semantics(item)
+    except ValueError as error:
+        check(str(error) == item["error"], "synced_wrong_rejection: " + str(error))
+    else:
+        raise AssertionError("synced_negative_accepted")
+print("Independent synced-passkey verification passed: 3 positive, 3 signed semantic negatives.")
+
+from verify_profiles import verify_profiles
+verify_profiles(canonical, b64, time)
