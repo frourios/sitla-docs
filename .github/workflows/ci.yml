@@ -25,13 +25,36 @@ jobs:
         run: npm run secretlint
       - name: Verify schemas, bytes, signatures and rejection layers
         run: npm test
+      - name: Detect targeted guard-removal mutations
+        run: npm run test:mutation
       - name: Set up independent Python verifier
         uses: actions/setup-python@v6
         with:
           python-version: '3.12'
           cache: pip
-          cache-dependency-path: tests/requirements.txt
+          cache-dependency-path: tests/requirements.lock
       - name: Install locked Python verification dependencies
-        run: python -m pip install -r tests/requirements.txt
+        run: |
+          python -m pip install --require-hashes --only-binary=:all: -r tests/requirements.lock
       - name: Verify with Python JSON Schema and ML-DSA implementations
         run: npm run test:python
+
+  signoff:
+    name: Contributor sign-off
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out every PR commit
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 26
+      - name: Verify matching author Signed-off-by trailers
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: node tests/check-signoff.ts

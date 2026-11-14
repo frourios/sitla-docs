@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sitla:wire:1:schema:approved-action",
+  "title": "approved-action",
+  "$comment": "SPDX-License-Identifier: CC0-1.0; structural validity is not authorization",
+  "type": "object",
+  "properties": {
+    "payload": {
+      "type": "object",
+      "properties": {
+        "protocol": {
+          "const": "sitla-wire/1"
+        },
+        "operator_id": {
+          "type": "string",
+          "pattern": "^https://[^/?#]+(?:/[^?#]*)?$"
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "request_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "audience": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "challenge": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "minLength": 43,
+          "maxLength": 86
+        },
+        "issued_at": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        },
+        "expires_at": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        },
+        "policy_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "type": {
+          "const": "ApprovedAction"
+        },
+        "domain": {
+          "const": "SITLA/approval/1"
+        },
+        "operation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "actor": {
+          "type": "string",
+          "pattern": "^did:[a-z0-9]+:.+$"
+        },
+        "key_authorization_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "event_reference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "payload_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "terms_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "amount_minor": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "currency": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Z]{3}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "session_epoch": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "recovery_epoch": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "protocol",
+        "operator_id",
+        "request_id",
+        "request_digest",
+        "audience",
+        "purpose",
+        "challenge",
+        "issued_at",
+        "expires_at",
+        "policy_digest",
+        "type",
+        "domain",
+        "operation",
+        "actor",
+        "key_authorization_digest",
+        "event_reference",
+        "payload_digest",
+        "terms_digest",
+        "amount_minor",
+        "currency",
+        "session_epoch",
+        "recovery_epoch"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "amount_minor": {
+                "type": "null"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "currency": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "currency": {
+                "type": "string",
+                "pattern": "^[A-Z]{3}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operation": {
+                "const": "authorize-payment"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "amount_minor": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "currency": {
+                "type": "string",
+                "pattern": "^[A-Z]{3}$"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "signature": {
+      "type": "object",
+      "properties": {
+        "suite": {
+          "const": "Ed25519"
+        },
+        "key_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{86}$"
+        }
+      },
+      "required": [
+        "suite",
+        "key_id",
+        "value"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "payload",
+    "signature"
+  ],
+  "additionalProperties": false
+}

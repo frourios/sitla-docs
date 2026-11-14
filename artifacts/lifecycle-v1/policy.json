@@ -1,0 +1,6 @@
+{
+  "profile": "sitla-lifecycle-policy/1",
+  "operator_id": "https://operator.example",
+  "maxRequestAgeSeconds": 300,
+  "retention": "Fixture policy only; production retention rules are operator-specific."
+}

@@ -5,7 +5,8 @@
   "scripts": {
     "secretlint": "secretlint --secretlintignore .gitignore \"**/*\"",
     "test": "node --test tests/*.test.ts",
-    "test:python": "python3 tests/verify_vectors.py"
+    "test:python": "python3 tests/verify_vectors.py",
+    "test:mutation": "node tests/mutations.ts"
   },
   "devDependencies": {
     "@secretlint/secretlint-rule-preset-recommend": "^13.0.7",

@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sitla:wire:1:schema:did-document",
+  "title": "did-document",
+  "$comment": "SPDX-License-Identifier: CC0-1.0; structural validity is not authorization",
+  "type": "object",
+  "properties": {
+    "@context": {
+      "const": [
+        "https://www.w3.org/ns/did/v1"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^did:sitla:v1:[A-Za-z0-9_-]{86}$"
+    },
+    "verificationMethod": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "type": {
+            "const": "urn:sitla:verification-method:akp-jwk-v1"
+          },
+          "controller": {
+            "type": "string",
+            "pattern": "^did:sitla:v1:[A-Za-z0-9_-]{86}$"
+          },
+          "publicKeyJwk": {
+            "type": "object",
+            "properties": {
+              "kty": {
+                "const": "AKP"
+              },
+              "alg": {
+                "const": "ML-DSA-44"
+              },
+              "pub": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1750}$"
+              }
+            },
+            "required": [
+              "kty",
+              "alg",
+              "pub"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "controller",
+          "publicKeyJwk"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "authentication": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2048
+      },
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "assertionMethod": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2048
+      },
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "capabilityDelegation": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2048
+      },
+      "minItems": 1,
+      "maxItems": 1
+    }
+  },
+  "required": [
+    "@context",
+    "id",
+    "verificationMethod",
+    "authentication",
+    "assertionMethod",
+    "capabilityDelegation"
+  ],
+  "additionalProperties": false
+}

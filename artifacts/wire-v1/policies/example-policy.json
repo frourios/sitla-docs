@@ -1,0 +1,11 @@
+{
+  "profile": "sitla-policy/1",
+  "authority": "https://operator.example",
+  "purpose": "work-transaction",
+  "allowed_evidence": [
+    "service-json",
+    "service-signed",
+    "user-signed"
+  ],
+  "max_age_seconds": 300
+}

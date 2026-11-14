@@ -1,6 +1,6 @@
 # Operator Profile
 
-*SITLA Protocol v0.2 — Required Configuration and Interoperability Profile*\
+*SITLA Protocol v0.3 — Required Configuration and Interoperability Profile*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
 **Date:** November 14, 2026
 
@@ -34,12 +34,14 @@ An illustrative descriptor uses reserved example domains and symbolic digests; i
 
 ```json
 {
-  "protocol": "sitla/0.2",
+  "protocol": "sitla-wire/1",
+  "specification_revision": "0.3",
+  "wire_profiles": ["sitla-wire/1", "SITLA/webauthn-approval/1"],
   "operator_id": "https://operator.example",
   "descriptor_revision": "deployment-1",
   "issued_at": "2026-11-14T00:00:00Z",
   "expires_at": "2026-12-14T00:00:00Z",
-  "profiles": [{"id":"core","version":"0.2","spec_digest":"<authenticated-spec-digest>"}],
+  "profiles": [{"id":"core","version":"0.3","spec_digest":"<authenticated-spec-digest>"}],
   "endpoints": {"mcp":"https://operator.example/mcp"},
   "policy_refs": {"recovery":{"uri":"https://operator.example/policies/recovery","digest":"<authenticated-policy-digest>"}},
   "unsupported_profiles": ["disaster-offline", "proof-packages", "marketplace"]
@@ -47,6 +49,10 @@ An illustrative descriptor uses reserved example domains and symbolic digests; i
 ```
 
 **OP-3.** Policies publish bounded positive authentication/recovery timings, route recheck age, contest deadlines, intake windows, per-case/per-principal report limits, maximum unverified-report holds and business calendar. Disaster deployments also declare update/refresh/normal-use and drill bounds. Exact values are local choices; independent factors, frozen destinations, restricted recovery operations, contest freezes, truthful uncertainty, export rights and required authorization remain normative Core/profile controls. Reject missing or invalid bounds for a requested capability. Bind the policy revision/digest and resulting absolute deadlines to affected requests/receipts. A policy update cannot silently weaken an already authorized action or shorten an in-flight recovery. Verifiers can reject another deployment’s weaker or stale policies without treating its credentials as cryptographically invalid.
+
+`specification_revision` describes the reviewed prose; `wire_profiles` declares exact byte/algorithm contracts. A document-revision change does not rename an existing wire profile or revoke signatures. Compatible operators negotiate the wire/profile IDs and accepted artifact bytes, not numerical equality of editorial versions.
+
+Every `policy_refs.*.digest` is SHA-256 of the exact published UTF-8 policy-resource bytes after HTTP transfer/content decoding, without text normalization, reserialization, BOM removal or newline conversion. The corresponding `uri` must resolve to those bytes. `policy_digest` in a request pins the agreed verification/acceptance policy resource, or one policy manifest pinning all constituent resources. A recipient must authenticate policy authority separately, verify every required referenced digest and apply bounds before adopting it. A hash fetched next to untrusted policy bytes is not an authority. See the [policy byte fixture](../artifacts/wire-v1/policies/example-policy.json).
 
 ## 3. Cross-Operator Boundaries
 
@@ -70,4 +76,8 @@ Exports retain original issuer signatures, status references and accepted key hi
 | OP-4 | Present another operator’s token, local account UUID or continuity VC as local login authority | Wrong audience/authority is rejected; continuity needs explicit acceptance |
 | OP-5 | Exchange incompatible profiles or matching package versions with different digests | Explicit mismatch, never a silent downgrade or substituted artifact |
 
-Conformance statements identify Core and each optional profile/revision, actual compatible artifacts and independent test results. The [SITLA deployment](sitla-operator.md) is one operator’s provisional configuration; its implementation status is not the status of every protocol implementation. The specification remains v0.2 and is not yet a complete production wire standard.
+Conformance statements identify Core and each optional profile/revision, actual compatible artifacts and independent test results. The [SITLA deployment](sitla-operator.md) is one operator’s provisional configuration; its implementation status is not the status of every protocol implementation. The specification remains v0.3 and is not yet a complete production wire standard.
+
+Optional [Account Identifiers](protocol-identifiers.md) use the canonical operator origin to scope automatically assigned account references. Supporting `sitla-account/1` requires no human-selected handle; the separate `sitla-account-handle/1` capability is optional. Default profile URLs/QR payloads use the immutable account URI and preserve the user’s disclosure/access settings. A short display prefix such as `sitla` is only a locally authenticated alias. Declaring this optional profile also declares its accepted VC securing/status adapters and issuer namespace authority; it does not change the mandatory wire/1 schema contracts.
+
+[Account Lifecycle](protocol-lifecycle.md) semantics apply to each supported session/grant/account capability. Declare `sitla-account-lifecycle/1` only when the exchange is supported, along with revocation enforcement bounds, fresh-approval policy, deletion/status authorization, retention/backup rules and settlement responsibilities. Independent mandates surviving logout must be visible; offline/global instant erasure must not be advertised.

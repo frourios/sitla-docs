@@ -8,6 +8,8 @@ export interface IdentityDescriptor {
   identitySuite: "ML-DSA-44";
   identityPublicKey: string;
 }
+export const WIRE_PROFILE = "sitla-wire/1";
+export const ROOT_CONTEXT = "SITLA/root/1";
 export const REFERENCE_LIMITS = { maxBytes: 65536, maxDepth: 32, maxNodes: 10000 } as const;
 export interface Limits { maxBytes: number; maxDepth: number; maxNodes: number }
 type RecordValue = Record<string, unknown>;
@@ -15,14 +17,14 @@ function record(value: unknown): RecordValue {
   if (!value || Object.getPrototypeOf(value) !== Object.prototype) throw new Error("invalid_object");
   return value as RecordValue;
 }
-function base64url(value: unknown): Buffer {
+export function decodeBase64url(value: unknown): Buffer {
   if (typeof value !== "string" || !/^[A-Za-z0-9_-]+$/.test(value)) throw new Error("invalid_base64url");
   const bytes = Buffer.from(value, "base64url");
   if (bytes.toString("base64url") !== value) throw new Error("invalid_base64url");
   return bytes;
 }
 export function base64urlBytes(value: string, expectedLength: number): Buffer {
-  const bytes = base64url(value);
+  const bytes = decodeBase64url(value);
   if (bytes.length !== expectedLength) throw new Error("invalid_base64url");
   return bytes;
 }
@@ -78,7 +80,8 @@ export function deriveDid(descriptor: IdentityDescriptor): string {
   base64urlBytes(descriptor.identityPublicKey, 1312);
   return `did:sitla:v1:${createHash("sha3-512").update(canonical(descriptor), "utf8").digest("base64url")}`;
 }
-export function didDocument(descriptor: IdentityDescriptor) {
+export function didDocument(descriptor: IdentityDescriptor, representation = "application/did+json") {
+  if (representation !== "application/did+json") throw new Error("representation_not_supported");
   const id = deriveDid(descriptor), method = `${id}#root`;
   return {
     "@context": ["https://www.w3.org/ns/did/v1"],
@@ -96,7 +99,11 @@ export function parseTime(value: unknown): number {
   if (!Number.isFinite(date.getTime()) || date.toISOString().replace(".000Z", "Z") !== value) throw new Error("invalid_time");
   return date.getTime();
 }
-export interface SemanticContext { descriptor?: IdentityDescriptor; request?: unknown; previous?: unknown }
+export interface SemanticContext {
+  descriptor?: IdentityDescriptor; request?: unknown; previous?: unknown;
+  evidence?: unknown; authorization?: unknown; dataBytes?: Uint8Array;
+  policyBytes?: Uint8Array; now?: string; verificationKeys?: Record<string, { x?: string }>;
+}
 // Validate the JSON Schema first. These are static semantic checks, not trust,
 // current status, credential-policy validation, signature verification or replay storage.
 export function validateSemantics(schema: string, input: unknown, context: SemanticContext = {}): void {
@@ -110,7 +117,7 @@ export function validateSemantics(schema: string, input: unknown, context: Seman
   const payload = value.payload ? record(value.payload) : value;
   if (parseTime(payload.expires_at) <= parseTime(payload.issued_at)) throw new Error("invalid_lifetime");
   if (payload.challenge !== undefined) {
-    const size = base64url(payload.challenge).length;
+    const size = decodeBase64url(payload.challenge).length;
     if (size < 32 || size > 64) throw new Error("invalid_challenge");
   }
   if (schema === "operational-key-authorization") {
@@ -118,18 +125,42 @@ export function validateSemantics(schema: string, input: unknown, context: Seman
     if ((payload.sequence === 0) !== (payload.predecessor_digest === null)) throw new Error("invalid_predecessor");
     const keys = payload.keys as RecordValue[], ids = keys.map(key => key.id);
     if (new Set(ids).size !== ids.length) throw new Error("duplicate_key_id");
-    for (const key of keys) base64urlBytes(key.public_key as string, 32);
+    for (const key of keys) {
+      const bytes = base64urlBytes(key.public_key as string, key.suite === "P-256" ? 65 : 32);
+      if (key.suite === "P-256" && bytes[0] !== 4) throw new Error("invalid_key");
+    }
     base64urlBytes(record(value.signature).value as string, 2420);
     if (context.previous) validateSuccessor(context.previous, value);
   }
   if (schema === "approved-action" || schema === "service-assertion") base64urlBytes(record(value.signature).value as string, 64);
+  if (context.policyBytes && payload.policy_digest !== sha256(context.policyBytes)) throw new Error("policy_digest_mismatch");
+  if (context.evidence && value.evidence_digest !== sha256(canonical(context.evidence))) throw new Error("evidence_digest_mismatch");
+  if (schema === "service-assertion") {
+    if (context.dataBytes && payload.data_digest !== sha256(context.dataBytes)) throw new Error("data_digest_mismatch");
+    if (context.verificationKeys && !Object.hasOwn(context.verificationKeys, record(value.signature).key_id as string)) throw new Error("operator_key_unknown");
+  }
+  if (context.authorization && ["approved-action", "passkey-approved-action"].includes(schema)) {
+    const grant = record(context.authorization), authority = record(grant.payload);
+    if (payload.key_authorization_digest !== sha256(canonical(grant)) || payload.actor !== authority.root) throw new Error("approval_authority");
+    if (payload.audience !== authority.audience || payload.purpose !== authority.purpose) throw new Error("approval_authority_scope");
+    if (schema === "approved-action") {
+      const keyId = record(value.signature).key_id as string;
+      const key = (authority.keys as RecordValue[]).find(item => item.id === keyId);
+      if (!key || key.role !== "assertion" || key.suite !== "Ed25519" || key.public_key !== context.verificationKeys?.[keyId]?.x) throw new Error("approval_key");
+    }
+  }
+  if (context.now && ["approved-action", "passkey-approved-action", "service-assertion"].includes(schema)) {
+    const now = parseTime(context.now);
+    if (now >= parseTime(payload.expires_at)) throw new Error(schema === "service-assertion" ? "assertion_expired" : "approval_expired");
+    if (now < parseTime(payload.issued_at)) throw new Error("not_yet_valid");
+  }
   if (schema === "evidence-envelope") {
     for (const observation of value.status_observations as RecordValue[]) {
       if (observation.status_as_of !== null) parseTime(observation.status_as_of);
       if (observation.expires_at !== null) parseTime(observation.expires_at);
     }
   }
-  if (context.request && ["evidence-envelope", "approved-action", "service-assertion"].includes(schema)) {
+  if (context.request && ["evidence-envelope", "approved-action", "passkey-approved-action", "service-assertion"].includes(schema)) {
     const request = record(context.request);
     for (const field of ["request_id", "operator_id", "audience", "purpose", "challenge", "policy_digest"])
       if (payload[field] !== request[field]) throw new Error("request_binding_failed");
@@ -144,6 +175,38 @@ export function validateSuccessor(previous: unknown, next: unknown): void {
   for (const field of ["root", "authorization_series_id", "operational_did", "audience", "purpose"])
     if (oldPayload[field] !== newPayload[field]) throw new Error("series_scope_changed");
   if (oldPayload.operation === "revoke-operational-keys") throw new Error("series_revoked");
+  if (newPayload.sequence === oldPayload.sequence) {
+    if (canonical(previous) === canonical(next)) return;
+    throw new Error("sequence_conflict");
+  }
   if (newPayload.sequence !== Number(oldPayload.sequence) + 1 || newPayload.predecessor_digest !== sha256(canonical(previous))) throw new Error("invalid_chain");
   if (parseTime(newPayload.issued_at) < parseTime(oldPayload.issued_at)) throw new Error("invalid_chain_time");
+}
+
+// WebAuthn clientDataJSON is signed as original browser bytes, not canonical JSON.
+export function parseJsonStrict(bytes: Uint8Array): unknown {
+  if (bytes.byteLength > REFERENCE_LIMITS.maxBytes) throw new Error("resource_limit");
+  const text = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }).decode(bytes);
+  const stack: { object: boolean; expectKey: boolean; keys: Set<string> }[] = [];
+  for (let index = 0; index < text.length; index++) {
+    const char = text[index];
+    if (char === '"') {
+      const start = index++;
+      for (; index < text.length; index++) {
+        if (text[index] === "\\") index++;
+        else if (text[index] === '"') break;
+      }
+      const frame = stack.at(-1);
+      if (frame?.object && frame.expectKey) {
+        const key: string = JSON.parse(text.slice(start, index + 1));
+        if (frame.keys.has(key)) throw new Error("duplicate_property");
+        frame.keys.add(key); frame.expectKey = false;
+      }
+    } else if (char === "{" || char === "[") {
+      stack.push({ object: char === "{", expectKey: true, keys: new Set() });
+      if (stack.length > REFERENCE_LIMITS.maxDepth) throw new Error("resource_limit");
+    } else if (char === "}" || char === "]") stack.pop();
+    else if (char === "," && stack.at(-1)?.object) stack.at(-1)!.expectKey = true;
+  }
+  return JSON.parse(text);
 }

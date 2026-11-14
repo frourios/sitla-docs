@@ -1,0 +1,52 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright 2026 Frourio, Inc.
+// Targeted guard-removal tests, not a claim of exhaustive mutation coverage.
+import assert from "node:assert/strict";
+import { execFileSync, spawnSync } from "node:child_process";
+import { cp, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+
+type Mutation = { name: string; file: string; from: string; to: string };
+const mutations: Mutation[] = [];
+for (const error of ["series_scope_changed", "invalid_chain", "invalid_chain_time", "evidence_digest_mismatch", "data_digest_mismatch", "operator_key_unknown", "policy_digest_mismatch", "approval_authority_scope"])
+  mutations.push({ name: error, file: "codec.ts", from: `throw new Error("${error}")`, to: "void 0" });
+mutations.push({ name: "sequence_conflict", file: "codec.ts", from: 'throw new Error("sequence_conflict")', to: "return" });
+mutations.push({ name: "approval_actor", file: "codec.ts", from: ' || payload.actor !== authority.root', to: '' });
+mutations.push({ name: "approval_grant_digest", file: "codec.ts", from: 'payload.key_authorization_digest !== sha256(canonical(grant)) || ', to: '' });
+mutations.push({ name: "approval_assertion_role", file: "codec.ts", from: 'key.role !== "assertion" || ', to: '' });
+for (const field of ["request_id", "operator_id", "audience", "purpose", "challenge"])
+  mutations.push({ name: `request_${field}`, file: "codec.ts", from: 'if (payload[field] !== request[field])', to: `if (field !== "${field}" && payload[field] !== request[field])` });
+mutations.push({ name: "request_digest", file: "codec.ts", from: 'if (payload.request_digest !== sha256(canonical(request)))', to: 'if (false)' });
+mutations.push({ name: "request_expiry_bound", file: "codec.ts", from: 'parseTime(payload.expires_at) > parseTime(request.expires_at) || ', to: '' });
+mutations.push({ name: "request_issue_bound", file: "codec.ts", from: ' || parseTime(payload.issued_at) < parseTime(request.issued_at)', to: '' });
+mutations.push({ name: "artifact_expiry", file: "codec.ts", from: 'if (now >= parseTime(payload.expires_at))', to: 'if (false)' });
+for (const error of ["webauthn_type", "webauthn_origin", "webauthn_cross_origin", "webauthn_challenge", "webauthn_rp_id", "webauthn_flags", "webauthn_counter", "webauthn_user_handle", "webauthn_authority"])
+  mutations.push({ name: error, file: "webauthn.ts", from: `throw new Error("${error}")`, to: "void 0" });
+mutations.push({ name: "webauthn_signature", file: "webauthn.ts", from: 'return verify(', to: 'return true || verify(' });
+
+const reference = new URL("../reference/", import.meta.url);
+const directory = new URL("../artifacts/wire-v1/", import.meta.url);
+const temporary = await mkdtemp(join(tmpdir(), "sitla-wire-mutants-"));
+try {
+  for (const file of ["codec.ts", "webauthn.ts", "conformance.ts"])
+    await cp(new URL(file, reference), join(temporary, file));
+  await symlink(fileURLToPath(new URL("../node_modules", import.meta.url)), join(temporary, "node_modules"), "dir");
+  const program = `import { verifyVectors } from ${JSON.stringify(pathToFileURL(join(temporary, "conformance.ts")).href)}; await verifyVectors(new URL(${JSON.stringify(directory.href)}));`;
+  execFileSync(process.execPath, ["--input-type=module", "-e", program], { timeout: 10000, stdio: "pipe" });
+  for (const mutation of mutations) {
+    const original = await readFile(new URL(mutation.file, reference), "utf8");
+    assert.ok(original.includes(mutation.from), `Missing mutation target: ${mutation.name}`);
+    await writeFile(join(temporary, mutation.file), original.replace(mutation.from, mutation.to));
+    // A syntax/import failure is not a killed security mutation.
+    execFileSync(process.execPath, ["--input-type=module", "-e", `await import(${JSON.stringify(pathToFileURL(join(temporary, mutation.file)).href)})`], { timeout: 10000, stdio: "pipe" });
+    const result = spawnSync(process.execPath, ["--input-type=module", "-e", program], { timeout: 10000, encoding: "utf8" });
+    assert.equal(result.status, 1, `Surviving mutation: ${mutation.name}\n${result.stderr}`);
+    assert.match(result.stderr, /AssertionError/, `Mutation failed outside an expected test assertion: ${mutation.name}\n${result.stderr}`);
+    await writeFile(join(temporary, mutation.file), original);
+  }
+  console.log(`All ${mutations.length} targeted security mutations were detected.`);
+} finally {
+  await rm(temporary, { recursive: true, force: true });
+}

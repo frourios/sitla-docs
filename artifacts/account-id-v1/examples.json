@@ -1,0 +1,22 @@
+{
+  "license": "CC0-1.0",
+  "description": "Unsigned subject examples only; historical fixture keys are not live account controllers. No credential signature, account existence, status or ownership is asserted.",
+  "before": {
+    "id": "https://sitla.frourio.com/accounts/pQ7m2gXn4aB8cD6eF1hJ9k",
+    "profile": "sitla-account-id/1",
+    "namespace": "https://sitla.frourio.com",
+    "handle": "matsuda",
+    "handleUri": "https://sitla.frourio.com/@matsuda",
+    "controllerDid": "did:sitla:v1:z8BUv__O4gUxjAJfloWZ2yZZe3YngHVjdhCG8VFzkCC6xKDNHH0D8VGQMUQ1ySww34aN8QTWZWRx42wAsyKtag",
+    "bindingVersion": 7
+  },
+  "after": {
+    "id": "https://sitla.frourio.com/accounts/pQ7m2gXn4aB8cD6eF1hJ9k",
+    "profile": "sitla-account-id/1",
+    "namespace": "https://sitla.frourio.com",
+    "handle": "matsuda",
+    "handleUri": "https://sitla.frourio.com/@matsuda",
+    "controllerDid": "did:sitla:v1:MXEvdrCXg_SR8h1mF1U8MUtwyaTF8cqatgV0n6rVuPZpi5--IquMBNmp_xySiNC86dr8PeRCXj19ZsLBWezTSA",
+    "bindingVersion": 8
+  }
+}

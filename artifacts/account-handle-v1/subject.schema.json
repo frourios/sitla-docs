@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sitla:account-handle:1:subject",
+  "$comment": "SPDX-License-Identifier: CC0-1.0; unsigned subject structure only, not VC/authority verification",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^https://[a-z0-9.-]+/accounts/[A-Za-z0-9_-]{22}$"
+    },
+    "profile": {
+      "const": "sitla-account-handle/1"
+    },
+    "namespace": {
+      "type": "string",
+      "pattern": "^https://[a-z0-9.-]+$"
+    },
+    "handle": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]{2,31}$"
+    },
+    "handleUri": {
+      "type": "string",
+      "pattern": "^https://[a-z0-9.-]+/@[a-z0-9][a-z0-9_-]{2,31}$"
+    },
+    "assignmentVersion": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    }
+  },
+  "required": [
+    "id",
+    "profile",
+    "namespace",
+    "handle",
+    "handleUri",
+    "assignmentVersion"
+  ],
+  "additionalProperties": false
+}

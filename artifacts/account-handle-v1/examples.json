@@ -1,0 +1,26 @@
+{
+  "license": "CC0-1.0",
+  "description": "Unsigned optional handle subjects referring to the same immutable account. A current account binding and accepted credential status are required; no controller is inferred from this handle alone.",
+  "assigned": {
+    "id": "https://sitla.frourio.com/accounts/pQ7m2gXn4aB8cD6eF1hJ9k",
+    "profile": "sitla-account-handle/1",
+    "namespace": "https://sitla.frourio.com",
+    "handle": "matsuda",
+    "handleUri": "https://sitla.frourio.com/@matsuda",
+    "assignmentVersion": 1
+  },
+  "renamed": {
+    "id": "https://sitla.frourio.com/accounts/pQ7m2gXn4aB8cD6eF1hJ9k",
+    "profile": "sitla-account-handle/1",
+    "namespace": "https://sitla.frourio.com",
+    "handle": "matsuda-new",
+    "handleUri": "https://sitla.frourio.com/@matsuda-new",
+    "assignmentVersion": 2
+  },
+  "afterRemoval": {
+    "accountId": "https://sitla.frourio.com/accounts/pQ7m2gXn4aB8cD6eF1hJ9k",
+    "shareUrl": "https://sitla.frourio.com/accounts/pQ7m2gXn4aB8cD6eF1hJ9k",
+    "handleCredentialStatus": "revoked",
+    "assignmentVersion": 3
+  }
+}

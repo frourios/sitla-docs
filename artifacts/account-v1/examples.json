@@ -1,0 +1,22 @@
+{
+  "license": "CC0-1.0",
+  "description": "Unsigned examples of automatically assigned account identity, with no custom handle. Fixture keys are not live account controllers. No signed VC or actual account existence is asserted.",
+  "before": {
+    "id": "https://sitla.frourio.com/accounts/pQ7m2gXn4aB8cD6eF1hJ9k",
+    "namespace": "https://sitla.frourio.com",
+    "controllerDid": "did:sitla:v1:z8BUv__O4gUxjAJfloWZ2yZZe3YngHVjdhCG8VFzkCC6xKDNHH0D8VGQMUQ1ySww34aN8QTWZWRx42wAsyKtag",
+    "bindingVersion": 7,
+    "profile": "sitla-account/1"
+  },
+  "after": {
+    "id": "https://sitla.frourio.com/accounts/pQ7m2gXn4aB8cD6eF1hJ9k",
+    "namespace": "https://sitla.frourio.com",
+    "controllerDid": "did:sitla:v1:MXEvdrCXg_SR8h1mF1U8MUtwyaTF8cqatgV0n6rVuPZpi5--IquMBNmp_xySiNC86dr8PeRCXj19ZsLBWezTSA",
+    "bindingVersion": 8,
+    "profile": "sitla-account/1"
+  },
+  "sharing": {
+    "profileUrl": "https://sitla.frourio.com/accounts/pQ7m2gXn4aB8cD6eF1hJ9k",
+    "qrPayload": "https://sitla.frourio.com/accounts/pQ7m2gXn4aB8cD6eF1hJ9k"
+  }
+}

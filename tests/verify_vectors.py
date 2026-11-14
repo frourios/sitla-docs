@@ -13,12 +13,17 @@ from pathlib import Path
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
+from cryptography.hazmat.primitives.asymmetric import ec, utils
+from cryptography.hazmat.primitives import hashes
 from dilithium_py.ml_dsa import ML_DSA_44
 from jsonschema import Draft202012Validator
 
 ROOT = Path(__file__).resolve().parents[1]
-DIRECTORY = ROOT / "artifacts/v0.2"
+DIRECTORY = ROOT / "artifacts/wire-v1"
 VECTORS = json.loads((DIRECTORY / "vectors/core.json").read_text())
+POLICY_BYTES = (DIRECTORY / VECTORS["policy"]["path"]).read_bytes()
+assert POLICY_BYTES.decode() == VECTORS["policy"]["bytes_utf8"]
+assert hashlib.sha256(POLICY_BYTES).hexdigest() == VECTORS["policy"]["digest"]
 BY_ID = {item["id"]: item for item in VECTORS["positive"]}
 SCHEMAS = {}
 for path in (DIRECTORY / "schemas").glob("*.schema.json"):
@@ -91,13 +96,15 @@ def time(value):
     return parsed
 
 
-def signature(item, context=b"SITLA/0.2/root"):
+def signature(item, context=b"SITLA/root/1"):
     value = item["value"]
+    if item["schema"] == "passkey-approved-action":
+        return passkey_signature(value, VECTORS["webauthn_credentials"][value["proof"]["credential_id"]])
     sig = value["signature"]
     msg = encoded(value["payload"])
     if item["schema"] == "operational-key-authorization":
         return ML_DSA_44.verify(b64(VECTORS["descriptor"]["identityPublicKey"], 1312), msg, b64(sig["value"], 2420), ctx=context)
-    key = VECTORS["verification_keys"].get(sig["key_id"])
+    key = VECTORS["verification_keys"].get(item.get("crypto_key_ref", sig["key_id"]))
     if not key or sig["suite"] != "Ed25519":
         return False
     try:
@@ -126,7 +133,8 @@ def semantics(item):
         keys = payload["keys"]
         check(len({key["id"] for key in keys}) == len(keys), "duplicate_key_id")
         for key in keys:
-            b64(key["public_key"], 32)
+            raw = b64(key["public_key"], 65 if key["suite"] == "P-256" else 32)
+            check(key["suite"] != "P-256" or raw[0] == 4, "invalid_key")
         b64(value["signature"]["value"], 2420)
         if "previous_ref" in item:
             previous = BY_ID[item["previous_ref"]]["value"]
@@ -134,10 +142,34 @@ def semantics(item):
             for field in ["root", "authorization_series_id", "operational_did", "audience", "purpose"]:
                 check(old[field] == payload[field], "series_scope_changed")
             check(old["operation"] != "revoke-operational-keys", "series_revoked")
+            if payload["sequence"] == old["sequence"]:
+                check(encoded(previous) == encoded(value), "sequence_conflict")
+                return
             check(payload["sequence"] == old["sequence"] + 1 and payload["predecessor_digest"] == digest(previous), "invalid_chain")
             check(time(payload["issued_at"]) >= time(old["issued_at"]), "invalid_chain_time")
     if schema in ["approved-action", "service-assertion"]:
         b64(value["signature"]["value"], 64)
+    if "policy_digest" in payload:
+        check(payload["policy_digest"] == hashlib.sha256(POLICY_BYTES).hexdigest(), "policy_digest_mismatch")
+    if "evidence_ref" in item:
+        check(value["evidence_digest"] == digest(BY_ID[item["evidence_ref"]]["value"]), "evidence_digest_mismatch")
+    if schema == "service-assertion":
+        if "data_ref" in item:
+            raw = VECTORS["data_assets"][item["data_ref"]]["bytes_utf8"].encode()
+            check(payload["data_digest"] == hashlib.sha256(raw).hexdigest(), "data_digest_mismatch")
+        check(value["signature"]["key_id"] in VECTORS["verification_keys"], "operator_key_unknown")
+    if "authorization_ref" in item and schema in ["approved-action", "passkey-approved-action"]:
+        grant = BY_ID[item["authorization_ref"]]["value"]
+        authority = grant["payload"]
+        check(payload["key_authorization_digest"] == digest(grant) and payload["actor"] == authority["root"], "approval_authority")
+        check(payload["audience"] == authority["audience"] and payload["purpose"] == authority["purpose"], "approval_authority_scope")
+        if schema == "approved-action":
+            key_id = value["signature"]["key_id"]
+            key = next((key for key in authority["keys"] if key["id"] == key_id), None)
+            check(key is not None and key["role"] == "assertion" and key["suite"] == "Ed25519" and key["public_key"] == VECTORS["verification_keys"].get(key_id, {}).get("x"), "approval_key")
+    if "now" in item:
+        check(time(item["now"]) < time(payload["expires_at"]), "assertion_expired" if schema == "service-assertion" else "approval_expired")
+        check(time(item["now"]) >= time(payload["issued_at"]), "not_yet_valid")
     if schema == "evidence-envelope":
         for observation in value["status_observations"]:
             for field in ["status_as_of", "expires_at"]:
@@ -152,6 +184,11 @@ def semantics(item):
             check(value["evidence_level"] == request["evidence_level"], "request_binding_failed")
         check(time(payload["expires_at"]) <= time(request["expires_at"]) and time(payload["issued_at"]) >= time(request["issued_at"]), "request_binding_failed")
 
+    if schema == "passkey-approved-action":
+        credential = VECTORS["webauthn_credentials"].get(value["proof"]["credential_id"])
+        check(credential is not None, "webauthn_credential")
+        verify_passkey(value, credential, BY_ID[item["authorization_ref"]]["value"])
+
 
 def unique_object(pairs):
     result = {}
@@ -165,6 +202,45 @@ def reject_float(value):
     raise ValueError("invalid_number")
 
 
+def passkey_signature(value, credential):
+    proof = value["proof"]
+    auth = b64(proof["authenticator_data"], 37)
+    client = b64(proof["client_data_json"])
+    raw_signature = b64(proof["signature"])
+    try:
+        r, scalar_s = utils.decode_dss_signature(raw_signature)
+        check(utils.encode_dss_signature(r, scalar_s) == raw_signature, "invalid_der")
+        pub = credential["public_key"]
+        public = ec.EllipticCurvePublicNumbers(int.from_bytes(b64(pub["x"], 32), "big"), int.from_bytes(b64(pub["y"], 32), "big"), ec.SECP256R1()).public_key()
+        public.verify(raw_signature, auth + hashlib.sha256(client).digest(), ec.ECDSA(hashes.SHA256()))
+        return True
+    except InvalidSignature:
+        return False
+
+
+def verify_passkey(value, credential, grant):
+    payload, proof = value["payload"], value["proof"]
+    check(proof["credential_id"] == credential["id"], "webauthn_credential")
+    client = json.loads(b64(proof["client_data_json"]).decode("utf-8"), object_pairs_hook=unique_object)
+    check(isinstance(client, dict) and client.get("type") == "webauthn.get", "webauthn_type")
+    check(client.get("origin") is None or client["origin"] in credential["allowed_origins"], "webauthn_origin")
+    check(bool(client.get("origin")) and client.get("crossOrigin", False) is False and "topOrigin" not in client, "webauthn_cross_origin")
+    expected = base64.urlsafe_b64encode(hashlib.sha256(encoded(payload)).digest()).decode().rstrip("=")
+    check(client["challenge"] == expected, "webauthn_challenge")
+    auth = b64(proof["authenticator_data"], 37)
+    check(auth[:32] == hashlib.sha256(credential["rp_id"].encode()).digest(), "webauthn_rp_id")
+    flags = auth[32]
+    check((flags & 5) == 5 and not (flags & 0xe2) and (not (flags & 0x10) or (flags & 8)) and bool(flags & 8) == credential["backup_eligible"], "webauthn_flags")
+    count = int.from_bytes(auth[33:37], "big")
+    check(not (count or credential["sign_count"]) or count > credential["sign_count"], "webauthn_counter")
+    check(proof["user_handle"] is None or proof["user_handle"] == credential["user_handle"], "webauthn_user_handle")
+    key = next((key for key in grant["payload"]["keys"] if key["id"] == credential["key_id"]), None)
+    pub = credential["public_key"]
+    expected_key = base64.urlsafe_b64encode(b"\x04" + b64(pub["x"], 32) + b64(pub["y"], 32)).decode().rstrip("=")
+    check(payload["actor"] == credential["actor"] and payload["operator_id"] == credential["operator_id"] and key is not None and key["role"] == "assertion" and key["suite"] == "P-256" and key["public_key"] == expected_key, "webauthn_authority")
+    check(passkey_signature(value, credential), "webauthn_signature")
+
+
 for item in VECTORS["positive"]:
     SCHEMAS[item["schema"]].validate(item["value"])
     check(canonical(item["value"]) == item["canonical_utf8"], item["id"] + ": canonical")
@@ -172,16 +248,10 @@ for item in VECTORS["positive"]:
     semantics(item)
     if "expected_did" in item:
         check(did(item["value"]) == item["expected_did"], "did_mismatch")
-    if "signature" in item["value"]:
+    if "signature" in item["value"] or "proof" in item["value"]:
         check(signature(item), item["id"] + ": signature")
     if "evidence_ref" in item:
         check(item["value"]["evidence_digest"] == digest(BY_ID[item["evidence_ref"]]["value"]), "evidence_mismatch")
-    if "authorization_ref" in item:
-        authority = BY_ID[item["authorization_ref"]]["value"]
-        payload, sig = item["value"]["payload"], item["value"]["signature"]
-        check(payload["key_authorization_digest"] == digest(authority) and payload["actor"] == authority["payload"]["root"], "approval_authority")
-        key = next(key for key in authority["payload"]["keys"] if key["id"] == sig["key_id"])
-        check(key["role"] == "assertion" and key["public_key"] == VECTORS["verification_keys"][sig["key_id"]]["x"], "approval_key")
 
 for item in VECTORS["negative"]:
     shape = SCHEMAS[item["schema"]].is_valid(item["value"])
@@ -210,7 +280,7 @@ for item in VECTORS["invalid_wire"]:
     else:
         raise AssertionError(item["id"] + ": malformed wire accepted")
 
-for context in [b"", b"SITLA/0.1/root", b"SITLA/0.2/continuity"]:
+for context in [b"", b"SITLA/0.1/root", b"SITLA/0.2/root", b"SITLA/continuity/1"]:
     check(not signature(BY_ID["authorization-initial"], context=context), "wrong_context_accepted")
 
 # Reproduce the frozen v0.1 root derivation/signature separately as a regression.
@@ -220,4 +290,9 @@ identity = next(item for item in legacy["positive"] if item["schema"] == "identi
 authorization = next(item for item in legacy["positive"] if item["schema"] == "operational-key-authorization")
 check(did(identity["value"]) == identity["expected_did"], "legacy_did_mismatch")
 check(ML_DSA_44.verify(b64(identity["value"]["identityPublicKey"], 1312), encoded(authorization["value"]["payload"]), b64(authorization["value"]["signature"]["value"], 2420), ctx=b"SITLA/0.1/root"), "legacy_signature")
-print(f"Independent Python verification passed: {len(SCHEMAS)} schemas, {len(VECTORS['positive'])} positive, {len(VECTORS['negative'])} negative, {len(VECTORS['invalid_wire'])} malformed-wire fixtures; v0.1 derivation/signature retained.")
+legacy2 = json.loads((ROOT / "artifacts/v0.2/vectors/core.json").read_text())
+identity2 = next(item for item in legacy2["positive"] if item["schema"] == "identity-descriptor")
+authorization2 = next(item for item in legacy2["positive"] if item["schema"] == "operational-key-authorization")
+check(did(identity2["value"]) == identity2["expected_did"], "legacy2_did")
+check(ML_DSA_44.verify(b64(identity2["value"]["identityPublicKey"], 1312), encoded(authorization2["value"]["payload"]), b64(authorization2["value"]["signature"]["value"], 2420), ctx=b"SITLA/0.2/root"), "legacy2_signature")
+print(f"Independent Python verification passed: {len(SCHEMAS)} schemas, {len(VECTORS['positive'])} positive, {len(VECTORS['negative'])} negative, {len(VECTORS['invalid_wire'])} malformed-wire fixtures; v0.1/v0.2 legacy derivations/signatures retained.")

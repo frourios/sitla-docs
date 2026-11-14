@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sitla:lifecycle:1:request",
+  "$comment": "SPDX-License-Identifier: CC0-1.0; static exchange shape, not authorization or proof of erasure",
+  "type": "object",
+  "properties": {
+    "protocol": {
+      "const": "sitla-wire/1"
+    },
+    "profile": {
+      "const": "sitla-account-lifecycle/1"
+    },
+    "operation": {
+      "enum": [
+        "logout",
+        "logout-all",
+        "revoke-mandate",
+        "delete-account"
+      ]
+    },
+    "operator_id": {
+      "type": "string",
+      "pattern": "^https://[a-z0-9.-]+$"
+    },
+    "account_id": {
+      "type": "string",
+      "pattern": "^https://[a-z0-9.-]+/accounts/[A-Za-z0-9_-]{22}$"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "audience": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "purpose": {
+      "const": "account-lifecycle"
+    },
+    "challenge": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "minLength": 43,
+      "maxLength": 86
+    },
+    "issued_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "expires_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "policy_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "session_epoch": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "recovery_epoch": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "idempotency_key": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{22,128}$"
+    },
+    "mandate_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "protocol",
+    "profile",
+    "operation",
+    "operator_id",
+    "account_id",
+    "request_id",
+    "audience",
+    "purpose",
+    "challenge",
+    "issued_at",
+    "expires_at",
+    "policy_digest",
+    "session_epoch",
+    "recovery_epoch",
+    "idempotency_key",
+    "mandate_id"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "revoke-mandate"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "mandate_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "mandate_id": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}
