@@ -2,13 +2,17 @@
 
 https://sitla.frourio.com
 
-This public repository contains the English SITLA Protocol **v0.4 design draft**:
+This public repository contains the English SITLA Protocol **v0.5 design draft**:
 
-- [Core](pages/protocol.md): identity, access, evidence and recovery.
+- [Core](pages/protocol.md): identity, access, evidence, fresh accounts after key loss and external continuity.
+- [Media References](pages/protocol-media.md): external URLs, content integrity and optional hosting; no media store is required.
 - [Account Lifecycle](pages/protocol-lifecycle.md): logout scopes, mandate withdrawal and account deletion states.
 - [Account Identifiers](pages/protocol-identifiers.md): automatic DID-independent account identity and optional operator-namespaced handles.
 - [Portability and Disaster](pages/protocol-portability.md): local operation, preparedness and degraded assurance.
 - [Proof Packages](pages/protocol-packages.md): external specifications, artifact distribution and execution.
+- [Collection Agency](pages/protocol-collection-agency.md): seller receipt authority across paid profiles and work payments, capture-time price debt discharge and prospective withdrawal.
+- [Conditional Payment Instructions](pages/protocol-conditional-payments.md): bilateral deposit, acceptance, refund and settlement VCs; captured-charge/deferred-transfer adapter and fixed expiry refunds.
+- [Portable Payment Records](pages/protocol-payments.md): operator-signed financial facts for both parties and independently usable evidence exports.
 - [Marketplace](pages/protocol-marketplace.md): market-defined work and authorized payment handoffs.
 - [Wire Artifacts](pages/protocol-wire.md): minimum schemas, canonical records and public vectors.
 - [Operator Profile](pages/protocol-operators.md): independent configuration and interoperability requirements.
@@ -25,7 +29,7 @@ The word “draft” describes technical maturity, not repository visibility or 
 
 ## Verify this repository independently
 
-Use Node.js 26: `npm ci --ignore-scripts`, then `npm test`, `npm run test:mutation` and `npm run secretlint`. For the independent Python verifier, use Python 3.12, install `tests/requirements.txt` in a virtual environment, and run `python tests/verify_vectors.py`. CI runs both implementations on pushes and pull requests without the application repository. The stable wire/1 fixture set covers request hashes, DID documents, replacement/revocation chains, signed approvals/service assertions and schema/semantic/signature rejection layers. Python also reproduces the frozen v0.1 and legacy v0.2 DID/signatures. The document revision is 0.4; it is independent from `sitla-wire/1` and `SITLA/root/1`.
+Use Node.js 26: `npm ci --ignore-scripts`, then `npm test`, `npm run test:mutation` and `npm run secretlint`. For the independent Python verifier, use Python 3.12, install `tests/requirements.txt` in a virtual environment, and run `python tests/verify_vectors.py`. CI runs both implementations on pushes and pull requests without the application repository. The stable wire/1 fixture set covers request hashes, DID documents, replacement/revocation chains, signed approvals/service assertions and schema/semantic/signature rejection layers. Python also reproduces the frozen v0.1 and legacy v0.2 DID/signatures. The document revision is 0.5; it is independent from `sitla-wire/1` and `SITLA/root/1`.
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting changes, including its license allocation, contributor patent grant and sign-off requirements. A passing fixture suite is not a claim of a production wallet, complete standardization or full DIDComm interoperability.
 
@@ -43,4 +47,8 @@ The recommended `sitla-account/1` profile automatically binds an immutable accou
 
 Python now also checks the three account subject schemas (6 unsigned examples and identifier/transition negatives) and the lifecycle schemas (7 synthetic signed cases plus binding, freshness, scope, retention and signature-tampering negatives). `tests/verify_profiles.py` is invoked by `tests/verify_vectors.py` in the existing CI command; it imports no TypeScript. This coverage does not issue/verify complete account VCs, test a live uniqueness registry, execute real deletion or settlement, validate cross-operator migration or certify hardware/browser behavior. Independent tests for other optional protocol profiles remain out of scope.
 
-Account URIs remain operator-bound. Long-lived qualifications should use holder-controlled roots as subjects and account URIs only as auxiliary claims when possible; v0.4 defines no interoperable cross-operator migration credential. Export is not automatic transfer of issuer acceptance.
+Account URIs remain operator-bound. Long-lived qualifications should use holder-controlled roots as subjects and account URIs only as auxiliary claims when possible; v0.5 defines no interoperable cross-operator migration credential. Export is not automatic transfer of issuer acceptance.
+
+Payment-event VCs and evidence bundles are semantic requirements for operators intermediating marketplace payments. Their wire/securing adapters, issuance/export implementation and live-provider tests are not supplied by the current reference; work-specific VC schemas remain market-defined.
+
+The [Online MCP Adapter](pages/protocol-online.md) declares an optional executable online subset and its securing/status conventions. Application Worker, SMTP and Stripe integration tests are maintained in the application repository; they do not extend this repository's independently verified fixture scope.

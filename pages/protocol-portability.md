@@ -1,6 +1,6 @@
 # Portability and Disaster Profile
 
-*SITLA Protocol v0.4 — Optional Design Profile*\
+*SITLA Protocol v0.5 — Optional Design Profile*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
 **Date:** November 14, 2026
 
@@ -10,7 +10,7 @@
 
 This profile extends [Core](protocol.md) without requiring the original operator, a blockchain, DNS, email, OAuth or internet access. It covers portable credential exchange and local acceptance, not offline payment finality or universal person uniqueness. Core Section 2 defines the shared assurance limits. An authority publishes permitted operations, evidence profiles, time assumptions, disclosure limits, local consumption rules and reconciliation responsibilities before deployment.
 
-**PORT-2.** Supported credentials MUST export with original signed bytes, securing profiles, disclosure/holder material, status references, accepted continuity/delegation and licenses needed for independent use. A local encrypted copy and a tested independent wallet must work without the original operator’s token or mandate. A JSON index or live download pointer is insufficient. Issuer restrictions remain effective. Ending custody does not revoke the qualification or erase disclosed copies.
+**PORT-2.** Supported credentials MUST export with original signed bytes, securing profiles, disclosure/holder material, status references, accepted continuity/delegation and licenses needed for independent use. A local encrypted copy and a tested independent wallet must work without the original operator’s token or mandate. A JSON index or live download pointer is insufficient. Issuer restrictions remain effective. Ending custody does not revoke the qualification or erase disclosed copies. [Portable Payment Records](protocol-payments.md) applies this export boundary to each party's authorized payment VCs, original approval/terms material and recorded status/corrections; historical verification is not offline financial finality.
 
 Routine self-description, professional references and official eligibility have different authority requirements. A local policy can accept anonymous assistance, but cannot relabel missing qualification evidence as verified. Financial transfers, high-value contracts and irrevocable global entitlement decisions are outside the baseline. Responsible authorities must assess safety rather than assume all aid is low risk.
 
