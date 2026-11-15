@@ -1,6 +1,6 @@
 # Portable Payment Records
 
-*SITLA Protocol v0.5 — Required for Operator-Mediated Marketplace Payments*\
+*SITLA Protocol v0.6 — Required for Operator-Mediated Marketplace Payments*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 The [Collection Agency](protocol-collection-agency.md) profile covers seller-authorized receipt, capture-time price debt discharge and prospective withdrawal across supported payment paths.
@@ -85,4 +85,44 @@ The evidence package supports independent inspection of assertions, provenance a
 | PAY-5–6 | Change linked terms, omit a correction, lose an external attachment, expire status observation | Digest/history or completeness failure is explicit; no claim of current validity or retained missing bytes |
 | PAY-1, PAY-6 | Receipt signing fails after provider confirmation; delete account before later reversal | Retry issuance without executing another payment; provide later authorized records through restricted case access |
 
-These are normative semantics and test scenarios. No common payment-VC wire schema, provider adapter, evidence-bundle generator or live escrow implementation is supplied by this document. Existing Node/Python vector suites do not test these payment-event or bundle requirements. Operators cannot claim this profile is implemented merely because existing profile-disclosure checkout works.
+These are provider-neutral duties. The optional [Public Payment Wire Artifacts](protocol-payment-wire.md) now supply exact online/Stripe schemas, original signed synthetic records, evidence-page integrity tests and Node/Python verification. They do not execute or prove live settlement, verify every attachment/status or establish legal qualification. The [Stripe Japan adapter](protocol-stripe-jp.md) describes one provider mechanism. Other bindings must publish their own artifacts/tests; passing frozen wire/1 alone does not implement this payment profile.
+
+## 8. Counterparty recipient-provider history
+
+*An authorized counterparty can inspect limited retained signals without receiving old identities or private case files.*
+
+**PAY-HISTORY-1.** The optional online tool `get_counterparty_payment_history` implements the Core REC-6 recommendation with [public TypeScript definitions](../reference/counterparty-history.ts). It requires a normal authenticated sender-bound session; presentation/read mandates do not authorize it. The request contains exactly:
+
+```json
+{
+  "context": { "kind": "work", "id": "019a8050-0000-7000-8000-000000000001" },
+  "counterpartyAccountUri": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS"
+}
+```
+
+`kind` is `work` or `purchase`; `id` is the UUIDv7 of an existing authorized relationship. This is not an account-directory lookup. Both requester and named counterparty must be the exact opposite parties. A work must be accepted: a proposal alone cannot create access. For a purchase, require the stored seller collection grant or the seller's transaction-specific conditional collection authorization. A buyer-created conditional draft is insufficient. In a cart, a buyer may query each relevant seller, but one seller cannot inspect another seller. Either party can inspect its opposite party's recipient-provider history if that opposite party has a supported binding. That scope never becomes a payer-complaint score.
+
+**PAY-HISTORY-2.** For work, inspect the counterparty's current provider binding in the deployment's payment mode. For a buyer querying a purchase seller, inspect the original frozen seller destination, even after reassociation or grant withdrawal. Do not substitute the latest destination. For historical destination queries, exclude transactions created after a successor-owner association; later status updates of earlier cases remain in scope. An old purchase must not become a monitor of the successor owner's new business. Test/live histories are isolated. An unavailable binding returns `availability: unavailable`, null `bindingHistory` and null `disputes`, never invented zero counts. Unrelated callers, wrong counterparties and nonexistent/unaccepted relationships receive the same `counterparty_history_unavailable` error.
+
+| Returned field | Meaning |
+| --- | --- |
+| `bindingHistory.hasEarlierBinding` | An earlier retained association of this provider account/mode exists; it may be the same service account reconnecting |
+| `bindingHistory.hasOtherAccountBindings` | A retained association with another service account exists, including an association made after a historical purchase; not proof of the same natural person |
+| `disputes.observedCases` | Distinct retained Stripe dispute cases linked to transactions with this recipient destination, including earlier owners |
+| `open` | `needs_response`, `under_review`, `warning_needs_response` or `warning_under_review` |
+| `won` / `lost` / `warningClosed` | Stripe statuses `won`, `lost`, `warning_closed`; not court judgments or findings of fault |
+| `unknown` | Observed cases whose current recorded status has no declared category |
+| `lastRecordedAt` | Latest retained observation across these cases, or null; not a promise that every case was refreshed then |
+| `coverage.completeness` | Always `partial`; zero observed cases is never a clean-history certificate |
+
+Only these flags/aggregate counts and scope/freshness/limitations are disclosed. Do not expose old account URIs/DIDs, provider/binding/case/payment IDs, amounts, allegations, correspondence or individual case dates. A case involving several recipient destinations can be linked to each destination while disputed allocation/responsibility remains unknown. Do not present these aggregates as individual seller fault, identity continuity, a universal reputation or Sybil protection. Shared business accounts and new provider accounts limit their meaning.
+
+**PAY-HISTORY-3.** The Stripe adapter records authenticated `charge.dispute.*` notifications by retrieving the latest dispute, payment and captured charge from the platform API under the purchase coordinator. Check mode, purchase/payment/charge linkage, amount and currency before recording. Count once per provider/mode/dispute, not per webhook, case status or recipient copy. A late notification retrieves current API state instead of trusting its stale embedded status. Unsupported/mismatched observations do not enter the summary. Retry recording failures; do not acknowledge a lost update as completed. Recorded provider observations necessary for financial history survive deletion/rebinding, subject to the stated retention policy. Unverified complaints do not overwrite those facts; requests for correction use the published operator route and authenticated reconciliation.
+
+The current tool does not make live Stripe API calls during a read. Coverage begins with observations actually collected/retained by this deployment; earlier activity, missed notifications, retention gaps, other providers/operators and unreported cases are unknown. No historical backfill or complete coverage start time is asserted. Include these limitations even when all counts are zero, and let the requester choose whether to accept the uncertainty.
+
+**PAY-HISTORY-4.** Return `{record: {payload, signature}}`, with payload type `CounterpartyPaymentHistory`, profile `sitla-counterparty-payment-history/1`, expected operator, requester/counterparty account URIs, exact context, mode, observation time, five-minute expiry, availability, binding scope, aggregates and limitations. Mark `evidenceLevel: service-signed` and `verifiedBy` as the operator. Sign the restricted-canonical UTF-8 payload bytes with the operator's accepted Ed25519 key; `signature` contains `suite: Ed25519`, `key_id` and canonical base64url `value`. This supplemental record is not a VC, a wire/1 ServiceAssertion, fresh holder approval or a provider signature. Verifiers independently select the operator key, check signature, expected parties/context, freshness and their own policy. No new payment or account access is authorized.
+
+Log requester/context/counterparty and read time without duplicating private case data. The authorized recipient may retain the signed assertion for its transaction; access is not blanket permission to publish it. Publish purpose-limited disclosure, retention and correction/contest procedures. Normal access logs are removed on account erasure; necessary financial observations follow the separate financial retention rules.
+
+Application tests cover access/mandate isolation, signed output, retained previous-owner cases, multi-seller privacy, missing/partial history, frozen destinations, mode separation, latest-state deduplication, provider-link failures and deletion retention. Worker/MCP tests exercise proposal rejection and accepted-party access. These are application checks, not an addition to the public payment-VC fixture counts or a third-party/legal audit.

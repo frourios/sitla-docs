@@ -36,7 +36,7 @@ jobs:
       - name: Install locked Python verification dependencies
         run: |
           python -m pip install --require-hashes --only-binary=:all: -r tests/requirements.lock
-      - name: Verify with Python JSON Schema and ML-DSA implementations
+      - name: Verify core, profiles and payment records with independent Python
         run: npm run test:python
 
   signoff:

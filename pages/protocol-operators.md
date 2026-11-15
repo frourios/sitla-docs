@@ -1,8 +1,8 @@
 # Operator Profile
 
-*SITLA Protocol v0.5 — Required Configuration and Interoperability Profile*\
+*SITLA Protocol v0.6 — Required Configuration and Interoperability Profile*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
-**Date:** November 14, 2026
+**Date:** November 15, 2026
 
 ## 1. Independent Deployment
 
@@ -36,13 +36,13 @@ An illustrative descriptor uses reserved example domains and symbolic digests; i
 ```json
 {
   "protocol": "sitla-wire/1",
-  "specification_revision": "0.5",
+  "specification_revision": "0.6",
   "wire_profiles": ["sitla-wire/1", "SITLA/webauthn-approval/1"],
   "operator_id": "https://operator.example",
   "descriptor_revision": "deployment-1",
   "issued_at": "2026-11-14T00:00:00Z",
   "expires_at": "2026-12-14T00:00:00Z",
-  "profiles": [{"id":"core","version":"0.5","spec_digest":"<authenticated-spec-digest>"}],
+  "profiles": [{"id":"core","version":"0.6","spec_digest":"<authenticated-spec-digest>"}],
   "endpoints": {"mcp":"https://operator.example/mcp"},
   "policy_refs": {"recovery":{"uri":"https://operator.example/policies/recovery","digest":"<authenticated-policy-digest>"}},
   "unsupported_profiles": ["disaster-offline", "proof-packages", "marketplace"]
@@ -77,7 +77,7 @@ Exports retain original issuer signatures, status references and accepted key hi
 | OP-4 | Present another operator’s token, local account UUID or continuity VC as local login authority | Wrong audience/authority is rejected; continuity needs explicit acceptance |
 | OP-5 | Exchange incompatible profiles or matching package versions with different digests | Explicit mismatch, never a silent downgrade or substituted artifact |
 
-Conformance statements identify Core and each optional profile/revision, actual compatible artifacts and independent test results. The [SITLA deployment](sitla-operator.md) is one operator’s provisional configuration; its implementation status is not the status of every protocol implementation. The specification remains v0.5 and is not yet a complete production wire standard.
+Conformance statements identify Core and each optional profile/revision, actual compatible artifacts and independent test results. The [SITLA deployment](sitla-operator.md) is one operator’s provisional configuration; its implementation status is not the status of every protocol implementation. The specification remains v0.6 and is not yet a complete production wire standard.
 
 Optional [Account Identifiers](protocol-identifiers.md) use the canonical operator origin to scope automatically assigned account references. Supporting `sitla-account/1` requires no human-selected handle; the separate `sitla-account-handle/1` capability is optional. Default profile URLs/QR payloads use the immutable account URI and preserve the user’s disclosure/access settings. A short display prefix such as `sitla` is only a locally authenticated alias. Declaring this optional profile also declares its accepted VC securing/status adapters and issuer namespace authority; it does not change the mandatory wire/1 schema contracts.
 
@@ -86,3 +86,7 @@ Optional [Account Identifiers](protocol-identifiers.md) use the canonical operat
 Operators SHOULD publish `deletionCancellationGraceSeconds` and independent-route deletion notice/cancellation policy under [DELETE-SAFETY-1](protocol-lifecycle.md), and independent payment-notification behavior under [PASSKEY-NOTICE-1](protocol-wire.md). These recommendations do not silently add cancellation operations to the lifecycle wire schema.
 
 [Media handling](protocol-media.md) does not require upload or operator storage. A reference-only deployment remains conformant; it declares upload/hosting unsupported and must not imply that paid link disclosure controls access at the destination. Media capabilities have no new wire profile ID in this prose-only specification.
+
+## Payment deployment declarations
+
+Payment operators declare the chosen provider binding, jurisdictions/currencies, actual funds mechanism, collection trigger, reservation/hold/refund limits, fee/refund/liquidity policy and legal/provider assessment status. Unsupported or unassessed flows cannot be implied by a successful API test. Include key-loss handling and the availability/coverage/privacy policy of any REC-6 binding/dispute summary. Missing history is unknown, not a clean record. The [Stripe Japan adapter](protocol-stripe-jp.md) is optional; the founding service's monetary/timing values remain in [deployment](sitla-operator.md) and commercial terms.

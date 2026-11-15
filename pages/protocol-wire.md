@@ -1,8 +1,8 @@
 # Wire Artifacts
 
-*SITLA Protocol v0.5 — Minimum Interoperability Subset*\
+*SITLA Protocol v0.6 — Minimum Interoperability Subset*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
-**Date:** November 14, 2026
+**Date:** November 15, 2026
 
 ## 1. Scope, Encoding and Version Boundary
 
@@ -14,7 +14,7 @@ This subset fixes ID-1 descriptors/documents, KEY-2 operational authorization, e
 
 Digests are lowercase hexadecimal SHA-256, except the root’s explicitly named SHA3-512/base64url digest. Unpadded base64url must round-trip exactly, with zero unused bits. A challenge is 32–64 decoded bytes, at least 43 encoded characters; challenge generation, single-use consumption and caller binding are mandatory operational checks. Times use Gregorian years 0001–9999 in UTC `YYYY-MM-DDTHH:mm:ssZ`, without fractional seconds or leap seconds, with expiry after issuance. Schema pattern matches do not replace calendar checks.
 
-**WIRE-VERSION-1.** Document revision **0.5** and wire profile **`sitla-wire/1`** are independent. The protocol field in signed/request records is `sitla-wire/1`; native root contexts are `SITLA/root/1`, `SITLA/continuity/1` and `SITLA/archive/1`. Application domains are `SITLA/approval/1` and `SITLA/service/1`; the browser proof profile is `SITLA/webauthn-approval/1`. An editorial revision does not change any of these identifiers, record bytes, schema contracts or signature validity. An incompatible byte, meaning or algorithm change needs a new wire/subprofile identifier and explicit negotiation, not a silent upgrade based on the prose version.
+**WIRE-VERSION-1.** Document revision **0.6** and wire profile **`sitla-wire/1`** are independent. The protocol field in signed/request records is `sitla-wire/1`; native root contexts are `SITLA/root/1`, `SITLA/continuity/1` and `SITLA/archive/1`. Application domains are `SITLA/approval/1` and `SITLA/service/1`; the browser proof profile is `SITLA/webauthn-approval/1`. An editorial revision does not change any of these identifiers, record bytes, schema contracts or signature validity. An incompatible byte, meaning or algorithm change needs a new wire/subprofile identifier and explicit negotiation, not a silent upgrade based on the prose version.
 
 The root descriptor remains version 1 and the same key still derives the same `did:sitla:v1` identifier. Frozen [v0.1](../artifacts/v0.1/vectors/core.json) and [legacy v0.2](../artifacts/v0.2/vectors/core.json) artifacts retain their original `sitla/0.x` fields/contexts. They can still be verified under their explicitly selected legacy profiles, subject to ordinary status/expiry/authority policy; they are not rewritten or relabeled as wire/1. Unsupported legacy operations fail explicitly. Merely publishing this revision does not revoke an old grant.
 
@@ -124,3 +124,7 @@ The specification is a design draft, not a confidentiality label or complete pro
 The original [core set](../artifacts/wire-v1/vectors/core.json) is frozen at 8 schemas, 18 positive, 60 negative and 7 malformed-wire fixtures. The separate [synced-passkey set](../artifacts/wire-v1/vectors/passkey-synced.json) adds 3 positive records and 3 cryptographically valid semantic negatives without changing those bytes. It includes a root-signed P-256 authorization, BE=1/BS=1 and a 0→0 counter assertion; a missing origin, counter rollback and BS without BE are rejected. Node and Python each validate these records and signatures.
 
 Independent verification here means two repository-maintained implementations: Node/TypeScript and Python. Account-profile coverage is unsigned subject schemas and identifier/transition relationships; lifecycle coverage is synthetic signed receipts, schemas, canonical request binding, scope, freshness, retention and negative cases. It does not cover live issuer authority, registry uniqueness, actual deletion/settlement, cross-operator migration, complete signed account VCs, hardware/browser end-to-end behavior or independent Rust/Go/third-party implementations. No such third-party reproduction has been performed by this project. Keep these limits with any claim of independent verification; test counts alone do not extend the covered behavior.
+
+## Supplemental payment artifacts
+
+[Public Payment Wire Artifacts](protocol-payment-wire.md) define separate online schemas and synthetic signed records/bundles. Their operator JWS, holder-evidence bindings and historical event checks are exercised by Node and independent Python without the private application. They do not change the frozen `sitla-wire/1` set or establish current provider execution/status, legal compliance or third-party Rust/Go reproduction.

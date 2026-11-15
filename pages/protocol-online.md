@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC0-1.0 -->
 # Online MCP Adapter
 
-**Specification revision: 0.5. Adapter: `SITLA-online/1`. Draft.**
+**Specification revision: 0.6. Adapter: `SITLA-online/1`. Draft.**
 
 *This adapter makes the online subset explicit. Publishing the other profiles does not enable them.*
 
@@ -84,7 +84,7 @@ Every operator-handled payment stage produces private, append-only `OperatorPaym
 
 The reference adapter bounds request bodies at 256 KiB, canonical documents at 64 KiB/depth 32/10,000 nodes, and operator VC payloads at 16 KiB. Large evidence travels as separate digest-pinned attachments. JSON numbers must be safe integers; unsupported representations require explicit opaque storage. All limits are rejection boundaries, not permission to truncate signed bytes.
 
-The DID derivation/root authorization and approval payload reuse unchanged `sitla-wire/1`; document revision remains 0.5. This online adapter does not alter frozen v0.1/v0.2/wire vectors. Its live Worker/provider tests belong to the private application repository; the public document repository's independent Node/Python coverage remains exactly the scope stated in its README.
+The DID derivation/root authorization and approval payload reuse unchanged `sitla-wire/1`; document revision remains 0.6. This online adapter does not alter frozen v0.1/v0.2/wire vectors. Its live Worker/provider tests belong to the private application repository; the public document repository's independent Node/Python coverage remains exactly the scope stated in its README.
 
 The [Conditional Payment Instructions](protocol-conditional-payments.md) adapter implements captured-card deposits, buyer notification, seller acceptance/refund and buyer-authorized deferred transfers. Its 30-day maximum, fixed deadlines and automatic refunds are separate from legal escrow and the existing card-authorization work-payment flow.
 
@@ -97,3 +97,7 @@ Valid Stripe capture discharges the identified buyer-to-seller price debt under 
 `settle_escrow` additionally requires `inspectionConfirmed: true` and `performanceDigest`. Its VC records the buyer's acceptance of the exact deliverable or market-defined inspection/milestone record and authorizes remittance; it is not an operator quality judgment. Immediate profile sales and direct/card-authorization work payments implement the [common Collection Agency profile](protocol-collection-agency.md), with their own seller grants and capture-time debt discharge. They do not claim the conditional path's inspection-controlled release.
 
 Paid profile sales require a separate `authorize_profile_collection` approval after `get_profile_collection_offer`; profile publication alone is not collection authority. A work acceptance requires explicit `collectionConsent`, and new cart/work-payment requests acknowledge discharge on capture. `revoke_collection_authorization` stops new reservations under that exact grant; the atomic admission check freezes the original authority, fees, refund terms, fields/price or work budget/funding, and destination for existing transactions. No remittance failure authorizes a second buyer charge. Payment exports include the relevant collection grant and original seller approval without private profile values.
+
+## 8. Authorized counterparty history
+
+`get_counterparty_payment_history` takes an existing `context: {kind: work | purchase, id}` and exact `counterpartyAccountUri`. Only opposite parties to accepted work or seller-authorized purchases may read it, using ordinary sender-bound sessions. Unaccepted proposals/drafts, unrelated accounts and read mandates do not qualify. The signed summary contains prior/other-account association flags and aggregate recorded recipient-provider dispute states, never old account/provider/case identifiers or amounts. It covers the current work binding or original purchase destination in the current payment mode. Missing bindings return unavailable/null; retained counts always declare partial coverage and no live read-time refresh. See [Payment Records](protocol-payments.md) for signing, privacy, correction and interpretation rules. The summary is not payment authority, identity continuity or a clean-reputation certificate.

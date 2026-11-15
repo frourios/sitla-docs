@@ -5,6 +5,11 @@ The copyright and related rights controlled by Frourio, Inc. in the following sp
 - `pages/protocol.md`
 - `pages/protocol-online.md`
 - `pages/protocol-payments.md`
+- `pages/protocol-collection-agency.md`
+- `pages/protocol-conditional-payments.md`
+- `pages/protocol-payment-wire.md`
+- `pages/protocol-stripe-jp.md`
+- `artifacts/payments-v1/**`
 - `pages/protocol-media.md`
 - `pages/protocol-lifecycle.md`
 - `artifacts/lifecycle-v1/**`
@@ -25,7 +30,7 @@ The copyright and related rights controlled by Frourio, Inc. in the following sp
 - `pages/protocol-packages.md`
 - `pages/protocol-marketplace.md`
 
-See [the complete CC0 text](LICENSE-CC0-1.0.txt) and [the canonical legal code](https://creativecommons.org/publicdomain/zero/1.0/). The same scope applies to faithful generated HTML/Markdown copies of these texts; website chrome and logos are separate. Attribution, permission, registration and payment to SITLA are not conditions for reuse of these specifications, including commercial implementation and modified versions. The current specification is v0.5; CC0 does not turn a modified profile into a compatible implementation.
+See [the complete CC0 text](LICENSE-CC0-1.0.txt) and [the canonical legal code](https://creativecommons.org/publicdomain/zero/1.0/). The same scope applies to faithful generated HTML/Markdown copies of these texts; website chrome and logos are separate. Attribution, permission, registration and payment to SITLA are not conditions for reuse of these specifications, including commercial implementation and modified versions. The current specification is v0.6; CC0 does not turn a modified profile into a compatible implementation.
 
 This dedication does not relicense existing application software, documentation tooling, terms/privacy policies, `pages/business-model.md`, `pages/sitla-operator.md`, logos or other brand assets. Those materials retain their existing applicable terms. Referenced or quoted third-party standards, papers, proof packages and other external works retain their owners’ terms. CC0 does not waive or license trademarks or patents and does not imply certification, endorsement or a security warranty. This scope notice does not add conditions to CC0.
 

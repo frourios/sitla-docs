@@ -1,0 +1,510 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sitla:payments:1:schema:conditional-instruction",
+  "$comment": "SPDX-License-Identifier: CC0-1.0; Stripe online adapter, not a new wire/1 record or proof of provider execution.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "profile": {
+      "const": "sitla-conditional-payment-instruction/1"
+    },
+    "action": {
+      "enum": [
+        "collection-authorize",
+        "deposit",
+        "accept",
+        "refund",
+        "settle"
+      ]
+    },
+    "transactionId": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "buyer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "controllerDid": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "controllerDid"
+      ],
+      "additionalProperties": false
+    },
+    "seller": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "controllerDid": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "controllerDid"
+      ],
+      "additionalProperties": false
+    },
+    "assertingAccount": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "amountMinor": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "currency": {
+      "const": "JPY"
+    },
+    "termsDigest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "acceptBy": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d{3})?Z$"
+    },
+    "refundAt": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d{3})?Z$"
+    },
+    "instruction": {},
+    "collectionPolicy": {
+      "const": "sitla-collection-agency/1"
+    },
+    "approval": {
+      "type": "object",
+      "properties": {
+        "operationId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "evidenceDigest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "operationId",
+        "evidenceDigest"
+      ],
+      "additionalProperties": false
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2048
+      },
+      "minItems": 1,
+      "maxItems": 100
+    },
+    "collectionAuthority": {
+      "type": "object",
+      "properties": {
+        "agent": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "processor": {
+          "const": "Stripe"
+        },
+        "scope": {
+          "const": "identified-transaction-only"
+        },
+        "priceDebtDischarge": {
+          "const": "valid-stripe-capture"
+        },
+        "sellerRemittance": {
+          "const": "separate-operator-obligation"
+        },
+        "refunds": {
+          "const": "original-payment-method-under-fixed-policy"
+        }
+      },
+      "required": [
+        "agent",
+        "processor",
+        "scope",
+        "priceDebtDischarge",
+        "sellerRemittance",
+        "refunds"
+      ],
+      "additionalProperties": false
+    },
+    "inspection": {
+      "type": "object",
+      "properties": {
+        "confirmedByBuyer": {
+          "const": true
+        },
+        "performanceDigest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "basis": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      },
+      "required": [
+        "confirmedByBuyer",
+        "performanceDigest",
+        "basis"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "id",
+    "profile",
+    "action",
+    "transactionId",
+    "buyer",
+    "seller",
+    "assertingAccount",
+    "amountMinor",
+    "currency",
+    "termsDigest",
+    "acceptBy",
+    "refundAt",
+    "instruction",
+    "collectionPolicy",
+    "approval",
+    "limitations"
+  ],
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "properties": {
+        "action": {
+          "const": "collection-authorize"
+        },
+        "instruction": {
+          "type": "object",
+          "properties": {
+            "escrowId": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "termsDigest": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "confirmUnderlyingPriceClaim": {
+              "const": true
+            },
+            "collectionBeforeOrWithPerformance": {
+              "const": true
+            },
+            "authorizeReceipt": {
+              "const": true
+            },
+            "dischargeOnStripeCapture": {
+              "const": true
+            },
+            "authorizeConditionalRefunds": {
+              "const": true
+            }
+          },
+          "required": [
+            "escrowId",
+            "termsDigest",
+            "confirmUnderlyingPriceClaim",
+            "collectionBeforeOrWithPerformance",
+            "authorizeReceipt",
+            "dischargeOnStripeCapture",
+            "authorizeConditionalRefunds"
+          ],
+          "additionalProperties": false
+        },
+        "collectionAuthority": {}
+      },
+      "allOf": [
+        {
+          "not": {
+            "properties": {
+              "inspection": {}
+            },
+            "required": [
+              "inspection"
+            ]
+          }
+        }
+      ],
+      "required": [
+        "collectionAuthority"
+      ]
+    },
+    {
+      "properties": {
+        "action": {
+          "const": "deposit"
+        },
+        "instruction": {
+          "type": "object",
+          "properties": {
+            "escrowId": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "termsDigest": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "depositReference": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "predecessor": {
+              "const": null
+            }
+          },
+          "required": [
+            "escrowId",
+            "termsDigest",
+            "depositReference",
+            "predecessor"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "not": {
+        "properties": {
+          "collectionAuthority": {}
+        },
+        "required": [
+          "collectionAuthority"
+        ]
+      },
+      "allOf": [
+        {
+          "not": {
+            "properties": {
+              "inspection": {}
+            },
+            "required": [
+              "inspection"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "properties": {
+        "action": {
+          "const": "accept"
+        },
+        "instruction": {
+          "type": "object",
+          "properties": {
+            "escrowId": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "termsDigest": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "depositReference": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "predecessor": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            }
+          },
+          "required": [
+            "escrowId",
+            "termsDigest",
+            "depositReference",
+            "predecessor"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "not": {
+        "properties": {
+          "collectionAuthority": {}
+        },
+        "required": [
+          "collectionAuthority"
+        ]
+      },
+      "allOf": [
+        {
+          "not": {
+            "properties": {
+              "inspection": {}
+            },
+            "required": [
+              "inspection"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "properties": {
+        "action": {
+          "const": "refund"
+        },
+        "instruction": {
+          "type": "object",
+          "properties": {
+            "escrowId": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "termsDigest": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "depositReference": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "predecessor": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "escrowId",
+            "termsDigest",
+            "depositReference",
+            "predecessor"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "not": {
+        "properties": {
+          "collectionAuthority": {}
+        },
+        "required": [
+          "collectionAuthority"
+        ]
+      },
+      "allOf": [
+        {
+          "not": {
+            "properties": {
+              "inspection": {}
+            },
+            "required": [
+              "inspection"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "properties": {
+        "action": {
+          "const": "settle"
+        },
+        "instruction": {
+          "type": "object",
+          "properties": {
+            "escrowId": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "termsDigest": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "depositReference": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            "predecessor": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "inspectionConfirmed": {
+              "const": true
+            },
+            "performanceDigest": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "escrowId",
+            "termsDigest",
+            "depositReference",
+            "predecessor",
+            "inspectionConfirmed",
+            "performanceDigest"
+          ],
+          "additionalProperties": false
+        },
+        "inspection": {}
+      },
+      "not": {
+        "properties": {
+          "collectionAuthority": {}
+        },
+        "required": [
+          "collectionAuthority"
+        ]
+      },
+      "required": [
+        "inspection"
+      ]
+    }
+  ]
+}

@@ -46,6 +46,7 @@ export interface ConditionalPaymentInstructionSubject {
   refundAt: string;
   instruction: ConditionalPaymentInstructionArguments | CollectionAuthorizationArguments | SettlementInstructionArguments;
   collectionPolicy: "sitla-collection-agency/1";
+  collectionAuthority?: {agent:string;processor:"Stripe";scope:"identified-transaction-only";priceDebtDischarge:"valid-stripe-capture";sellerRemittance:"separate-operator-obligation";refunds:"original-payment-method-under-fixed-policy"};
   inspection?: {confirmedByBuyer:true;performanceDigest:string;basis:string};
   approval: { operationId: string; evidenceDigest: string };
   limitations: string[];

@@ -325,3 +325,6 @@ print("Independent synced-passkey verification passed: 3 positive, 3 signed sema
 
 from verify_profiles import verify_profiles
 verify_profiles(canonical, b64, time)
+
+from verify_payments import verify_payments
+verify_payments(canonical, b64)
