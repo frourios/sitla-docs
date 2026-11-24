@@ -38,7 +38,7 @@ The application implements the [Online MCP Adapter](protocol-online.md): email/c
 | Payments | Stripe, JPY; provider-limited card authorization is not legal escrow |
 | Commercial fee | See [Commercial Model](business-model.md); not a protocol constant |
 
-The ordinary operator Ed25519 JWS key lives in protected Durable Object storage; it does not assert post-quantum archival security or a real-world identity judgment. Published optional ZKP, disaster DIDComm and inter-operator migration profiles are not runtime capabilities.
+The operator has its own public ML-DSA-root DID with a root-authorized Ed25519 issuance key and dual-root rotation evidence. The ordinary operator Ed25519 JWS key lives in protected Durable Object storage; it does not assert post-quantum archival security or a real-world identity judgment. Published optional ZKP, disaster DIDComm and inter-operator migration profiles are not runtime capabilities.
 
 ## Stripe configuration and rebinding
 
@@ -73,3 +73,9 @@ The Core REC-6 summary is implemented by authenticated `get_counterparty_payment
 Before starting conditional work, show [the key-loss table](protocol-conditional-payments.md), including the risk that buyer key loss prevents release even after delivery. Users must back up/export independently. Neither operator support nor a new Stripe association overrides the old party's missing approval. Public payment artifacts test synthetic bytes; private Worker/Stripe tests are not publicly reproduced by them.
 
 For production webhook configuration, subscribe the platform endpoint to `charge.dispute.created`, `charge.dispute.updated`, `charge.dispute.closed`, `charge.dispute.funds_withdrawn` and `charge.dispute.funds_reinstated`, alongside the existing payment/refund events. The local/GHA Stripe CLI listener subscribes to these too. Connected-account dispute notifications are outside this platform-charge adapter and are ignored. Latest platform dispute/payment/captured-charge API observations, not the event's embedded status, feed retained aggregates. Delivery/API failures remain retryable. No read-time backfill or complete prior history is claimed.
+
+## Credential vault and online transport
+
+The current [online profile](protocol-online.md) uses MCP/OAuth/DPoP with signed tool request/response credentials and `SITLA-sd-jwt/1` selective disclosure. OAuth issuer and callback/resource URLs remain HTTPS. Discover the operator DID through `get_operator_identity`, then pin or independently accept its root; discovery alone is not trust.
+
+Exact signed originals, approvals and paid snapshots use the private `VC_VAULT` R2 bucket. D1 retains indexes, public projections and transaction controls; Durable Objects retain sessions, replay and issuance authority. This R2 vault is not media hosting and exposes no public bucket URL. Operator-side custody is readable to the service, not end-to-end encryption from the operator.

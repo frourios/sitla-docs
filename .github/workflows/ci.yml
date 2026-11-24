@@ -36,6 +36,8 @@ jobs:
       - name: Install locked Python verification dependencies
         run: |
           python -m pip install --require-hashes --only-binary=:all: -r tests/requirements.lock
+      - name: Verify selective disclosure with independent Python
+        run: python tests/verify_sd_jwt.py
       - name: Verify core, profiles and payment records with independent Python
         run: npm run test:python
 

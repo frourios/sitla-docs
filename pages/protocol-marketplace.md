@@ -1,8 +1,10 @@
 # Marketplace Profile
 
-*SITLA Protocol v0.6 — Optional Design Profile*\
+*SITLA Protocol v0.7 — Optional Design Profile*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
 **Date:** November 15, 2026
+
+For current online circulation, [Online MCP](protocol-online.md) requires issuer-signed selective-disclosure credentials. Each published field identifies its original credential, disclosure path and issuer. Work record meanings remain market-defined; a service delivery receipt is not the author's credential signature. An absent predicate is obtained by requesting an issuer's new/derived credential through ordinary paid work, not by treating a custodian's calculation as an issuer assertion.
 
 ## 1. Open-Market Scope
 

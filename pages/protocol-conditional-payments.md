@@ -1,6 +1,6 @@
 # Conditional Payment Instructions
 
-**SITLA Protocol v0.6 — optional profile `sitla-conditional-payment/1`**
+**SITLA Protocol v0.7 — optional profile `sitla-conditional-payment/1`**
 
 ## 1. Purpose and scope
 
@@ -58,7 +58,7 @@ The serialization below is the optional current online/Stripe binding. The provi
 
 The [public schemas, signed vectors and independent verifiers](protocol-payment-wire.md), together with [TypeScript record definitions](../reference/conditional-payments.ts), describe the instruction arguments and VC subject; the online API additionally validates UUIDv7, lower-case hex, safe integers and rejects unknown fields.
 
-**HOLD-VC-1.** The online adapter secures a `ConditionalPaymentInstruction` as `SITLA-online-vc-jws/1`. Its subject profile is `sitla-conditional-payment-instruction/1`. `action` identifies the five semantic VC types: `collection-authorize` (CollectionAuthorization), `deposit` (DepositNotification), `accept` (Acceptance), `refund` (RefundInstruction), or `settle` (SettlementInstruction). It contains:
+**HOLD-VC-1.** The online adapter secures a `ConditionalPaymentInstruction` as [`SITLA-sd-jwt/1`](protocol-online.md) in current circulation; frozen `payments-v1` direct-JWS vectors retain their explicitly legacy securing adapter. Its subject profile is `sitla-conditional-payment-instruction/1`. `action` identifies the five semantic VC types: `collection-authorize` (CollectionAuthorization), `deposit` (DepositNotification), `accept` (Acceptance), `refund` (RefundInstruction), or `settle` (SettlementInstruction). It contains:
 
 - `transactionId`, buyer/seller account URI and observed DID, `assertingAccount`;
 - gross `amountMinor`, `currency`, `termsDigest`, `acceptBy`, `refundAt`;

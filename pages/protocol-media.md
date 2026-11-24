@@ -1,6 +1,6 @@
 # Media References and Optional Hosting
 
-*SITLA Protocol v0.6 — Media Handling Requirements*\
+*SITLA Protocol v0.7 — Media Handling Requirements*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 ## 1. Hosting Is an Optional Capability

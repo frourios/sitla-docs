@@ -1,15 +1,15 @@
 # SITLA Protocol
 
-*Core: Portable Identity, Evidence, Authentication and Recovery*
+*Core: Portable Identity, Credentials, Authentication and Evidence*
 
-**Version:** 0.6 — Design Draft\
+**Version:** 0.7 — Design Draft\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
 **Date:** November 15, 2026\
 **Author:** SITLA / Frourio, Inc.
 
 ## Abstract
 
-SITLA Protocol defines interoperable online delegates for discovery and the circulation of identity, credentials, proofs and payments. Users retain portable roots and credentials, while requesters distinguish cryptographic verification from the decision to accept a counterparty. This draft defines the core trust boundaries, passkey-based access, evidence labels and fresh-account onboarding and verifier-owned continuity. Optional profiles cover disconnected operation, externally published proof packages and open-market workflows.
+SITLA Protocol defines a DID/VC circulation service on standard MCP and OAuth. The online profile uses public DIDs and issuer-signed selective-disclosure credentials; ZKP is an optional future profile, not a prerequisite for ordinary search or trade. Users retain portable roots and credentials, while requesters distinguish cryptographic verification from the decision to accept a counterparty. This draft defines the core trust boundaries, passkey-based access, evidence labels and fresh-account onboarding and verifier-owned continuity. Optional profiles cover disconnected operation, externally published proof packages and open-market workflows.
 
 - **Portable:** independent wallets can resolve roots and present supported credentials without the original operator.
 - **Explicit assurance:** signatures, issuer assertions, ZKP and business acceptance have different meanings.
@@ -20,10 +20,12 @@ SITLA Protocol defines interoperable online delegates for discovery and the circ
 
 *Start with the evidence you need. Add a profile only when the use case needs it.*
 
-This document is the core. All technical documents are **v0.6 design drafts**; draft status describes maturity, not access restrictions. Publication does not implement them. The document revision (**0.6**) is distinct from the stable **`sitla-wire/1`** profile and its cryptographic contexts. Editorial revisions do not invalidate signed records. Legacy `sitla/0.1` and `sitla/0.2` artifacts remain verifiable under their explicitly selected legacy profiles, never by relabeling them.
+This document is the core. All technical documents are **v0.7 design drafts**; draft status describes maturity, not access restrictions. Publication does not implement them. The document revision (**0.7**) is distinct from the stable **`sitla-wire/1`** profile and its cryptographic contexts. Editorial revisions do not invalidate signed records. Legacy `sitla/0.1` and `sitla/0.2` artifacts remain verifiable under their explicitly selected legacy profiles, never by relabeling them.
 
 | Document | Responsibility |
 | --- | --- |
+| [Credential DM](protocol-dm.md) | Opt-in DID inboxes and private credential delivery, independent of jobs and payments |
+| [Online MCP](protocol-online.md) | Current transport, OAuth, operator DID, SD-JWT circulation, claim publication and custody profile |
 | [Core](protocol.md) | Identity, authentication, evidence, custody and recovery |
 | [Portable Payment Records](protocol-payments.md) | Bilateral signed payment facts and independent evidence exports |
 | [Media References](protocol-media.md) | External URLs and optional operator hosting |
@@ -37,6 +39,8 @@ This document is the core. All technical documents are **v0.6 design drafts**; d
 | [SITLA Deployment](sitla-operator.md) | Founding operator values, outside protocol conformance |
 | [Commercial Model](business-model.md) | Founding operator business terms, outside protocol conformance |
 
+The current [online profile](protocol-online.md) is the normative runtime binding for supported online circulation. Its tool request/response credentials are carried inside MCP; OAuth HTTPS identifiers remain required. Frozen wire/1 signatures and legacy artifact fixtures are unchanged.
+
 A buyer's agent can search using service JSON, ask for an issuer credential or a named proof, validate it independently, negotiate work, obtain any agreed signatures, and authorize payment. For an informal question, the buyer may accept an unverified description. A consequential task may require evidence from specific authorities. The marketplace profile expands these examples; it does not prescribe a work lifecycle.
 
 AMT is the architectural ideal: locally resolvable identity and a separation between evidence and service operation. SITLA makes independent choices about custody, authentication and recovery and claims no AMT conformance. The cited edition is Frourio, Inc., *AMATELUS Protocol Spec*, September 22, 2026, 81 PDF pages, retrieved November 14, 2026, SHA-256 `c4cce877f1cc01306a732f4655a010c90a3d19df731ef3590c86c3e3b2dc6e82` ([blueprint](https://amatelus.com/blueprint.pdf)). The URL may change; the digest identifies the edition consulted.
@@ -49,7 +53,7 @@ AMT is the architectural ideal: locally resolvable identity and a separation bet
 
 **TRUST-1.** Verification MUST report its actual authority, subject binding, status evidence and limitations. An operator is not an oracle about nationality, legal identity, competence, truthful testimony, human reasoning, work quality or physical events. A valid signature authenticates a statement; a sound ZKP establishes its specified relation. Neither establishes the real-world truth of an issuer's investigation. Account registration, a DID, payment or a public package does not supply missing external authority.
 
-An online custodian can read explicitly entrusted plaintext/witnesses and may generate presentations under a mandate. It cannot thereby prove fresh human participation. Requester privacy, privacy from the custodian, software safety, legal authorization and commercial success are separate properties. Independent verification reduces particular dependencies, not all dependence on an operator. These limits apply throughout the document set and are not repeated in every profile.
+An online custodian can read explicitly entrusted credentials and plaintext and may generate presentations under a mandate. It cannot thereby prove fresh human participation. Requester privacy, privacy from the custodian, software safety, legal authorization and commercial success are separate properties. Independent verification reduces particular dependencies, not all dependence on an operator. These limits apply throughout the document set and are not repeated in every profile.
 
 | Threat | Main controls | Remaining dependency |
 | --- | --- | --- |
@@ -78,20 +82,20 @@ An account may buy and sell. Sellers need not be Japanese or hold official crede
 
 Serialize with [JCS, RFC 8785](https://www.rfc-editor.org/rfc/rfc8785), UTF-8 encode, hash with SHA3-512, and encode the digest as unpadded base64url. The DID is not its own hash input. Reconstruct the exact signing-only document locally using the fixed AKP JWK representation in [Wire Artifacts](protocol-wire.md); reject duplicate/extra fields, unknown versions, invalid key lengths, noncanonical encodings and altered relationships. The [wire artifacts](protocol-wire.md) provide derivation schemas and fixed byte vectors; independent wallet interoperation remains a deployment prerequisite. This experimental method is not registered or an AMT identifier.
 
-**KEY-1.** A wallet MUST retain the root secret under user control and support encrypted backup/export. An operator receives scoped presentation authority, not implicit access to a root secret. Hardware-wrapped software storage is not native ML-DSA hardware signing; synced passkeys have separate provider/recovery assumptions. A future ML-DSA passkey profile may declare actual authenticator/browser/server support; v0.6 does not assume it. Hosted-only root custody is outside the portable-holder profile.
+**KEY-1.** A wallet MUST retain the root secret under user control and support encrypted backup/export. An operator receives scoped presentation authority, not implicit access to a root secret. Hardware-wrapped software storage is not native ML-DSA hardware signing; synced passkeys have separate provider/recovery assumptions. A future ML-DSA passkey profile may declare actual authenticator/browser/server support; v0.7 does not assume it. Hosted-only root custody is outside the portable-holder profile.
 
 **KEY-2.** Root-signed `OperationalKeyAuthorization` records carry replaceable communication or application keys outside the immutable root descriptor. Each `replace-operational-keys` record replaces the entire key set for its fixed authorization series; omitted keys lose that authority. A `revoke-operational-keys` record has an empty set and terminates the series. Reauthorization requires a new root-approved series, never resurrection of an older record. A record binds the root, operational/pairwise DID, exact public keys and roles, audience/purpose, authorization-series ID, sequence, predecessor-record digest, issue/expiry times and status reference. Signing and agreement keys are independent. An agreement-key rotation creates a new record or pairwise DID, not a new root or credential-continuity event. Receivers retain the highest authenticated sequence per root and authorization series they know, without conflating unrelated scopes; offline evidence may omit later changes. Static-key replacement alone does not establish forward secrecy for past ciphertext.
 
 **KEY-3.** Sensitive local interactions default to fresh **pairwise communication DIDs for transport only** with independent conventional signing and X25519 keys. The baseline uses [Peer DID method 2](https://identity.foundation/peer-did-method-spec/#method-2-multiple-inception-key-without-doc) (`did:peer:2`) with its clarified encoding and independently generated Ed25519 verification and X25519 encryption keys. No persistent service endpoint is required; local invitations negotiate delivery. Resolver vectors and independent-wallet tests must pin the method revision. A root DID is not automatically a DIDComm endpoint. A wallet may hold a root-signed delegation privately, but sending that delegation to every peer would disclose a common root and defeat the intended privacy.
 
-Pairwise transport does not promise unlinkable qualification presentation. v0.6 defines no general ZKP that hides a root-bound subject while transferring its binding to an arbitrary pairwise key. Deployments MUST advertise only a supported presentation route, not infer privacy from a new DID.
+Pairwise transport does not promise unlinkable qualification presentation. v0.7 defines no general ZKP that hides a root-bound subject while transferring its binding to an arbitrary pairwise key. Deployments MUST advertise only a supported presentation route, not infer privacy from a new DID.
 
 | Presentation route | Qualification/presenter binding | Linkability and availability |
 | --- | --- | --- |
 | Root-bound VC plus disclosed root delegation | Root and exact peer key are checked | Linkable to the root; requires explicit disclosure consent |
 | Issuer-preissued single-use peer-key VC | Issuer signs the exact disposable key; peer proves possession with a fresh challenge | Can avoid a common root in verifier-visible fields if issuer format/payload/status identifiers also avoid stable correlators; issuer can still correlate issuance |
 | Issuer-preissued bearer VC | Issuer signature only; no fresh holder-key binding | No holder assurance; copying/sharing/repeated serials remain possible; not interchangeable with key-bound evidence |
-| Root-hiding ZKP / anonymous credential | Must prove accepted subject-to-peer-key relation | Not specified by v0.6; unavailable unless a separately identified, reviewed package actually implements it |
+| Root-hiding ZKP / anonymous credential | Must prove accepted subject-to-peer-key relation | Not specified by v0.7; unavailable unless a separately identified, reviewed package actually implements it |
 | Anonymous assistance | No qualification-to-person binding | Only explicitly permitted low-assurance decisions; never label as verified qualification |
 
 A practical issuer route pre-enrolls independently generated one-time signing keys while connected, authenticates the subject under its own process, and issues separate minimal credentials for those keys. Each credential binds its own key, issuer, narrow claims, expiry and status policy without repeating the root, account handle, batch ID or other unnecessary common subject fields. The holder caches original signed credentials and proves possession of the selected key over the audience, request/challenge, purpose and credential digest. This is a format-specific issuer capability, not a new universal VC format. Verifiers must inspect remaining identifiers, claim combinations, issuance timestamps and status-access metadata; batch issuance does not guarantee anonymity from the issuer or colluding parties. Reuse is linkable and an offline verifier cannot guarantee global single use. If no accepted route exists, explicitly consent to a linkable presentation, use permitted anonymous assistance, or refuse. No silent privacy downgrade or invented holder assurance is allowed. Public professional DIDs remain optional; their use is not the default for patients or evacuees.

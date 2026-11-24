@@ -2,8 +2,10 @@
 
 https://sitla.frourio.com
 
-This public repository contains the English SITLA Protocol **v0.6 design draft**:
+This public repository contains the English SITLA Protocol **v0.7 design draft**:
 
+- [Credential Direct Messages](pages/protocol-dm.md): opt-in DID inboxes, original signatures, delivery receipts and email notification without work or payment.
+- [Online MCP circulation](pages/protocol-online.md): standard MCP/OAuth, public issuer DIDs, SD-JWT, private vault and claim-source publication.
 - [Core](pages/protocol.md): identity, access, evidence, fresh accounts after key loss and external continuity.
 - [Media References](pages/protocol-media.md): external URLs, content integrity and optional hosting; no media store is required.
 - [Account Lifecycle](pages/protocol-lifecycle.md): logout scopes, mandate withdrawal and account deletion states.
@@ -31,7 +33,7 @@ The word “draft” describes technical maturity, not repository visibility or 
 
 ## Verify this repository independently
 
-Use Node.js 26: `npm ci --ignore-scripts`, then `npm test`, `npm run test:mutation` and `npm run secretlint`. For the independent Python verifier, use Python 3.12, install `tests/requirements.txt` in a virtual environment, and run `python tests/verify_vectors.py`. CI runs both implementations on pushes and pull requests without the application repository. The stable wire/1 fixture set covers request hashes, DID documents, replacement/revocation chains, signed approvals/service assertions and schema/semantic/signature rejection layers. Python also reproduces the frozen v0.1 and legacy v0.2 DID/signatures. The document revision is 0.6; it is independent from `sitla-wire/1` and `SITLA/root/1`.
+Use Node.js 26: `npm ci --ignore-scripts`, then `npm test`, `npm run test:mutation` and `npm run secretlint`. For the independent Python verifier, use Python 3.12, install `tests/requirements.txt` in a virtual environment, and run `python tests/verify_vectors.py`. CI runs both implementations on pushes and pull requests without the application repository. The stable wire/1 fixture set covers request hashes, DID documents, replacement/revocation chains, signed approvals/service assertions and schema/semantic/signature rejection layers. Python also reproduces the frozen v0.1 and legacy v0.2 DID/signatures. The document revision is 0.7; it is independent from `sitla-wire/1` and `SITLA/root/1`.
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting changes, including its license allocation, contributor patent grant and sign-off requirements. A passing fixture suite is not a claim of a production wallet, complete standardization or full DIDComm interoperability.
 
@@ -49,10 +51,12 @@ The recommended `sitla-account/1` profile automatically binds an immutable accou
 
 Python now also checks the three account subject schemas (6 unsigned examples and identifier/transition negatives) and the lifecycle schemas (7 synthetic signed cases plus binding, freshness, scope, retention and signature-tampering negatives). `tests/verify_profiles.py` is invoked by `tests/verify_vectors.py` in the existing CI command; it imports no TypeScript. This coverage does not issue/verify complete account VCs, test a live uniqueness registry, execute real deletion or settlement, validate cross-operator migration or certify hardware/browser behavior. Payment tests add the scope described below; other optional profiles remain outside independent verification.
 
-Account URIs remain operator-bound. Long-lived qualifications should use holder-controlled roots as subjects and account URIs only as auxiliary claims when possible; v0.6 defines no interoperable cross-operator migration credential. Export is not automatic transfer of issuer acceptance.
+Account URIs remain operator-bound. Long-lived qualifications should use holder-controlled roots as subjects and account URIs only as auxiliary claims when possible; v0.7 defines no interoperable cross-operator migration credential. Export is not automatic transfer of issuer acceptance.
 
 Payment operators implement the provider-neutral payment duties. The optional [online payment artifacts](pages/protocol-payment-wire.md) now publish **6 CC0 schemas, 15 signed positive and 35 negative synthetic records, 2 signed evidence pages and 5 bundle negatives**. Node and independent Python check operator JWS, original Ed25519 holder approvals authorized by ML-DSA roots, reviewed scope/amount/destination, event reconciliation/history and manifest member integrity. CI runs these through the existing commands. No TypeScript or private application is imported by Python. Work-specific schemas remain market-defined.
 
 These fixtures do not reproduce Stripe Sandbox, current provider/account/dispute state, live state-machine execution, passkey payment attachment exports, cross-page completeness or a legal opinion. The reference checks listed bytes and historical claims; callers supply issuer trust/status/acceptance policy. The application implements private transaction-scoped binding/dispute summaries through `get_counterparty_payment_history`; they are not a public registry, complete historical record or part of the independent public payment-VC fixtures. Qualified payment/financial-law assessment and third-party Rust/Go reproduction remain outstanding; do not infer production approval or end-to-end PQC security from fixture success.
 
 The [Online MCP Adapter](pages/protocol-online.md) declares an optional executable online subset and its securing/status conventions. Application Worker, SMTP and Stripe integration tests are maintained in the application repository; they do not extend this repository's independently verified fixture scope.
+
+The current online securing profile is `SITLA-sd-jwt/1`. Legacy direct-JWS payment fixtures stay frozen and do not certify the new runtime envelope. Independent Python verification of existing wire/account/lifecycle/payment vectors remains distinct from the new selective-disclosure fixture checks. Neither suite certifies an arbitrary wallet or draft-standard conformance.
