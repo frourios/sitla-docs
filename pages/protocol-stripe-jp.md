@@ -1,6 +1,6 @@
 # Stripe Japan Payment Adapter
 
-**SITLA Protocol v0.10 — optional deployment adapter, not Core conformance**\
+**SITLA Protocol v0.11 — optional deployment adapter, not Core conformance**\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 ## 1. Separation from the protocol
@@ -67,3 +67,12 @@ Independent public vectors contain synthetic financial assertions only. They do 
 **JP-DEFER-3.** Check the applicable policy and outstanding exposure before admitting a new reservation or collecting a charge, including concurrent reservations and already captured obligations. Do not renew the age of an outstanding amount on retry, reassociation, subsequent sales or notification. Monitor oldest due amount, aggregate exposure, actual available funds, refunds and disputes; suspend affected new collections when policy limits or liquidity requirements are exceeded. Reconcile all existing obligations and promptly remit eligible amounts when a verified destination becomes available. Never extend conditional refund deadlines, create duplicate buyer charges, automatically forfeit the seller's claim, or refund an already valid settled transaction merely to erase an overdue payable. If ordinary remittance is impossible, follow the documented lawful alternative settlement and support procedure; unresolved obligations remain recorded.
 
 **JP-DEFER-4.** Listing, work negotiations and collection authority may exist before Stripe connection, even while live payment admission is disabled. The operator must distinguish a collected-but-unsettled claim from a completed provider transfer and from an uncollected authorization. Publish whether pre-connection collection is enabled and the currently applicable policy, and show payment eligibility before either party commits. Contract review or provider approval has not been established by this repository. These requirements are deployment obligations, not a claim that the current application enforces them.
+
+
+## Stripe connection at escrow entry
+
+Negotiation and work acceptance do not require Stripe connection. The minimum new work payment is 500 JPY; at the current 20% fee the seller allocation is 400 JPY before refunds, disputes or other applicable adjustments. Runtime minimum price is configured by the operator and advertised in MCP operation schemas.
+
+For new conditional escrow transactions, the seller MUST complete Stripe Standard OAuth before a draft or Checkout is created, including in Sandbox. If `create_escrow` finds no active seller connection in the selected payment mode, return `phase: awaiting-seller-connection`, `escrowId: null`, `checkoutUrl: null` and a seller-directed `stripeConnection` next-step description. No funds or escrow reservation are created in that step. The seller calls `create_stripe_connect_authorization`, approves the prepared operation, completes human Stripe login/consent, retrieves `get_stripe_connect_authorization`, approves `complete_stripe_connect_authorization`, and checks `get_stripe_connect_status`. The buyer then prepares and approves `create_escrow` again with a fresh idempotency key and the agreed terms. The new draft fixes the actual deadlines and verified destination. Existing connections must have the required country and active transfer capability; incomplete provider requirements must be resolved before starting payment.
+
+The seller separately signs transaction-specific collection authority before the buyer receives Checkout. Link completion is not collection consent. Fixed acceptance/refund deadlines begin only when the connected draft is created; the connection instruction itself starts no paid hold. Existing captured transactions retain their original settlement/refund duties and destinations. Earlier deferred-destination provisions describe existing transactions or other explicitly supported payment paths; they do not authorize new unconnected escrow collection.

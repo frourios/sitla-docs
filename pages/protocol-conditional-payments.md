@@ -1,6 +1,6 @@
 # Conditional Payment Instructions
 
-**SITLA Protocol v0.10 — optional profile `sitla-conditional-payment/1`**
+**SITLA Protocol v0.11 — optional profile `sitla-conditional-payment/1`**
 
 ## 1. Purpose and scope
 
@@ -131,3 +131,12 @@ Direct-work capture has no conditional inspection gate: its existing collection/
 
 
 **HOLD-LOSS-2.** Where a valid settlement was committed before loss of the seller's keys and no provider destination was assigned, the obligation does not vanish or become available to a newly enrolled account. Follow the deployment's approved age/exposure limits and alternative settlement procedure, including independent verification of the claimant and applicable legal rights; this is not a replacement holder approval or an account-recovery feature. Report unresolved settlement separately from successful transfer. Preserve the original transaction and authorization evidence for both parties. A real deployment must demonstrate these cases, including closure and provider failure, before enabling pre-connection collection.
+
+
+## Stripe connection at escrow entry
+
+Negotiation and work acceptance do not require Stripe connection. The minimum new work payment is 500 JPY; at the current 20% fee the seller allocation is 400 JPY before refunds, disputes or other applicable adjustments. Runtime minimum price is configured by the operator and advertised in MCP operation schemas.
+
+For new conditional escrow transactions, the seller MUST complete Stripe Standard OAuth before a draft or Checkout is created, including in Sandbox. If `create_escrow` finds no active seller connection in the selected payment mode, return `phase: awaiting-seller-connection`, `escrowId: null`, `checkoutUrl: null` and a seller-directed `stripeConnection` next-step description. No funds or escrow reservation are created in that step. The seller calls `create_stripe_connect_authorization`, approves the prepared operation, completes human Stripe login/consent, retrieves `get_stripe_connect_authorization`, approves `complete_stripe_connect_authorization`, and checks `get_stripe_connect_status`. The buyer then prepares and approves `create_escrow` again with a fresh idempotency key and the agreed terms. The new draft fixes the actual deadlines and verified destination. Existing connections must have the required country and active transfer capability; incomplete provider requirements must be resolved before starting payment.
+
+The seller separately signs transaction-specific collection authority before the buyer receives Checkout. Link completion is not collection consent. Fixed acceptance/refund deadlines begin only when the connected draft is created; the connection instruction itself starts no paid hold. Existing captured transactions retain their original settlement/refund duties and destinations. Earlier deferred-destination provisions describe existing transactions or other explicitly supported payment paths; they do not authorize new unconnected escrow collection.
