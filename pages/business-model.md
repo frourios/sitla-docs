@@ -15,7 +15,7 @@ The service intermediates discovery and authorized circulation of requests, data
 
 *These numbers describe the business model, not interoperability requirements.*
 
-For supported paid transactions, the current commercial baseline allocates **20% to SITLA and 80% to the seller**. SITLA bears payment-provider processing fees; its 20% is gross fee revenue before those expenses. Free discovery is not made billable merely because the architecture includes discovery among its functions. Exact fee scope, rounding, tax presentation, exceptions, cancellation and refund treatment must be disclosed for the actual product/transaction.
+For supported paid work transactions, the current commercial baseline allocates **20% to SITLA and 80% to the seller**. SITLA bears payment-provider processing fees; its 20% is gross fee revenue before those expenses. Free discovery is not made billable merely because the architecture includes discovery among its functions. Exact fee scope, rounding, tax presentation, exceptions, cancellation and refund treatment must be disclosed for the actual product/transaction.
 
 Changing these commercial conditions does not change a circuit, an evidence level or technical protocol conformance. No charge can authorize a credential issuer to assert facts it has not accepted. Institution participation and any permitted fee/intermediary arrangement require that institution's approval.
 

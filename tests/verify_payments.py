@@ -15,6 +15,9 @@ def verify_payments(canonical, b64):
     root = Path(__file__).resolve().parents[1] / "artifacts"
     fixture = json.loads((root / "payments-v1/vectors/payments.json").read_text())
     schemas = {}
+    deferred_schema = json.loads((root / "payments-v2" / "schemas" / "collection-authorization.schema.json").read_text())
+    Draft202012Validator.check_schema(deferred_schema)
+    schemas["collection-authorization-v2"] = Draft202012Validator(deferred_schema)
     for folder, names in [("payments-v1", ["collection-authorization", "conditional-instruction", "payment-event", "online-vc", "export-manifest", "evidence-bundle"]), ("wire-v1", ["approved-action", "operational-key-authorization", "request-evidence"])]:
         for name in names:
             schema = json.loads((root / folder / "schemas" / (name + ".schema.json")).read_text())
@@ -45,7 +48,7 @@ def verify_payments(canonical, b64):
             raise ValueError(error) from cause
 
     def subject(s):
-        if s["profile"] == "sitla-collection-authorization/1":
+        if s["profile"] in ("sitla-collection-authorization/1", "sitla-collection-authorization/2"):
             instant(s["authorizedAt"])
             require(s["authorizationId"] == s["approval"]["operationId"] and s["approvalDigest"] == s["approval"]["evidenceDigest"], "collection_approval")
             return
@@ -92,9 +95,9 @@ def verify_payments(canonical, b64):
         instant(vc["validFrom"])
         require(vc == record["vc"] and record["digest"] == digest(vc) and record["format"] == "application/vc+jwt", "payment_copy")
         s = vc["credentialSubject"]
-        name = {"sitla-collection-authorization/1": "collection-authorization", "sitla-conditional-payment-instruction/1": "conditional-instruction", "sitla-online-payment-event/1": "payment-event"}.get(s["profile"])
+        name = {"sitla-collection-authorization/1": "collection-authorization", "sitla-collection-authorization/2": "collection-authorization-v2", "sitla-conditional-payment-instruction/1": "conditional-instruction", "sitla-online-payment-event/1": "payment-event"}.get(s["profile"])
         require(name and schemas[name].is_valid(s), "payment_schema")
-        typename = {"collection-authorization": "CollectionAuthorization", "conditional-instruction": "ConditionalPaymentInstruction", "payment-event": "OperatorPaymentEventCredential"}[name]
+        typename = {"collection-authorization": "CollectionAuthorization", "collection-authorization-v2": "CollectionAuthorization", "conditional-instruction": "ConditionalPaymentInstruction", "payment-event": "OperatorPaymentEventCredential"}[name]
         require(vc["type"][1] == "urn:sitla:credential:" + typename + ":1", "payment_type")
         subject(s)
         return s
@@ -122,7 +125,7 @@ def verify_payments(canonical, b64):
         require(p["policy_digest"] == hashlib.sha256(e["policyBytes"].encode()).hexdigest(), "policy_digest_mismatch")
         require(all(p[k] == request[k] for k in ["request_id", "operator_id", "audience", "purpose", "challenge", "policy_digest"]) and p["request_digest"] == digest(request) and instant(p["issued_at"]) >= instant(request["issued_at"]) and instant(p["expires_at"]) <= instant(request["expires_at"]), "request_binding_failed")
         require(p["event_reference"] == s["approval"]["operationId"] and p["payload_digest"] == digest(review) and request["subject_reference"] == "urn:sha256:" + digest(review) and args == review["arguments"], "payment_approval_binding")
-        is_collection = s["profile"] == "sitla-collection-authorization/1"
+        is_collection = s["profile"] in ("sitla-collection-authorization/1", "sitla-collection-authorization/2")
         operation = ("authorize_profile_collection" if s["scope"]["kind"] == "profile" else "accept_work") if is_collection else {"collection-authorize": "authorize_escrow_collection", "deposit": "notify_escrow_deposit", "accept": "accept_escrow", "refund": "refund_escrow", "settle": "settle_escrow"}[s["action"]]
         actor = s["seller"] if is_collection or s["action"] not in ["deposit", "settle"] else s["buyer"]
         require(p["operation"] == operation and review["operation"] == operation and review["accountUri"] == actor["id"] and p["actor"] == actor["controllerDid"], "payment_approval_actor")

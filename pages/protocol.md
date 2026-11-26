@@ -2,7 +2,7 @@
 
 *Core: Portable Identity, Credentials, Authentication and Evidence*
 
-**Version:** 0.7 — Design Draft\
+**Version:** 0.8 — Design Draft\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
 **Date:** November 15, 2026\
 **Author:** SITLA / Frourio, Inc.
@@ -20,7 +20,7 @@ SITLA Protocol defines a DID/VC circulation service on standard MCP and OAuth. T
 
 *Start with the evidence you need. Add a profile only when the use case needs it.*
 
-This document is the core. All technical documents are **v0.7 design drafts**; draft status describes maturity, not access restrictions. Publication does not implement them. The document revision (**0.7**) is distinct from the stable **`sitla-wire/1`** profile and its cryptographic contexts. Editorial revisions do not invalidate signed records. Legacy `sitla/0.1` and `sitla/0.2` artifacts remain verifiable under their explicitly selected legacy profiles, never by relabeling them.
+This document is the core. All technical documents are **v0.8 design drafts**; draft status describes maturity, not access restrictions. Publication does not implement them. The document revision (**0.8**) is distinct from the stable **`sitla-wire/1`** profile and its cryptographic contexts. Editorial revisions do not invalidate signed records. Legacy `sitla/0.1` and `sitla/0.2` artifacts remain verifiable under their explicitly selected legacy profiles, never by relabeling them.
 
 | Document | Responsibility |
 | --- | --- |
@@ -30,7 +30,7 @@ This document is the core. All technical documents are **v0.7 design drafts**; d
 | [Portable Payment Records](protocol-payments.md) | Bilateral signed payment facts and independent evidence exports |
 | [Media References](protocol-media.md) | External URLs and optional operator hosting |
 | [Account Lifecycle](protocol-lifecycle.md) | Logout, all-device logout, mandate withdrawal and account deletion |
-| [Account Identifiers](protocol-identifiers.md) | Automatic stable account references, current controller binding and optional public handles |
+| [Account Identifiers](protocol-identifiers.md) | Automatic stable account references, current controller binding |
 | [Portability and Disaster](protocol-portability.md) | Independent wallets, local DIDComm, cache freshness and degraded acceptance |
 | [Proof Packages](protocol-packages.md) | External specifications/circuits, mirrors, locks and execution boundaries |
 | [Marketplace](protocol-marketplace.md) | Market-defined work, issuance requests and payment instructions |
@@ -82,20 +82,20 @@ An account may buy and sell. Sellers need not be Japanese or hold official crede
 
 Serialize with [JCS, RFC 8785](https://www.rfc-editor.org/rfc/rfc8785), UTF-8 encode, hash with SHA3-512, and encode the digest as unpadded base64url. The DID is not its own hash input. Reconstruct the exact signing-only document locally using the fixed AKP JWK representation in [Wire Artifacts](protocol-wire.md); reject duplicate/extra fields, unknown versions, invalid key lengths, noncanonical encodings and altered relationships. The [wire artifacts](protocol-wire.md) provide derivation schemas and fixed byte vectors; independent wallet interoperation remains a deployment prerequisite. This experimental method is not registered or an AMT identifier.
 
-**KEY-1.** A wallet MUST retain the root secret under user control and support encrypted backup/export. An operator receives scoped presentation authority, not implicit access to a root secret. Hardware-wrapped software storage is not native ML-DSA hardware signing; synced passkeys have separate provider/recovery assumptions. A future ML-DSA passkey profile may declare actual authenticator/browser/server support; v0.7 does not assume it. Hosted-only root custody is outside the portable-holder profile.
+**KEY-1.** A wallet MUST retain the root secret under user control and support encrypted backup/export. An operator receives scoped presentation authority, not implicit access to a root secret. Hardware-wrapped software storage is not native ML-DSA hardware signing; synced passkeys have separate provider/recovery assumptions. A future ML-DSA passkey profile may declare actual authenticator/browser/server support; v0.8 does not assume it. Hosted-only root custody is outside the portable-holder profile.
 
 **KEY-2.** Root-signed `OperationalKeyAuthorization` records carry replaceable communication or application keys outside the immutable root descriptor. Each `replace-operational-keys` record replaces the entire key set for its fixed authorization series; omitted keys lose that authority. A `revoke-operational-keys` record has an empty set and terminates the series. Reauthorization requires a new root-approved series, never resurrection of an older record. A record binds the root, operational/pairwise DID, exact public keys and roles, audience/purpose, authorization-series ID, sequence, predecessor-record digest, issue/expiry times and status reference. Signing and agreement keys are independent. An agreement-key rotation creates a new record or pairwise DID, not a new root or credential-continuity event. Receivers retain the highest authenticated sequence per root and authorization series they know, without conflating unrelated scopes; offline evidence may omit later changes. Static-key replacement alone does not establish forward secrecy for past ciphertext.
 
 **KEY-3.** Sensitive local interactions default to fresh **pairwise communication DIDs for transport only** with independent conventional signing and X25519 keys. The baseline uses [Peer DID method 2](https://identity.foundation/peer-did-method-spec/#method-2-multiple-inception-key-without-doc) (`did:peer:2`) with its clarified encoding and independently generated Ed25519 verification and X25519 encryption keys. No persistent service endpoint is required; local invitations negotiate delivery. Resolver vectors and independent-wallet tests must pin the method revision. A root DID is not automatically a DIDComm endpoint. A wallet may hold a root-signed delegation privately, but sending that delegation to every peer would disclose a common root and defeat the intended privacy.
 
-Pairwise transport does not promise unlinkable qualification presentation. v0.7 defines no general ZKP that hides a root-bound subject while transferring its binding to an arbitrary pairwise key. Deployments MUST advertise only a supported presentation route, not infer privacy from a new DID.
+Pairwise transport does not promise unlinkable qualification presentation. v0.8 defines no general ZKP that hides a root-bound subject while transferring its binding to an arbitrary pairwise key. Deployments MUST advertise only a supported presentation route, not infer privacy from a new DID.
 
 | Presentation route | Qualification/presenter binding | Linkability and availability |
 | --- | --- | --- |
 | Root-bound VC plus disclosed root delegation | Root and exact peer key are checked | Linkable to the root; requires explicit disclosure consent |
 | Issuer-preissued single-use peer-key VC | Issuer signs the exact disposable key; peer proves possession with a fresh challenge | Can avoid a common root in verifier-visible fields if issuer format/payload/status identifiers also avoid stable correlators; issuer can still correlate issuance |
 | Issuer-preissued bearer VC | Issuer signature only; no fresh holder-key binding | No holder assurance; copying/sharing/repeated serials remain possible; not interchangeable with key-bound evidence |
-| Root-hiding ZKP / anonymous credential | Must prove accepted subject-to-peer-key relation | Not specified by v0.7; unavailable unless a separately identified, reviewed package actually implements it |
+| Root-hiding ZKP / anonymous credential | Must prove accepted subject-to-peer-key relation | Not specified by v0.8; unavailable unless a separately identified, reviewed package actually implements it |
 | Anonymous assistance | No qualification-to-person binding | Only explicitly permitted low-assurance decisions; never label as verified qualification |
 
 A practical issuer route pre-enrolls independently generated one-time signing keys while connected, authenticates the subject under its own process, and issues separate minimal credentials for those keys. Each credential binds its own key, issuer, narrow claims, expiry and status policy without repeating the root, account handle, batch ID or other unnecessary common subject fields. The holder caches original signed credentials and proves possession of the selected key over the audience, request/challenge, purpose and credential digest. This is a format-specific issuer capability, not a new universal VC format. Verifiers must inspect remaining identifiers, claim combinations, issuance timestamps and status-access metadata; batch issuance does not guarantee anonymity from the issuer or colluding parties. Reuse is linkable and an offline verifier cannot guarantee global single use. If no accepted route exists, explicitly consent to a linkable presentation, use permitted anonymous assistance, or refuse. No silent privacy downgrade or invented holder assurance is allowed. Public professional DIDs remain optional; their use is not the default for patients or evacuees.
@@ -118,7 +118,7 @@ As checked November 14, 2026, [RFC 9964](https://www.rfc-editor.org/rfc/rfc9964)
 
 *Use passkeys for routine access and explicit root authorization for root operations. Tokens belong to an approved client and session key.*
 
-**AUTH-1.** Registration records terms/privacy consent, verifies the notification email, enrolls a DID and proves relevant key control. The internal UUIDv7 and optional mutable account handle are not universal VC subjects. Email is neither normal login nor proof of control over an old account. New enrollment, including reuse of a notification email, creates independent authority. Section 8 separates payment-provider rebinding from account/identity continuity.
+**AUTH-1.** Registration records terms/privacy consent, verifies the notification email, enrolls a DID and proves relevant key control. The internal UUIDv7 are not universal VC subjects. Email is neither normal login nor proof of control over an old account. New enrollment, including reuse of a notification email, creates independent authority. Section 8 separates payment-provider rebinding from account/identity continuity.
 
 **AUTH-2.** WebAuthn passkeys are enrolled under explicit account/root authorization. Verify challenge, expected origin, RP ID hash, credential binding and required UP/UV flags. Challenges have at least 256 random bits, expire within the operator’s published short-lived `challengeMaxAgeSeconds` bound and are consumed atomically. Counter anomalies are risk signals, not a universal rejection of zero counters. Cross-origin ceremonies require a separate profile. The reference is [WebAuthn Level 3, Recommendation, August 25, 2026](https://www.w3.org/TR/2026/REC-webauthn-3-20260825/), checked November 14, 2026.
 
@@ -225,7 +225,7 @@ A client records its own verifier outcome; it must not trust a server claiming `
 
 **REC-1.** Core conformance does not require operator-mediated account recovery. An operator MUST disclose whether any separate recovery extension exists and MUST NOT imply that mailbox access, operator support or a continuity claim restores account authority. The SITLA online adapter provides no lost-key account recovery, recovery-reviewer registry, operator continuity issuance or recovery waiting/restriction process. Users retain their keys and backups; loss of all accepted authentication means may make the old account inaccessible.
 
-**REC-2.** A user MAY enroll a new root and create a separate account. Prove control of the new keys and verify the notification email again; reusing an email MUST NOT confer control of an old account. Operators MAY allow the same verified notification address on independent accounts. Old sessions, mandates, handles, account URIs, private custody and credentials MUST NOT be copied or reactivated by new enrollment.
+**REC-2.** A user MAY enroll a new root and create a separate account. Prove control of the new keys and verify the notification email again; reusing an email MUST NOT confer control of an old account. Operators MAY allow the same verified notification address on independent accounts. Old sessions, mandates, account URIs, private custody and credentials MUST NOT be copied or reactivated by new enrollment.
 
 **REC-3.** Before losing access, holders SHOULD export original credentials, authority material and relevant evidence and retain independently usable backups. A replacement account does not make an inaccessible custody vault recoverable. An operator cannot discover every credential issued to an old DID, including credentials held outside that service, and MUST NOT promise a universal migration. Originals already held by counterparties remain subject to their retention/acceptance rules.
 

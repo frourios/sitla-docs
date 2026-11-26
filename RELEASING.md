@@ -1,6 +1,6 @@
 # Revising and releasing the specification
 
-The prose revision and wire contract are separate. Record the document revision (currently 0.7) in document metadata and review notes. The stable wire profile is `sitla-wire/1`; cryptographic contexts/domains and subprofile identifiers have their own explicit versions. An editorial release must not modify these values, signed field sets or previously published fixture bytes merely to match a new document number.
+The prose revision and wire contract are separate. Record the document revision (currently 0.8) in document metadata and review notes. The stable wire profile is `sitla-wire/1`; cryptographic contexts/domains and subprofile identifiers have their own explicit versions. An editorial release must not modify these values, signed field sets or previously published fixture bytes merely to match a new document number.
 
 Before publication:
 
@@ -16,4 +16,4 @@ The reference's supported JSON DID representation is `application/did+json`, not
 
 CI installs Python verification dependencies from `tests/requirements.lock` with `--require-hashes --only-binary=:all:`. The lock includes official PyPI wheel hashes for every pinned dependency; `tests/requirements.txt` is the readable version list. Regenerate and review hashes when changing dependency versions.
 
-Document revision 0.7 describes `sitla-wire/1` and the account, optional handle and lifecycle profiles linked from Core. Existing wire identifiers, signature contexts and fixture bytes are retained; v0.7 does not relabel legacy v0.1/v0.2 records or change their validity.
+Document revision 0.8 describes `sitla-wire/1` and the account and lifecycle profiles linked from Core. Existing wire identifiers, signature contexts and fixture bytes are retained; v0.8 does not relabel legacy v0.1/v0.2 records or change their validity.

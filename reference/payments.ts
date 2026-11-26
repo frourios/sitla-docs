@@ -12,6 +12,7 @@ export async function paymentSchemas() {
   const ajv = new Ajv2020({ strict: true, allErrors: true });
   const result = new Map();
   for (const name of paymentSchemaNames) result.set(name, ajv.compile(JSON.parse(await readFile(new URL(`../artifacts/payments-v1/schemas/${name}.schema.json`, import.meta.url), "utf8"))));
+  result.set("collection-authorization-v2", ajv.compile(JSON.parse(await readFile(new URL("../artifacts/payments-v2/schemas/collection-authorization.schema.json", import.meta.url), "utf8"))));
   for (const name of ["approved-action", "operational-key-authorization", "request-evidence"]) result.set(name, ajv.compile(JSON.parse(await readFile(new URL(`../artifacts/wire-v1/schemas/${name}.schema.json`, import.meta.url), "utf8"))));
   return result;
 }
@@ -23,7 +24,7 @@ const instant = (value: string) => {
 };
 /** Shape checks precede this helper. It validates historical assertions, not current status. */
 export function validatePaymentSubject(subject: Value) {
-  if (subject.profile === "sitla-collection-authorization/1") {
+  if (["sitla-collection-authorization/1", "sitla-collection-authorization/2"].includes(subject.profile)) {
     instant(subject.authorizedAt);
     check(subject.authorizationId === subject.approval.operationId && subject.approvalDigest === subject.approval.evidenceDigest, "collection_approval");
     return;
@@ -66,9 +67,9 @@ export function verifyPaymentCredential(record: Value, acceptedKeys: Value, expe
   instant(vc.validFrom);
   check(canonical(vc) === canonical(record.vc) && record.digest === paymentDigest(vc) && record.format === "application/vc+jwt", "payment_copy");
   const subject = vc.credentialSubject;
-  const name = ({ "sitla-collection-authorization/1": "collection-authorization", "sitla-conditional-payment-instruction/1": "conditional-instruction", "sitla-online-payment-event/1": "payment-event" } as Value)[subject.profile];
+  const name = ({ "sitla-collection-authorization/1": "collection-authorization", "sitla-collection-authorization/2": "collection-authorization-v2", "sitla-conditional-payment-instruction/1": "conditional-instruction", "sitla-online-payment-event/1": "payment-event" } as Value)[subject.profile];
   check(name && schemas.get(name)(subject), "payment_schema");
-  const type = name === "collection-authorization" ? "CollectionAuthorization" : name === "conditional-instruction" ? "ConditionalPaymentInstruction" : "OperatorPaymentEventCredential";
+  const type = name.startsWith("collection-authorization") ? "CollectionAuthorization" : name === "conditional-instruction" ? "ConditionalPaymentInstruction" : "OperatorPaymentEventCredential";
   check(vc.type[1] === `urn:sitla:credential:${type}:1`, "payment_type");
   validatePaymentSubject(subject);
   return subject;
@@ -90,8 +91,8 @@ export function verifyPaymentApproval(subject: Value, evidence: Value, schemas: 
   check(verify(null, Buffer.from(canonical(payload)), createPublicKey({ key: { kty: "OKP", crv: "Ed25519", x: key.public_key }, format: "jwk" }), decodeBase64url(signature.value)), "payment_holder_signature");
   validateSemantics("approved-action", { payload, signature }, { request, policyBytes: Buffer.from(evidence.policyBytes) });
   check(payload.event_reference === subject.approval.operationId && payload.payload_digest === paymentDigest(reviewedContext) && request.subject_reference === `urn:sha256:${paymentDigest(reviewedContext)}` && canonical(args) === canonical(reviewedContext.arguments), "payment_approval_binding");
-  const operation = subject.profile === "sitla-collection-authorization/1" ? subject.scope.kind === "profile" ? "authorize_profile_collection" : "accept_work" : ({ "collection-authorize": "authorize_escrow_collection", deposit: "notify_escrow_deposit", accept: "accept_escrow", refund: "refund_escrow", settle: "settle_escrow" } as Value)[subject.action];
-  const actor = subject.profile === "sitla-collection-authorization/1" ? subject.seller : ["deposit", "settle"].includes(subject.action) ? subject.buyer : subject.seller;
+  const operation = ["sitla-collection-authorization/1", "sitla-collection-authorization/2"].includes(subject.profile) ? subject.scope.kind === "profile" ? "authorize_profile_collection" : "accept_work" : ({ "collection-authorize": "authorize_escrow_collection", deposit: "notify_escrow_deposit", accept: "accept_escrow", refund: "refund_escrow", settle: "settle_escrow" } as Value)[subject.action];
+  const actor = ["sitla-collection-authorization/1", "sitla-collection-authorization/2"].includes(subject.profile) ? subject.seller : ["deposit", "settle"].includes(subject.action) ? subject.buyer : subject.seller;
   check(payload.operation === operation && reviewedContext.operation === operation && reviewedContext.accountUri === actor.id && payload.actor === actor.controllerDid, "payment_approval_actor");
   if (subject.instruction) {
     check(canonical(args) === canonical(subject.instruction), "payment_approval_arguments");

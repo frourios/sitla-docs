@@ -2,14 +2,14 @@
 
 https://sitla.frourio.com
 
-This public repository contains the English SITLA Protocol **v0.7 design draft**:
+This public repository contains the English SITLA Protocol **v0.8 design draft**:
 
 - [Credential Direct Messages](pages/protocol-dm.md): opt-in DID inboxes, original signatures, delivery receipts and email notification without work or payment.
 - [Online MCP circulation](pages/protocol-online.md): standard MCP/OAuth, public issuer DIDs, SD-JWT, private vault and claim-source publication.
 - [Core](pages/protocol.md): identity, access, evidence, fresh accounts after key loss and external continuity.
 - [Media References](pages/protocol-media.md): external URLs, content integrity and optional hosting; no media store is required.
 - [Account Lifecycle](pages/protocol-lifecycle.md): logout scopes, mandate withdrawal and account deletion states.
-- [Account Identifiers](pages/protocol-identifiers.md): automatic DID-independent account identity and optional operator-namespaced handles.
+- [Account Identifiers](pages/protocol-identifiers.md): automatic DID-independent account identity.
 - [Portability and Disaster](pages/protocol-portability.md): local operation, preparedness and degraded assurance.
 - [Proof Packages](pages/protocol-packages.md): external specifications, artifact distribution and execution.
 - [Collection Agency](pages/protocol-collection-agency.md): seller receipt authority across paid profiles and work payments, capture-time price debt discharge and prospective withdrawal.
@@ -33,7 +33,7 @@ The word “draft” describes technical maturity, not repository visibility or 
 
 ## Verify this repository independently
 
-Use Node.js 26: `npm ci --ignore-scripts`, then `npm test`, `npm run test:mutation` and `npm run secretlint`. For the independent Python verifier, use Python 3.12, install `tests/requirements.txt` in a virtual environment, and run `python tests/verify_vectors.py`. CI runs both implementations on pushes and pull requests without the application repository. The stable wire/1 fixture set covers request hashes, DID documents, replacement/revocation chains, signed approvals/service assertions and schema/semantic/signature rejection layers. Python also reproduces the frozen v0.1 and legacy v0.2 DID/signatures. The document revision is 0.7; it is independent from `sitla-wire/1` and `SITLA/root/1`.
+Use Node.js 26: `npm ci --ignore-scripts`, then `npm test`, `npm run test:mutation` and `npm run secretlint`. For the independent Python verifier, use Python 3.12, install `tests/requirements.txt` in a virtual environment, and run `python tests/verify_vectors.py`. CI runs both implementations on pushes and pull requests without the application repository. The stable wire/1 fixture set covers request hashes, DID documents, replacement/revocation chains, signed approvals/service assertions and schema/semantic/signature rejection layers. Python also reproduces the frozen v0.1 and legacy v0.2 DID/signatures. The document revision is 0.8; it is independent from `sitla-wire/1` and `SITLA/root/1`.
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting changes, including its license allocation, contributor patent grant and sign-off requirements. A passing fixture suite is not a claim of a production wallet, complete standardization or full DIDComm interoperability.
 
@@ -41,7 +41,7 @@ The frozen core set has 8 schemas, 18 positive, 60 negative and 7 malformed-wire
 
 CI installs Python verification dependencies from `tests/requirements.lock` with `--require-hashes --only-binary=:all:`. The lock includes official PyPI wheel hashes for every pinned dependency; `tests/requirements.txt` is the readable version list. Regenerate and review hashes when changing dependency versions.
 
-The recommended `sitla-account/1` profile automatically binds an immutable account URI to its current DID without a custom name. Optional `sitla-account-handle/1` credentials add memorable public addresses without changing the base identity. The former combined `sitla-account-id/1` artifacts remain unchanged for explicit legacy support. Subject/transition tests do not issue signed VCs or implement a uniqueness registry; accepted securing/status adapters and operator authority are still required.
+The recommended `sitla-account/1` profile automatically binds an immutable account URI to its current DID without a custom name. The retired `sitla-account-handle/1` artifacts remain historical verification fixtures only; current deployments provide no public aliases. The former combined `sitla-account-id/1` artifacts remain unchanged for explicit legacy support. Subject/transition tests do not issue signed VCs or implement a uniqueness registry; accepted securing/status adapters and operator authority are still required.
 
 `sitla-account-lifecycle/1` adds request/receipt schemas, synthetic signed examples and static freshness/binding tests. It specifies scope, deletion progress and retention exceptions; the reference does not execute logout, revoke a real grant or erase data. Existing wire/1 and account-profile bytes are unchanged.
 
@@ -51,7 +51,7 @@ The recommended `sitla-account/1` profile automatically binds an immutable accou
 
 Python now also checks the three account subject schemas (6 unsigned examples and identifier/transition negatives) and the lifecycle schemas (7 synthetic signed cases plus binding, freshness, scope, retention and signature-tampering negatives). `tests/verify_profiles.py` is invoked by `tests/verify_vectors.py` in the existing CI command; it imports no TypeScript. This coverage does not issue/verify complete account VCs, test a live uniqueness registry, execute real deletion or settlement, validate cross-operator migration or certify hardware/browser behavior. Payment tests add the scope described below; other optional profiles remain outside independent verification.
 
-Account URIs remain operator-bound. Long-lived qualifications should use holder-controlled roots as subjects and account URIs only as auxiliary claims when possible; v0.7 defines no interoperable cross-operator migration credential. Export is not automatic transfer of issuer acceptance.
+Account URIs remain operator-bound. Long-lived qualifications should use holder-controlled roots as subjects and account URIs only as auxiliary claims when possible; v0.8 defines no interoperable cross-operator migration credential. Export is not automatic transfer of issuer acceptance.
 
 Payment operators implement the provider-neutral payment duties. The optional [online payment artifacts](pages/protocol-payment-wire.md) now publish **6 CC0 schemas, 15 signed positive and 35 negative synthetic records, 2 signed evidence pages and 5 bundle negatives**. Node and independent Python check operator JWS, original Ed25519 holder approvals authorized by ML-DSA roots, reviewed scope/amount/destination, event reconciliation/history and manifest member integrity. CI runs these through the existing commands. No TypeScript or private application is imported by Python. Work-specific schemas remain market-defined.
 

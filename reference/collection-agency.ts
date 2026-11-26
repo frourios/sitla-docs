@@ -29,14 +29,14 @@ export interface CollectionScope {
 }
 export interface CollectionAuthorizationSubject {
   id: string;
-  profile: "sitla-collection-authorization/1";
+  profile: "sitla-collection-authorization/1" | "sitla-collection-authorization/2";
   authorizationId: string;
   policy: "sitla-collection-agency/1";
   agent: string;
   processor: "Stripe";
   sellerId: string;
   seller: {id:string;controllerDid:string|null};
-  processorAccount: string;
+  processorAccount: string | null;
   livemode: number;
   currency: "JPY";
   feeBasisPoints: number;

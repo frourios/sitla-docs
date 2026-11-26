@@ -14,15 +14,15 @@
 | Public signing keys | `/.well-known/jwks.json` |
 | Stripe ownership authorization | Standard Connect OAuth; `/stripe/connect/oauth/callback` |
 | Terms / privacy / commercial disclosure | `/terms`, `/privacy`, `/commercial` |
-| Stable account address / optional handle | `/accounts/<opaque-22-character-id>`, `/@handle` |
+| Stable account address | `/accounts/<opaque-22-character-id>` |
 | Documentation | `https://github.com/frourios/sitla-docs` |
 | Pinned raw documents | `https://raw.githubusercontent.com/frourios/sitla-docs/<commit>/pages/<file>.md` |
 
 ## Online capability target
 
-The application implements the [Online MCP Adapter](protocol-online.md): email/consent enrollment followed by user-held root binding, DID challenges, WebAuthn, OAuth/DPoP, signed mutations, account/handle VCs, credential custody/export, read-only scoped mandates, lifecycle barriers, external-reference profiles, bilateral work terms, Stripe payments and portable payment observations. Runtime discovery is authoritative. Users retain all root/operational private keys.
+The application implements the [Online MCP Adapter](protocol-online.md): email/consent enrollment followed by user-held root binding, DID challenges, WebAuthn, OAuth/DPoP, signed mutations, account-binding VCs, credential custody/export, read-only scoped mandates, lifecycle barriers, external-reference profiles, bilateral work terms, Stripe payments and portable payment observations. Runtime discovery is authoritative. Users retain all root/operational private keys.
 
-**No lost-key account recovery is offered.** There is no recovery reviewer registry, operator recovery approval, waiting/restriction workflow, recovery transparency endpoint or operator-issued identity-continuity VC. The same verified notification email can create independent accounts; it does not authorize access to an earlier account. Old custody, sessions, mandates, handles and reputation are not transferred. Back up keys and exported originals independently. Arbitrary issuers may attest DID continuity; external verifiers decide whether to accept it for their own purposes.
+**No lost-key account recovery is offered.** There is no recovery reviewer registry, operator recovery approval, waiting/restriction workflow, recovery transparency endpoint or operator-issued identity-continuity VC. The same verified notification email can create independent accounts; it does not authorize access to an earlier account. Old custody, sessions, mandates and reputation are not transferred. Back up keys and exported originals independently. Arbitrary issuers may attest DID continuity; external verifiers decide whether to accept it for their own purposes.
 
 | Parameter | Value |
 | --- | --- |
@@ -60,9 +60,13 @@ The optional `sitla-conditional-payment/1` adapter collects a JPY card charge on
 
 The conditional-payment adapter uses transaction-specific seller agency (`sitla-collection-agency/1`), not a blanket delegation inferred from connecting Stripe. No Checkout session exists until the seller's signed collection authorization. Under the operator's collection agreement, valid Stripe capture discharges the identified buyer price debt; buyer notification, seller acceptance and actual net remittance are separate stages. The operator retains its seller remittance obligation and does not re-charge the buyer because of remittance failure or insolvency. Settlement additionally requires a buyer-signed inspection confirmation and accepted-performance digest. Full agency and original approval evidence is retained for both parties, including permitted post-closure export. Financial-law classification and production provider contracts require independent assessment; this document does not assert a registration exemption.
 
-## Collection across paid profiles and work
+## Work payment collection
 
-The [Collection Agency](protocol-collection-agency.md) profile also covers immediate paid profiles and direct/card-authorization work. Paid profiles require a separate signed grant for the published revision, prices/field names, fee/refund terms and provider destination; original private profile values are not part of that grant. Seller work acceptance includes explicit collection consent for that buyer, budget and funding mode. New payment requests acknowledge capture-time discharge. Withdrawal blocks new reservations under the grant, while already reserved transactions keep their original authority, conditions and destination. Valid capture settles the buyer price debt independently of seller remittance; retries never create a second buyer charge. Immediate/direct receipts are financial facts, not inspection or quality certification. Registration/exemption assessment remains separate.
+The [Collection Agency](protocol-collection-agency.md) profile covers direct/card-authorization work and conditional work. Seller work acceptance includes explicit collection consent for that buyer, budget and funding mode. New payment requests acknowledge capture-time discharge. Withdrawal blocks new reservations; already reserved transactions keep their original authority, conditions and destination. Valid capture settles the buyer price debt independently of seller remittance; retries never create a second buyer charge. Direct receipts are financial facts, not inspection or quality certification. Public seller profiles consist solely of self-issued external trust references and are free; requests for additional information or credentials are ordinary work.
+
+## Deferred seller connection
+
+The deferred online payment binding allows work payments before seller Stripe connection. An eligible net amount remains an unsettled payable until the original seller completes verified Standard Connect OAuth and is eligible to receive transfers. There is no minimum amount for connection or settlement, and no accumulation policy after connection. Preserve the signed collection authority, original seller and existing transaction conditions; assign an unassigned destination once, reconcile outstanding amounts and remit promptly. See [Stripe Japan](protocol-stripe-jp.md). Runtime discovery remains authoritative for the deployed version. Existing payments-v1 signed records remain unchanged.
 
 ## Assessment and disclosure gaps
 

@@ -1,6 +1,6 @@
 # Portability and Disaster Profile
 
-*SITLA Protocol v0.7 — Optional Design Profile*\
+*SITLA Protocol v0.8 — Optional Design Profile*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
 **Date:** November 15, 2026
 

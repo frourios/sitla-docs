@@ -1,6 +1,6 @@
 # Conditional Payment Instructions
 
-**SITLA Protocol v0.7 — optional profile `sitla-conditional-payment/1`**
+**SITLA Protocol v0.8 — optional profile `sitla-conditional-payment/1`**
 
 ## 1. Purpose and scope
 
@@ -10,7 +10,9 @@ A buyer and seller may negotiate by any means and use any work-credential schema
 
 **HOLD-1.** Before collecting money, publish the actual mechanism, provider/mode, supported country/currency, fee/net allocation, acceptance deadline, refund deadline and unsupported cases. The immutable transaction binds the buyer and seller account URIs and observed controller DIDs, the exact provider destination, amount, currency and agreement digest. The agreement digest refers to the exact bytes agreed by the parties; the operator does not need the agreement content. For structured agreements, parties must identify their serialization before hashing. No account/provider reassociation rewrites an existing transaction's destination or parties.
 
-The [common Collection Agency profile](protocol-collection-agency.md) applies the same receipt/debt rules to immediate profile sales and direct/card-authorization work payments. Their standing/work-specific authorization and withdrawal are distinct from this transaction-specific conditional flow.
+The [common Collection Agency profile](protocol-collection-agency.md) applies the same receipt/debt rules to direct/card-authorization work payments. Their standing/work-specific authorization and withdrawal are distinct from this transaction-specific conditional flow.
+
+For an adapter declaring deferred destination support, HOLD-1 and COLLECT-1 allow the exact seller account and an explicitly unassigned destination with agreed later assignment conditions instead of an existing provider destination. The [Stripe Japan extension](protocol-stripe-jp.md) distinguishes a committed settlement awaiting connection from the pre-settlement hold. Once settlement is committed within the deadline, missing connection does not trigger an expiry refund or authorize another buyer charge. Before commitment, the existing acceptance, inspection and refund rules remain unchanged. The frozen payments-v1 evidence layouts are unchanged.
 
 ## 1.1. Seller-authorized collection
 
@@ -125,4 +127,4 @@ Unit tests mock provider observations to exercise deadlines and faults. The appl
 | Seller loses all accepted keys after acceptance | Existing buyer may still settle to the frozen old destination; otherwise deadline refund | The new account does not receive old custody or change the destination; old seller cannot send a discretionary refund instruction |
 | Release/refund already durably committed before key loss | Finish/reconcile that same provider effect using its original idempotency key | Key loss neither changes the decision nor creates a second charge or competing release |
 
-Paid-profile/direct-work capture has no conditional inspection gate: its existing collection/remittance duties survive key loss and cannot be billed again. Manual card authorization alone is not payment; only an already authorized permitted capture path within the provider window may collect it, otherwise it expires/cancels. Buyers/sellers should retain backups and export evidence before starting long work; split milestones or another expressly agreed supported payment method can limit exposure, but this profile guarantees no compensation for work when required authorization is unavailable. Legal claims and provider/statutory processes remain separate.
+Direct-work capture has no conditional inspection gate: its existing collection/remittance duties survive key loss and cannot be billed again. Manual card authorization alone is not payment; only an already authorized permitted capture path within the provider window may collect it, otherwise it expires/cancels. Buyers/sellers should retain backups and export evidence before starting long work; split milestones or another expressly agreed supported payment method can limit exposure, but this profile guarantees no compensation for work when required authorization is unavailable. Legal claims and provider/statutory processes remain separate.

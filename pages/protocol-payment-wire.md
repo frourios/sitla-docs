@@ -1,6 +1,6 @@
 # Public Payment Wire Artifacts
 
-**SITLA Protocol v0.7 — optional online binding `sitla-payments-online/1`**\
+**SITLA Protocol v0.8 — optional online binding `sitla-payments-online/1`**\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 **Compatibility boundary:** the `payments-v1` securing vectors below are a frozen legacy direct-JWS fixture profile. Current online issuance uses [SITLA-sd-jwt/1](protocol-online.md), operator DID issuers and disclosed payment subject claims. Business subject fields/meaning remain applicable, but the legacy securing wrapper and export-envelope assertions are not the runtime SD-JWT encoding. Do not relabel or regenerate historical signatures. See the current circulation vectors for the new securing layer; frozen payment fixtures independently test legacy semantics.
@@ -13,7 +13,7 @@ These artifacts bind the provider-neutral [payment-record duties](protocol-payme
 
 | Public schema | Purpose |
 | --- | --- |
-| [CollectionAuthorization subject](../artifacts/payments-v1/schemas/collection-authorization.schema.json) | Separate profile/work seller receipt grant, scope, destination/mode, fee/refund policy and original approval digest |
+| [CollectionAuthorization subject](../artifacts/payments-v1/schemas/collection-authorization.schema.json) | Historical profile/work seller receipt grant (new grants are work-only), scope, destination/mode, fee/refund policy and original approval digest |
 | [Conditional instruction subject](../artifacts/payments-v1/schemas/conditional-instruction.schema.json) | Transaction-specific collection authorization, deposit, acceptance, refund and settlement; settlement requires inspection and performance digest |
 | [Payment-event subject](../artifacts/payments-v1/schemas/payment-event.schema.json) | Allocation-scoped historical provider/operator observation with amounts, role, stage, confirmation, predecessor and optional collection fact |
 | [Online VC](../artifacts/payments-v1/schemas/online-vc.schema.json) | Operator issuer, typed subject, validity and status reference |
@@ -32,7 +32,7 @@ These artifacts bind the provider-neutral [payment-record duties](protocol-payme
 
 The repository's payment reference verifies the **Ed25519 holder path** and native ML-DSA root signature. Existing wire/1 passkey tests independently verify ES256 ceremonies, but this supplement does not yet verify the application's `WebAuthn-P256` attachment envelope as a payment export. That path must not be advertised as covered by these payment fixtures. No root secret or signing key is distributed.
 
-Check the reviewed offer against profile revision, offer digest, scope, seller, mode/destination and fees. Check work scope/budget against the accepted review. For instructions, check transaction, parties, amount/currency, agreement, deadlines and predecessor policy; compare settlement inspection and performance digests with the original buyer approval. The static reference does not reconstruct the live deposit/accept/refund state machine or establish that a predecessor was accepted: authentic history and current execution state remain mandatory before any financial effect.
+For historical profile grants, check the reviewed offer against profile revision, offer digest, scope, seller, mode/destination and fees. No new profile grants are issued. Check work scope/budget against the accepted review. For instructions, check transaction, parties, amount/currency, agreement, deadlines and predecessor policy; compare settlement inspection and performance digests with the original buyer approval. The static reference does not reconstruct the live deposit/accept/refund state machine or establish that a predecessor was accepted: authentic history and current execution state remain mandatory before any financial effect.
 
 ## 3. Payment observations and evidence pages
 

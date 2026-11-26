@@ -1,6 +1,6 @@
 # Marketplace Profile
 
-*SITLA Protocol v0.7 — Optional Design Profile*\
+*SITLA Protocol v0.8 — Optional Design Profile*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
 **Date:** November 15, 2026
 
@@ -32,7 +32,7 @@ Payment execution/payout custody use an actual external provider. Escrow, milest
 
 **MARKET-RECORDS-1.** An operator that intermediates payments MUST apply [Portable Payment Records](protocol-payments.md): issue its signed event VCs to both affected buyer and seller for handled/confirmed instructions, holds, payments, refunds and other supported material financial events. Preserve authorized evidence for independent export, corrections and post-closure settlement without requiring the counterparty's cooperation. This financial-record duty does not prescribe work-specific VC schemas or create an escrow capability.
 
-**MARKET-3.** Parties may issue/export work records and publish selected references under public DIDs. Neither a standard portfolio nor reciprocal ratings/job-count schemas are required. A buyer's public seller profile does not permit publication of its purchases, name, exact prices or deliverables without the applicable disclosure permission. Independently created accounts are not automatically linked. Buyer-selected evidence policies assess prominent-name bindings, collusion, invented work and repeated references.
+**MARKET-3.** Parties may issue/export work records and publish selected references under public DIDs. Neither a standard portfolio nor reciprocal ratings/job-count schemas are required. A buyer's public trust references does not permit publication of its purchases, name, exact prices or deliverables without the applicable disclosure permission. Independently created accounts are not automatically linked. Buyer-selected evidence policies assess prominent-name bindings, collusion, invented work and repeated references.
 
 ## 4. Illustrative Sequence
 
@@ -56,7 +56,7 @@ The Core API examples distinguish `verification_result` from `acceptance_decisio
 | MARKET-1 | Use a non-Japanese seller without official VC and an unfamiliar milestone schema | Buyer chooses assurance; no nationality certification or imposed work taxonomy |
 | MARKET-2 | Submit a valid inspection VC not covered by payment authority; retry altered amount | No transfer without matching authority; no duplicate or substituted payment |
 | MARKET-RECORDS-1 | Close one party's account, export an allocated payment and a later partial refund | Both parties retain their authorized signed facts and correction history; no counterparty permission or dashboard dependency |
-| MARKET-3 | Publish a buyer's name from its public seller profile; duplicate reference records | Disclosure requires its actual permission; no protocol-guaranteed career metric |
+| MARKET-3 | Publish a buyer's name based on its public trust references; duplicate reference records | Disclosure requires its actual permission; no protocol-guaranteed career metric |
 
 The [Online MCP Adapter](protocol-online.md) declares supported work payments. [Conditional Payment Instructions](protocol-conditional-payments.md) additionally specifies captured deposits, seller acceptance and narrowly authorized refund/release, without operator adjudication of work or agreement formation. Legal escrow and institution-specific issuance require separate capabilities. [Portable Payment Records](protocol-payments.md) applies to handled financial facts.
 

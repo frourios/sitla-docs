@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC0-1.0 -->
 # Credential Direct Messages
 
-**Specification revision: 0.7. Profile: `sitla-credential-dm/1`. Draft.**
+**Specification revision: 0.8. Profile: `sitla-credential-dm/1`. Draft.**
 
 *A DM delivers a signed credential. It does not create a job, charge money or approve its claims.*
 
@@ -45,7 +45,7 @@ Notifications contain an operator-authored subject, message ID and instructions 
 
 Fetching a message MUST NOT mark it human-read. `acknowledge_credential_dm` is an explicit holder-approved recipient action. The service exposes its first `acknowledgedAt` to the sender; it proves only an account-authorized acknowledgement, not human comprehension, agreement, work acceptance or credential validity. A sender cannot acknowledge on the recipient's behalf.
 
-`issue_credential` archives only the issuer copy, including when its signed subject names another account; it is not an alternative inbox-delivery or auto-import route. Operator-issued account, lifecycle and agreed-payment records remain separate service records; they are not unsolicited user DMs. Reception does **not** insert into the ordinary credential vault or validate a qualification for publication. The recipient chooses whether to verify independently and explicitly use `store_credential` or another operation. A DM is not an implicit presentation mandate or paid-plan entitlement.
+`issue_credential` archives only the issuer copy, including when its signed subject names another account; it is not an alternative inbox-delivery or auto-import route. Operator-issued account, lifecycle and agreed-payment records remain separate service records; they are not unsolicited user DMs. Reception does **not** insert into the ordinary credential vault or validate a qualification for publication. The recipient chooses whether to verify independently and explicitly use `store_credential` or another operation. A DM is not an implicit presentation mandate or payment authorization.
 
 ## 5. Deletion and retention
 

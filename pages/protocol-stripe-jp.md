@@ -1,6 +1,6 @@
 # Stripe Japan Payment Adapter
 
-**SITLA Protocol v0.7 — optional deployment adapter, not Core conformance**\
+**SITLA Protocol v0.8 — optional deployment adapter, not Core conformance**\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 ## 1. Separation from the protocol
@@ -27,11 +27,25 @@ By contrast, [separate card authorization and capture](https://docs.stripe.com/p
 
 Official provider references checked November 15, 2026. Recheck rules and actual account capabilities before enabling a deployment. Legal escrow, statutory safeguarding and adjudication are outside this adapter; do not advertise those capabilities.
 
+## 2.1. Deferred seller connection
+
+Seller enrollment, listing, work acceptance and supported sales MUST NOT require a connected Stripe account in the deferred-connection binding. The seller explicitly authorizes collection for the identified SITLA account and agrees that remittance will use its subsequently verified Stripe destination. The buyer reviews the seller and the absence of a destination before authorizing payment. Existing collection/debt-discharge and conditional inspection/refund rules continue to apply.
+
+Create and capture the platform PaymentIntent without `transfer_data.destination` or `on_behalf_of` for an unconnected seller. Keep the transaction reference and seller allocation; record the net amount eligible for remittance as an unsettled seller payable, not as a completed transfer. For conditional payments, only a committed valid settlement instruction makes the net payable eligible for remittance; missing Stripe connection does not extend acceptance or refund deadlines or turn an unapproved release into a payable.
+
+The seller may complete Standard Connect OAuth at any amount. Once ownership, mode and transfer eligibility are verified for the original SITLA seller account, bind the previously unassigned destination exactly once, with a durable signed approval and auditable binding observation. Reconcile refunds, disputes and prior transfers, then promptly transfer the eligible outstanding net. Multiple allocations may be settled together if each allocation, provider transfer reference and idempotency identity remain reconcilable. No minimum accumulation amount or additional holding period applies; subsequent eligible sales follow normal remittance. A failed transfer leaves the payable outstanding; retry without charging the buyer again or changing an assigned destination.
+
+Keep sufficient platform liquidity for outstanding payables and refunds; do not treat seller payables as platform revenue or spend or automatically pay out funds needed for remittance. An unsettled payable is not a wallet, transferable balance, escrow or segregated account. Provider/legal limits may require suspending new collections or arranging settlement through the published support process; lack of connection alone does not extinguish the payable.
+
+Stripe's [separate charges and transfers documentation](https://docs.stripe.com/connect/separate-charges-and-transfers) supports platform charges before a recipient is known, including in Japan. The [Transfers API](https://docs.stripe.com/api/transfers/create) requires a connected destination at transfer time. This establishes API feasibility, not approval of pre-connection collection or indefinite retention under the [Japan service terms](https://stripe.com/jp/legal/ssa-service-terms) (Connect—Platform, section 9.3). Deployment remains subject to section 4.
+
+The deferred destination uses the distinct [collection authorization v2 schema](../artifacts/payments-v2/schemas/collection-authorization.schema.json), with a literal null processor account. Existing payments-v1 signed records are unchanged. Runtime discovery declares deferred seller connection; provider execution and signed evidence conformance require deployment verification. Never rewrite historical signed records.
+
 ## 3. Checkout admission and reservation windows
 
 *Opening a payment page and holding captured funds have separate deadlines.*
 
-Conditional Checkout requires at least 30 minutes of remaining validity before the fixed acceptance deadline. Seller authorization is rejected after that opening window; an authorized draft unable to create Checkout expires without charging. The refund deadline never moves. For paid-profile/direct-work reservations, new Checkout creation must start within 30 minutes of reservation and the card page expires one hour after reservation. Manual-capture work separately follows its actual provider `capture_before`. These are the current adapter's windows, not protocol-wide defaults.
+Conditional Checkout requires at least 30 minutes of remaining validity before the fixed acceptance deadline. Seller authorization is rejected after that opening window; an authorized draft unable to create Checkout expires without charging. The refund deadline never moves. For direct-work reservations, new Checkout creation must start within 30 minutes of reservation and the card page expires one hour after reservation. Manual-capture work separately follows its actual provider `capture_before`. These are the current adapter's windows, not protocol-wide defaults.
 
 ## 4. Japanese deployment assessment
 
