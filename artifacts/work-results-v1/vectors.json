@@ -1,0 +1,1377 @@
+{
+  "positive": [
+    {
+      "id": "buyer",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000002",
+            "019a8050-0000-7000-8000-000000000003"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "seller",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "seller",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:seller",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:seller",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "LicenseRef-SITLA-Internal-1.0"
+        ],
+        "didAllowList": [
+          "did:sitla:v2:buyer"
+        ],
+        "credentialSubject": {
+          "id": "did:sitla:v2:buyer",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "seller",
+          "assertion": "delivered",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000002",
+            "019a8050-0000-7000-8000-000000000003"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "no-public-request-reference",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    }
+  ],
+  "negative": [
+    {
+      "id": "missing-jobs",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "reordered-jobs",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000003",
+            "019a8050-0000-7000-8000-000000000002"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "different-jobs",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "duplicate-jobs",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000002",
+            "019a8050-0000-7000-8000-000000000002"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "wrong-role",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "seller",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000002",
+            "019a8050-0000-7000-8000-000000000003"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "wrong-assertion",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "delivered",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000002",
+            "019a8050-0000-7000-8000-000000000003"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "wrong-context",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "work",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000002",
+            "019a8050-0000-7000-8000-000000000003"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "wrong-party",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:other",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000002",
+            "019a8050-0000-7000-8000-000000000003"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "wrong-terms",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000002",
+            "019a8050-0000-7000-8000-000000000003"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "wrong-unit",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000002",
+            "019a8050-0000-7000-8000-000000000003"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "USD",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "missing-unit",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000002",
+            "019a8050-0000-7000-8000-000000000003"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY"
+        }
+      }
+    },
+    {
+      "id": "wrong-amount",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000002",
+            "019a8050-0000-7000-8000-000000000003"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1001,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "wrong-subject",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:buyer",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000002",
+            "019a8050-0000-7000-8000-000000000003"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "wrong-license",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "LicenseRef-SITLA-Internal-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000002",
+            "019a8050-0000-7000-8000-000000000003"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "wrong-allow-list",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [
+          "did:sitla:v2:seller"
+        ],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000002",
+            "019a8050-0000-7000-8000-000000000003"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "wrong-issuer",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:seller",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000002",
+            "019a8050-0000-7000-8000-000000000003"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        }
+      }
+    },
+    {
+      "id": "expiring-result",
+      "context": {
+        "kind": "escrow",
+        "id": "019a8050-0000-7000-8000-000000000001",
+        "buyerDid": "did:sitla:v2:buyer",
+        "sellerDid": "did:sitla:v2:seller",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "jobRequestIds": [
+          "019a8050-0000-7000-8000-000000000002",
+          "019a8050-0000-7000-8000-000000000003"
+        ],
+        "amountMinor": 1000,
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "didAllowList": [
+              "did:sitla:v2:buyer"
+            ]
+          }
+        }
+      },
+      "role": "buyer",
+      "credential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:example:result:buyer",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:WorkResult:1"
+        ],
+        "issuer": "did:sitla:v2:buyer",
+        "validFrom": "2026-11-27T00:00:00Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v2:seller",
+          "profile": "sitla-work-result/1",
+          "paymentContext": {
+            "kind": "escrow",
+            "id": "019a8050-0000-7000-8000-000000000001"
+          },
+          "role": "buyer",
+          "assertion": "accepted",
+          "buyerDid": "did:sitla:v2:buyer",
+          "sellerDid": "did:sitla:v2:seller",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "jobRequestIds": [
+            "019a8050-0000-7000-8000-000000000002",
+            "019a8050-0000-7000-8000-000000000003"
+          ],
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "amountMinor": 1000,
+          "currency": "JPY",
+          "currencyExponent": 0
+        },
+        "validUntil": "2026-11-28T00:00:00Z"
+      }
+    }
+  ]
+}

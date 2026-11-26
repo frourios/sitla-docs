@@ -1,6 +1,6 @@
 # Account Lifecycle Profile
 
-*SITLA Protocol v0.16 — Core Lifecycle Semantics and Optional Exchange Profile*\
+*SITLA Protocol v0.17 — Core Lifecycle Semantics and Optional Exchange Profile*\
 **Exchange profile:** `sitla-account-lifecycle/1`\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
@@ -98,3 +98,5 @@ The [receipt schema](../artifacts/lifecycle-v1/receipt.schema.json) binds the re
 | LIFE-3–5 | Claim completion with active account, unchanged credentials, missing cutoff or old offline status | Structural/semantic rejection or explicit uncertainty; no fabricated global erasure |
 
 These are specification and static receipt-validation artifacts. The reference does not implement sessions, revocation storage, job interruption, account purge, settlement, proof-of-erasure or distributed atomicity. Existing runtime tool contracts remain authoritative until those capabilities are implemented and advertised. The common trust limits in Core apply.
+
+**DELETE-PUBLIC-1.** Previously published CC0 job originals under JOB-4 remain publicly retrievable by immutable ID after account closure. Stop active listing/search; preserve the independently authorized public archive and issuer evidence. This is not new issuance or renewed normal account access and does not expose never-published/private credentials. Financial WorkResult originals are retained for the authorized parties under RESULT-3–4, separately from ordinary vault copies and normal private-data deletion. Legal/privacy requests follow the operator's separate published process.

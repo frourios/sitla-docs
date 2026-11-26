@@ -1,6 +1,6 @@
 # Public Payment Wire Artifacts
 
-**SITLA Protocol v0.16 — optional online binding `sitla-payments-online/1`**\
+**SITLA Protocol v0.17 — optional online binding `sitla-payments-online/1`**\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 **Compatibility boundary:** the `payments-v1` securing vectors below are a frozen legacy direct-JWS fixture profile. Current online issuance uses [SITLA-vc-jwt/1](protocol-online.md), operator DID issuers and complete payment subject claims. Business subject fields/meaning remain applicable, but the legacy securing wrapper and export-envelope assertions are not the runtime complete-VC encoding. Do not relabel or regenerate historical signatures. See the whole-VC circulation profile for the current securing layer; frozen payment fixtures independently test legacy semantics.
@@ -72,3 +72,11 @@ Current [whole-VC WebAuthn export vectors](../artifacts/circulation-v2/passkey-e
 ## New work-currency admission boundary
 
 [MONEY-1–3](protocol-payments.md) requires units inside each newly supported work-flow VC and currently admits JPY/0 only. Frozen `payments-v1`, `payments-v2` and prior circulation fixtures keep their original bytes and may not contain the new explicitly signed exponent fields. They are not certification of this new admission contract. Before claiming reference operator support, publish the versioned monetary subject/adapter schema changes and corresponding issuance/verification updates; do not retrofit metadata into old signatures. The new [job-request schema](../artifacts/job-requests-v1/schemas/job-request.schema.json) already defines explicit units for its expense/reward groups. Its unsigned shape/projection tests do not add a new cryptographic-interoperability claim.
+
+## Current capture-based holding profile
+
+The current whole-VC conditional profile is `sitla-conditional-payment/2`, with instruction subject `sitla-conditional-payment-instruction/2` and type `urn:sitla:credential:ConditionalPaymentInstruction:2`. [circulation-v4](../artifacts/circulation-v4/schemas/conditional-instruction.schema.json) replaces the acceptance/deposit fields with explicit `holdSeconds` and nullable `fundedAt`/`refundAt`. The seller's original collection approval is the predecessor of refund/settlement; no work-acceptance or application VC is required. The normative lifecycle is [HOLD-1–5](protocol-conditional-payments.md).
+
+The [current semantic examples](../artifacts/circulation-v4/vectors.json) contain 4 positive and 12 negative subjects. Node and independent Python validate schema, actor/binding and exact capture-based deadline arithmetic. These unsigned examples do not extend the frozen signed WebAuthn/export corpus or prove provider execution. The Worker tests validate emitted complete, signed subjects against this new schema and exercise lost responses, competing decisions, capture delay and restart. Frozen `payments-v1` and `circulation-v1`–`circulation-v3` fixtures retain their original semantics and are not current API acceptance claims.
+
+Current conditional instructions also carry the frozen `jobRequestIds` and use `deliver` for the seller evidence handoff; delivery/settlement instruction arguments include the actual `resultCredential`. Native author WorkResult evidence is defined by [RESULT-1–4](protocol-conditional-payments.md#8-bilateral-work-results) and [work-results-v1](../artifacts/work-results-v1/). Its unsigned Node/Python semantic vectors are separate from the historical signed export corpora.

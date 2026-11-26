@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC0-1.0 -->
 # Credential Direct Messages
 
-**Specification revision: 0.16. Profile: `sitla-credential-dm/1`. Draft.**
+**Specification revision: 0.17. Profile: `sitla-credential-dm/1`. Draft.**
 
 *A DM delivers a signed credential. It does not create a job, charge money or approve its claims.*
 
@@ -63,3 +63,5 @@ Account quiescence stops new delivery and normal inbox access. A completed accou
 
 
 Current SITLA MCP admission, publication and delivery use the signed whole-VC [license and DID recipient policy](protocol-online.md#41-signed-license-and-recipient-metadata). Optional E2EE/ZKP payloads are opaque to the operator. This does not change frozen historical fixtures or imply content-proof verification.
+
+**DM-PUBLIC-1.** Seller-profile and current public-request publication requires enabled reception and explicit `enableDm:true` in the reviewed publication. The enabling/publication commit is atomic and preserves email preferences. Disabling reception requires unpublishing all effective listings first. Ordinary accounts remain opt-in; individual sender blocks, optional email notifications and technical quotas still apply. Receiving a message is no obligation to reply and cannot authorize payment or close a listing. Parties decide negotiation/content and may use agreed E2EE/external channels under the existing policy.

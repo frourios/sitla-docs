@@ -6,14 +6,14 @@ EXTENDS Naturals, FiniteSets
 CONSTANTS Payments, Gross, Fee, Budget
 ASSUME /\ IsFiniteSet(Payments) /\ Cardinality(Payments) = 2
        /\ Gross > Fee /\ Fee >= 0 /\ Budget = Gross
-VARIABLES grant, grantDestination, connection, status, snapshot,
+VARIABLES resultsReady, grant, grantDestination, connection, status, snapshot,
           captures, transfers, paid, debtDischarged
-vars == <<grant, grantDestination, connection, status, snapshot,
+vars == <<resultsReady, grant, grantDestination, connection, status, snapshot,
           captures, transfers, paid, debtDischarged>>
 EmptySnapshot == [active |-> FALSE, connected |-> FALSE,
                   destination |-> "none", authorizedDestination |-> "none",
                   gross |-> 0, fee |-> 0, budgetBefore |-> 0, binding |-> "none"]
-Init == /\ grant = "none" /\ grantDestination = "none" /\ connection = "none"
+Init == /\ resultsReady = FALSE /\ grant = "none" /\ grantDestination = "none" /\ connection = "none"
         /\ status = [p \in Payments |-> "unused"]
         /\ snapshot = [p \in Payments |-> EmptySnapshot]
         /\ captures = [p \in Payments |-> 0]
@@ -21,17 +21,17 @@ Init == /\ grant = "none" /\ grantDestination = "none" /\ connection = "none"
         /\ paid = {} /\ debtDischarged = {}
 UsedBudget == Cardinality({p \in Payments : status[p] \in {"reserved", "captured"}}) * Gross
 Connect == /\ connection = "none" /\ connection' = "original"
-           /\ UNCHANGED <<grant, grantDestination, status, snapshot, captures,
+           /\ UNCHANGED <<resultsReady, grant, grantDestination, status, snapshot, captures,
                           transfers, paid, debtDischarged>>
 Rebind == /\ connection = "original" /\ connection' = "new"
-          /\ UNCHANGED <<grant, grantDestination, status, snapshot, captures,
+          /\ UNCHANGED <<resultsReady, grant, grantDestination, status, snapshot, captures,
                          transfers, paid, debtDischarged>>
 Authorize == /\ grant = "none" /\ grant' = "active"
              /\ grantDestination' = connection
-             /\ UNCHANGED <<connection, status, snapshot, captures,
+             /\ UNCHANGED <<resultsReady, connection, status, snapshot, captures,
                             transfers, paid, debtDischarged>>
 Withdraw == /\ grant = "active" /\ grant' = "withdrawn"
-            /\ UNCHANGED <<grantDestination, connection, status, snapshot,
+            /\ UNCHANGED <<resultsReady, grantDestination, connection, status, snapshot,
                            captures, transfers, paid, debtDischarged>>
 Reserve(p, binding) ==
     /\ status[p] = "unused"
@@ -45,25 +45,26 @@ Reserve(p, binding) ==
           destination |-> connection, authorizedDestination |-> grantDestination,
           gross |-> Gross, fee |-> Fee, budgetBefore |-> UsedBudget, binding |-> binding]]
     /\ status' = [status EXCEPT ![p] = "reserved"]
-    /\ UNCHANGED <<grant, grantDestination, connection, captures,
+    /\ UNCHANGED <<resultsReady, grant, grantDestination, connection, captures,
                    transfers, paid, debtDischarged>>
 Capture(p) ==
     /\ status[p] = "reserved"
+    /\ resultsReady \* MUTATION: direct capture needs results
     /\ status' = [status EXCEPT ![p] = "captured"]
     /\ captures' = [captures EXCEPT ![p] = @ + 1]
     /\ debtDischarged' = debtDischarged \cup {p}
-    /\ UNCHANGED <<grant, grantDestination, connection, snapshot,
+    /\ UNCHANGED <<resultsReady, grant, grantDestination, connection, snapshot,
                    transfers, paid>>
 Expire(p) ==
     /\ status[p] = "reserved"
     /\ status' = [status EXCEPT ![p] = "expired"]
-    /\ UNCHANGED <<grant, grantDestination, connection, snapshot, captures,
+    /\ UNCHANGED <<resultsReady, grant, grantDestination, connection, snapshot, captures,
                    transfers, paid, debtDischarged>>
 Remit(p) ==
     /\ status[p] = "captured" /\ p \notin paid
     /\ paid' = paid \cup {p}
     /\ transfers' = [transfers EXCEPT ![p] = @ + 1]
-    /\ UNCHANGED <<grant, grantDestination, connection, status, snapshot,
+    /\ UNCHANGED <<resultsReady, grant, grantDestination, connection, status, snapshot,
                    captures, debtDischarged>>
 RemitAny == \E p \in Payments : Remit(p)
 Retry(p, body) ==
@@ -72,8 +73,12 @@ Retry(p, body) ==
     \* exact => original reservation/result (including withdrawn grant);
     \* changed => conflict; expired => never reopened. All preserve state.
     /\ UNCHANGED vars
+PrepareResults ==
+    /\ ~resultsReady /\ resultsReady' = TRUE
+    /\ UNCHANGED <<grant,grantDestination,connection,status,snapshot,captures,transfers,paid,debtDischarged>>
+CaptureHasResults == debtDischarged # {} => resultsReady
 Idle == UNCHANGED vars
-Next == \/ Connect \/ Rebind \/ Authorize \/ Withdraw
+Next == \/ PrepareResults \/ Connect \/ Rebind \/ Authorize \/ Withdraw
         \/ \E p \in Payments, b \in {"exact", "wrong"} : Reserve(p, b)
         \/ \E p \in Payments : Capture(p) \/ Expire(p) \/ Remit(p)
         \/ \E p \in Payments, b \in {"exact", "changed"} : Retry(p, b)

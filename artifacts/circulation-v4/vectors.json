@@ -1,0 +1,1001 @@
+{
+  "positive": [
+    {
+      "id": "unfunded-authorization",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/2",
+        "action": "collection-authorize",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "refundAt": null,
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "confirmUnderlyingPriceClaim": true,
+          "collectionBeforeOrWithPerformance": true,
+          "authorizeReceipt": true,
+          "dischargeOnStripeCapture": true,
+          "authorizeConditionalRefunds": true
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0,
+        "holdSeconds": 7200,
+        "fundedAt": null,
+        "collectionAuthority": {
+          "agent": "https://sitla.frourio.com",
+          "processor": "Stripe",
+          "scope": "identified-transaction-only",
+          "priceDebtDischarge": "valid-stripe-capture",
+          "sellerRemittance": "separate-operator-obligation",
+          "refunds": "original-payment-method-under-fixed-policy"
+        },
+        "jobRequestIds": []
+      }
+    },
+    {
+      "id": "refund",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/2",
+        "action": "refund",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "refundAt": "2026-11-27T02:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_example",
+          "predecessor": "019a8050-0000-7000-8000-000000000002"
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0,
+        "holdSeconds": 7200,
+        "fundedAt": "2026-11-27T00:00:00.000Z",
+        "jobRequestIds": []
+      }
+    },
+    {
+      "id": "settle",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/2",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "refundAt": "2026-11-27T02:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_example",
+          "predecessor": "019a8050-0000-7000-8000-000000000002",
+          "inspectionConfirmed": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "resultCredential": {
+            "secured": "synthetic.unsigned.example",
+            "authority": {}
+          }
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0,
+        "holdSeconds": 7200,
+        "fundedAt": "2026-11-27T00:00:00.000Z",
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "jobRequestIds": []
+      }
+    },
+    {
+      "id": "delivery",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/2",
+        "action": "deliver",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "refundAt": "2026-11-27T02:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_example",
+          "predecessor": "019a8050-0000-7000-8000-000000000002",
+          "resultCredential": {
+            "secured": "synthetic.unsigned.example",
+            "authority": {}
+          }
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0,
+        "holdSeconds": 7200,
+        "fundedAt": "2026-11-27T00:00:00.000Z",
+        "jobRequestIds": []
+      }
+    }
+  ],
+  "negative": [
+    {
+      "id": "missing-duration",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/2",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "refundAt": "2026-11-27T02:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_example",
+          "predecessor": "019a8050-0000-7000-8000-000000000002",
+          "inspectionConfirmed": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "resultCredential": {
+            "secured": "synthetic.unsigned.example",
+            "authority": {}
+          }
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0,
+        "fundedAt": "2026-11-27T00:00:00.000Z",
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "jobRequestIds": []
+      }
+    },
+    {
+      "id": "short-duration",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/2",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "refundAt": "2026-11-27T02:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_example",
+          "predecessor": "019a8050-0000-7000-8000-000000000002",
+          "inspectionConfirmed": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "resultCredential": {
+            "secured": "synthetic.unsigned.example",
+            "authority": {}
+          }
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0,
+        "holdSeconds": 3599,
+        "fundedAt": "2026-11-27T00:00:00.000Z",
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "jobRequestIds": []
+      }
+    },
+    {
+      "id": "long-duration",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/2",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "refundAt": "2026-11-27T02:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_example",
+          "predecessor": "019a8050-0000-7000-8000-000000000002",
+          "inspectionConfirmed": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "resultCredential": {
+            "secured": "synthetic.unsigned.example",
+            "authority": {}
+          }
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0,
+        "holdSeconds": 2592001,
+        "fundedAt": "2026-11-27T00:00:00.000Z",
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "jobRequestIds": []
+      }
+    },
+    {
+      "id": "old-acceptance",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/2",
+        "action": "accept",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "refundAt": "2026-11-27T02:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_example",
+          "predecessor": "019a8050-0000-7000-8000-000000000002",
+          "inspectionConfirmed": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0,
+        "holdSeconds": 7200,
+        "fundedAt": "2026-11-27T00:00:00.000Z",
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "jobRequestIds": []
+      }
+    },
+    {
+      "id": "old-deposit",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/2",
+        "action": "deposit",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "refundAt": "2026-11-27T02:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_example",
+          "predecessor": "019a8050-0000-7000-8000-000000000002",
+          "inspectionConfirmed": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0,
+        "holdSeconds": 7200,
+        "fundedAt": "2026-11-27T00:00:00.000Z",
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "jobRequestIds": []
+      }
+    },
+    {
+      "id": "unknown-currency",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/2",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "currency": "USD",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "refundAt": "2026-11-27T02:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_example",
+          "predecessor": "019a8050-0000-7000-8000-000000000002",
+          "inspectionConfirmed": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "resultCredential": {
+            "secured": "synthetic.unsigned.example",
+            "authority": {}
+          }
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0,
+        "holdSeconds": 7200,
+        "fundedAt": "2026-11-27T00:00:00.000Z",
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "jobRequestIds": []
+      }
+    },
+    {
+      "id": "missing-exponent",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/2",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "refundAt": "2026-11-27T02:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_example",
+          "predecessor": "019a8050-0000-7000-8000-000000000002",
+          "inspectionConfirmed": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "resultCredential": {
+            "secured": "synthetic.unsigned.example",
+            "authority": {}
+          }
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "holdSeconds": 7200,
+        "fundedAt": "2026-11-27T00:00:00.000Z",
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "jobRequestIds": []
+      }
+    },
+    {
+      "id": "unfunded-release",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/2",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "refundAt": "2026-11-27T02:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_example",
+          "predecessor": "019a8050-0000-7000-8000-000000000002",
+          "inspectionConfirmed": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "resultCredential": {
+            "secured": "synthetic.unsigned.example",
+            "authority": {}
+          }
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0,
+        "holdSeconds": 7200,
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "jobRequestIds": []
+      }
+    },
+    {
+      "id": "wrong-deadline",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/2",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "refundAt": "2026-11-27T03:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_example",
+          "predecessor": "019a8050-0000-7000-8000-000000000002",
+          "inspectionConfirmed": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "resultCredential": {
+            "secured": "synthetic.unsigned.example",
+            "authority": {}
+          }
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0,
+        "holdSeconds": 7200,
+        "fundedAt": "2026-11-27T00:00:00.000Z",
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "jobRequestIds": []
+      }
+    },
+    {
+      "id": "missing-predecessor",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/2",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "refundAt": "2026-11-27T02:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_example",
+          "inspectionConfirmed": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "resultCredential": {
+            "secured": "synthetic.unsigned.example",
+            "authority": {}
+          }
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0,
+        "holdSeconds": 7200,
+        "fundedAt": "2026-11-27T00:00:00.000Z",
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "jobRequestIds": []
+      }
+    },
+    {
+      "id": "delivery-missing-author-result",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/2",
+        "action": "deliver",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "refundAt": "2026-11-27T02:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_example",
+          "predecessor": "019a8050-0000-7000-8000-000000000002"
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0,
+        "holdSeconds": 7200,
+        "fundedAt": "2026-11-27T00:00:00.000Z",
+        "jobRequestIds": []
+      }
+    },
+    {
+      "id": "settle-missing-author-result",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/2",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "refundAt": "2026-11-27T02:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_example",
+          "predecessor": "019a8050-0000-7000-8000-000000000002",
+          "inspectionConfirmed": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0,
+        "holdSeconds": 7200,
+        "fundedAt": "2026-11-27T00:00:00.000Z",
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "jobRequestIds": []
+      }
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 ------------------------- MODULE PublicJobRequests -------------------------
 \* SPDX-License-Identifier: Apache-2.0
 \* JOB-1..6 / MONEY-1..3. One public request, a possibly stale cache, one
-\* applicant, negotiated terms and monetary VCs from the later work flow.
+\* participant, privately negotiated terms and monetary VCs from the later work flow.
 EXTENDS Naturals, FiniteSets
 CONSTANTS SupportedCurrencies, ExpiresAt, MaxTime, MinimumReward
 ASSUME /\ SupportedCurrencies = {"JPY"} /\ MinimumReward = 500
@@ -36,73 +36,80 @@ Projection(r) ==
     \* MUTATION: projection ends here
 ProjectionKeys == {"credentialId", "credentialDigest", "requester", "summary", "reward",
                    "estimatedExpenses", "completionLicenses", "validUntil", "desiredDueAt"}
-VARIABLES selected, now, archived, indexed, row, closed, revoked, cached, displayed,
-          fetched, verified, trust, trustProof, applied, applicationAt,
+VARIABLES published, publicationOccurred, selected, now, archived, indexed, row, closed, revoked, cached, displayed,
+          fetched, verified, trust, trustProof, contacted, contactAt,
           proposal, proposedPolicy, approved, contract, agreed, agreedPolicy,
           workStage, workMoney, delivery
-vars == <<selected, now, archived, indexed, row, closed, revoked, cached, displayed,
-          fetched, verified, trust, trustProof, applied, applicationAt,
+vars == <<published, publicationOccurred, selected, now, archived, indexed, row, closed, revoked, cached, displayed,
+          fetched, verified, trust, trustProof, contacted, contactAt,
           proposal, proposedPolicy, approved, contract, agreed, agreedPolicy,
           workStage, workMoney, delivery>>
 EmptyMoney == Money(0, "JPY")
-Init == /\ selected \in Cases /\ now = 0 /\ archived = FALSE /\ indexed = FALSE
+Init == /\ published = FALSE /\ publicationOccurred = FALSE /\ selected \in Cases /\ now = 0 /\ archived = FALSE /\ indexed = FALSE
         /\ row = [credentialId |-> "none"] /\ closed = FALSE /\ revoked = FALSE
         /\ cached = FALSE /\ displayed = FALSE /\ fetched = "none"
         /\ verified = FALSE /\ trust = "undecided" /\ trustProof = FALSE
-        /\ applied = FALSE /\ applicationAt = MaxTime + 1
+        /\ contacted = FALSE /\ contactAt = MaxTime + 1
         /\ proposal = EmptyMoney /\ proposedPolicy = "public" /\ approved = FALSE
         /\ contract = FALSE /\ agreed = EmptyMoney /\ agreedPolicy = "public"
         /\ workStage = "none" /\ workMoney = EmptyMoney /\ delivery = "none"
 Archive ==
     /\ ~archived /\ Admissible(Request(selected)) /\ now < ExpiresAt
     /\ archived' = TRUE
-    /\ UNCHANGED <<selected, now, indexed, row, closed, revoked, cached, displayed,
-                   fetched, verified, trust, trustProof, applied, applicationAt,
+    /\ UNCHANGED <<published, publicationOccurred, selected, now, indexed, row, closed, revoked, cached, displayed,
+                   fetched, verified, trust, trustProof, contacted, contactAt,
                    proposal, proposedPolicy, approved, contract, agreed, agreedPolicy,
                    workStage, workMoney, delivery>>
 Index ==
     /\ archived /\ ~indexed /\ ~closed /\ ~revoked /\ now < ExpiresAt
+    /\ published' = TRUE /\ publicationOccurred' = TRUE
     /\ indexed' = TRUE /\ row' = Projection(Request(selected))
     /\ UNCHANGED <<selected, now, archived, closed, revoked, cached, displayed,
-                   fetched, verified, trust, trustProof, applied, applicationAt,
+                   fetched, verified, trust, trustProof, contacted, contactAt,
                    proposal, proposedPolicy, approved, contract, agreed, agreedPolicy,
                    workStage, workMoney, delivery>>
 RefreshCache ==
     /\ cached' = (indexed /\ ~closed /\ ~revoked /\ now < ExpiresAt)
-    /\ UNCHANGED <<selected, now, archived, indexed, row, closed, revoked, displayed,
-                   fetched, verified, trust, trustProof, applied, applicationAt,
+    /\ UNCHANGED <<published, publicationOccurred, selected, now, archived, indexed, row, closed, revoked, displayed,
+                   fetched, verified, trust, trustProof, contacted, contactAt,
                    proposal, proposedPolicy, approved, contract, agreed, agreedPolicy,
                    workStage, workMoney, delivery>>
 DisplayCache ==
     /\ cached /\ displayed' = TRUE
-    /\ UNCHANGED <<selected, now, archived, indexed, row, closed, revoked, cached,
-                   fetched, verified, trust, trustProof, applied, applicationAt,
+    /\ UNCHANGED <<published, publicationOccurred, selected, now, archived, indexed, row, closed, revoked, cached,
+                   fetched, verified, trust, trustProof, contacted, contactAt,
                    proposal, proposedPolicy, approved, contract, agreed, agreedPolicy,
                    workStage, workMoney, delivery>>
 Close ==
     /\ indexed /\ ~closed /\ closed' = TRUE
-    /\ UNCHANGED <<selected, now, archived, indexed, row, revoked, cached, displayed,
-                   fetched, verified, trust, trustProof, applied, applicationAt,
+    /\ UNCHANGED <<published, publicationOccurred, selected, now, archived, indexed, row, revoked, cached, displayed,
+                   fetched, verified, trust, trustProof, contacted, contactAt,
                    proposal, proposedPolicy, approved, contract, agreed, agreedPolicy,
                    workStage, workMoney, delivery>>
 Revoke ==
     /\ indexed /\ ~revoked /\ revoked' = TRUE
-    /\ UNCHANGED <<selected, now, archived, indexed, row, closed, cached, displayed,
-                   fetched, verified, trust, trustProof, applied, applicationAt,
+    /\ UNCHANGED <<published, publicationOccurred, selected, now, archived, indexed, row, closed, cached, displayed,
+                   fetched, verified, trust, trustProof, contacted, contactAt,
                    proposal, proposedPolicy, approved, contract, agreed, agreedPolicy,
                    workStage, workMoney, delivery>>
+DeleteOwner ==
+    /\ publicationOccurred
+    /\ closed' = TRUE
+    /\ published' = published \* MUTATION: deletion keeps public original
+    /\ UNCHANGED <<publicationOccurred,selected,now,archived,indexed,row,revoked,cached,displayed,fetched,verified,trust,trustProof,contacted,contactAt,proposal,proposedPolicy,approved,contract,agreed,agreedPolicy,workStage,workMoney,delivery>>
 ReadOriginal(proof) ==
-    /\ archived /\ proof \in {"original", "tampered", "unavailable"}
+    /\ published \* MUTATION: archive retrieval independent of listing
+    /\ proof \in {"original", "tampered", "unavailable"}
     /\ fetched' = proof /\ verified' = FALSE
-    /\ UNCHANGED <<selected, now, archived, indexed, row, closed, revoked, cached,
-                   displayed, trust, trustProof, applied, applicationAt, proposal,
+    /\ UNCHANGED <<published, publicationOccurred, selected, now, archived, indexed, row, closed, revoked, cached,
+                   displayed, trust, trustProof, contacted, contactAt, proposal,
                    proposedPolicy, approved, contract, agreed, agreedPolicy,
                    workStage, workMoney, delivery>>
 ProofValid == fetched = "original" /\ Request(selected).signatureValid
 VerifyClient ==
     /\ fetched # "none" /\ verified' = ProofValid
-    /\ UNCHANGED <<selected, now, archived, indexed, row, closed, revoked, cached,
-                   displayed, fetched, trust, trustProof, applied, applicationAt,
+    /\ UNCHANGED <<published, publicationOccurred, selected, now, archived, indexed, row, closed, revoked, cached,
+                   displayed, fetched, trust, trustProof, contacted, contactAt,
                    proposal, proposedPolicy, approved, contract, agreed, agreedPolicy,
                    workStage, workMoney, delivery>>
 \* An operator's untrusted assertion always says valid in this hostile-source
@@ -111,39 +118,38 @@ OperatorSaysValid == TRUE
 ChooseTrust(score) ==
     /\ verified \* MUTATION: independent verification
     /\ score \in {"reject", "accept"} /\ trust' = score /\ trustProof' = ProofValid
-    /\ UNCHANGED <<selected, now, archived, indexed, row, closed, revoked, cached,
-                   displayed, fetched, verified, applied, applicationAt, proposal,
+    /\ UNCHANGED <<published, publicationOccurred, selected, now, archived, indexed, row, closed, revoked, cached,
+                   displayed, fetched, verified, contacted, contactAt, proposal,
                    proposedPolicy, approved, contract, agreed, agreedPolicy,
                    workStage, workMoney, delivery>>
-Apply ==
-    /\ indexed /\ archived /\ ~closed /\ ~revoked
-    /\ Admissible(Request(selected))
-    /\ now < ExpiresAt \* MUTATION: fresh application expiry
-    /\ applied' = TRUE /\ applicationAt' = now
-    /\ UNCHANGED <<selected, now, archived, indexed, row, closed, revoked, cached,
+\* Ordinary contact is independent of publication/expiry; DM's gate is modelled separately.
+Contact ==
+    /\ contacted' = TRUE /\ contactAt' = now
+    /\ UNCHANGED <<published, publicationOccurred, selected, now, archived, indexed, row, closed, revoked, cached,
                    displayed, fetched, verified, trust, trustProof, proposal,
                    proposedPolicy, approved, contract, agreed, agreedPolicy,
                    workStage, workMoney, delivery>>
+\* The following party actions are environment choices, not operator negotiation APIs.
 Negotiate(a, c, policy) ==
-    /\ applied /\ ~contract /\ ValidAmount(Money(a, c), MinimumReward)
+    /\ contacted /\ ~contract /\ ValidAmount(Money(a, c), MinimumReward)
     /\ policy \in {"public", "internal"}
     /\ proposal' = Money(a, c) /\ proposedPolicy' = policy /\ approved' = FALSE
-    /\ UNCHANGED <<selected, now, archived, indexed, row, closed, revoked, cached,
-                   displayed, fetched, verified, trust, trustProof, applied,
-                   applicationAt, contract, agreed, agreedPolicy, workStage, workMoney, delivery>>
+    /\ UNCHANGED <<published, publicationOccurred, selected, now, archived, indexed, row, closed, revoked, cached,
+                   displayed, fetched, verified, trust, trustProof, contacted,
+                   contactAt, contract, agreed, agreedPolicy, workStage, workMoney, delivery>>
 ApproveTerms ==
-    /\ applied /\ ~contract /\ proposal.amountMinor >= MinimumReward
+    /\ contacted /\ ~contract /\ proposal.amountMinor >= MinimumReward
     /\ approved' = TRUE
-    /\ UNCHANGED <<selected, now, archived, indexed, row, closed, revoked, cached,
-                   displayed, fetched, verified, trust, trustProof, applied,
-                   applicationAt, proposal, proposedPolicy, contract, agreed,
+    /\ UNCHANGED <<published, publicationOccurred, selected, now, archived, indexed, row, closed, revoked, cached,
+                   displayed, fetched, verified, trust, trustProof, contacted,
+                   contactAt, proposal, proposedPolicy, contract, agreed,
                    agreedPolicy, workStage, workMoney, delivery>>
 StartWork ==
     /\ approved /\ ~contract /\ contract' = TRUE
     /\ agreed' = proposal /\ agreedPolicy' = proposedPolicy
-    /\ UNCHANGED <<selected, now, archived, indexed, row, closed, revoked, cached,
-                   displayed, fetched, verified, trust, trustProof, applied,
-                   applicationAt, proposal, proposedPolicy, approved,
+    /\ UNCHANGED <<published, publicationOccurred, selected, now, archived, indexed, row, closed, revoked, cached,
+                   displayed, fetched, verified, trust, trustProof, contacted,
+                   contactAt, proposal, proposedPolicy, approved,
                    workStage, workMoney, delivery>>
 RecordMoneyVC(stage, c, body) ==
     /\ contract /\ stage \in Stages /\ c \in Codes
@@ -154,20 +160,20 @@ RecordMoneyVC(stage, c, body) ==
     /\ workMoney' = [amountMinor |-> agreed.amountMinor, currency |-> c,
                      currencyExponent |-> MinorUnit(c)] \* MUTATION: explicit work unit
     /\ delivery' = body
-    /\ UNCHANGED <<selected, now, archived, indexed, row, closed, revoked, cached,
-                   displayed, fetched, verified, trust, trustProof, applied,
-                   applicationAt, proposal, proposedPolicy, approved, contract,
+    /\ UNCHANGED <<published, publicationOccurred, selected, now, archived, indexed, row, closed, revoked, cached,
+                   displayed, fetched, verified, trust, trustProof, contacted,
+                   contactAt, proposal, proposedPolicy, approved, contract,
                    agreed, agreedPolicy>>
 Tick == /\ now < MaxTime /\ now' = now + 1
-        /\ UNCHANGED <<selected, archived, indexed, row, closed, revoked, cached,
-                       displayed, fetched, verified, trust, trustProof, applied,
-                       applicationAt, proposal, proposedPolicy, approved, contract,
+        /\ UNCHANGED <<published, publicationOccurred, selected, archived, indexed, row, closed, revoked, cached,
+                       displayed, fetched, verified, trust, trustProof, contacted,
+                       contactAt, proposal, proposedPolicy, approved, contract,
                        agreed, agreedPolicy, workStage, workMoney, delivery>>
 Idle == UNCHANGED vars
-Next == \/ Archive \/ Index \/ RefreshCache \/ DisplayCache \/ Close \/ Revoke
+Next == \/ Archive \/ Index \/ RefreshCache \/ DisplayCache \/ Close \/ Revoke \/ DeleteOwner
         \/ \E p \in {"original", "tampered", "unavailable"} : ReadOriginal(p)
         \/ VerifyClient \/ \E s \in {"reject", "accept"} : ChooseTrust(s)
-        \/ Apply
+        \/ Contact
         \/ \E a \in {499, 500, 600}, c \in Codes, p \in {"public", "internal"} : Negotiate(a, c, p)
         \/ ApproveTerms \/ StartWork
         \/ \E s \in Stages, c \in Codes, b \in {"as-described", "different"} : RecordMoneyVC(s, c, b)
@@ -178,22 +184,23 @@ TypeOK == /\ selected \in Cases /\ now \in 0..MaxTime
           /\ revoked \in BOOLEAN /\ cached \in BOOLEAN /\ displayed \in BOOLEAN
           /\ fetched \in {"none", "original", "tampered", "unavailable"}
           /\ verified \in BOOLEAN /\ trust \in {"undecided", "reject", "accept"}
-          /\ trustProof \in BOOLEAN /\ applied \in BOOLEAN
-          /\ applicationAt \in 0..(MaxTime + 1)
+          /\ trustProof \in BOOLEAN /\ contacted \in BOOLEAN
+          /\ contactAt \in 0..(MaxTime + 1)
           /\ approved \in BOOLEAN /\ contract \in BOOLEAN
           /\ proposedPolicy \in {"public", "internal"} /\ agreedPolicy \in {"public", "internal"}
           /\ workStage \in Stages \cup {"none"} /\ delivery \in {"none", "as-described", "different"}
           /\ proposal \in [amountMinor : {0, 499, 500, 600}, currency : Codes, currencyExponent : {0, 2}]
           /\ agreed \in [amountMinor : {0, 499, 500, 600}, currency : Codes, currencyExponent : {0, 2}]
           /\ workMoney \in [amountMinor : {0, 499, 500, 600}, currency : Codes, currencyExponent : {0, 2}]
+OriginalForever == publicationOccurred => (published /\ archived)
+RetrievalIndependentOfListing == published => ENABLED ReadOriginal("original")
 OriginalBeforeIndex == indexed => archived
 IndexOnlyProjection == indexed => DOMAIN row = ProjectionKeys
 JPYOnlyAdmission == archived =>
     (Request(selected).reward.currency \in SupportedCurrencies /\
      Request(selected).estimatedExpenses.currency \in SupportedCurrencies)
-ApplicationBeforeExpiry == applied => applicationAt < ExpiresAt
 ClientVerifiedBeforeTrust == trust # "undecided" => trustProof
-WorkNeedsAgreement == contract => (applied /\ approved /\ agreed = proposal /\ agreedPolicy = proposedPolicy)
+WorkNeedsAgreement == contract => (contacted /\ approved /\ agreed = proposal /\ agreedPolicy = proposedPolicy)
 MoneyUnitExplicit == workStage # "none" =>
     (workMoney.currency # "absent" /\ workMoney.currencyExponent = MinorUnit(workMoney.currency))
 WorkMoneyMatchesAgreement == workStage # "none" =>

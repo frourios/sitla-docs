@@ -340,3 +340,7 @@ verify_did_history_vectors()
 
 from verify_circulation_v3 import verify_vectors as verify_circulation_v3_vectors
 verify_circulation_v3_vectors()
+from verify_circulation_v4 import verify_vectors as verify_circulation_v4_vectors
+verify_circulation_v4_vectors()
+from verify_work_results import verify_vectors as verify_work_result_vectors
+verify_work_result_vectors()

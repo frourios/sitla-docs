@@ -1,6 +1,6 @@
 # Stripe Japan Payment Adapter
 
-**SITLA Protocol v0.16 — optional deployment adapter, not Core conformance**\
+**SITLA Protocol v0.17 — optional deployment adapter, not Core conformance**\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 ## 1. Separation from the protocol
@@ -35,7 +35,7 @@ All new payment paths require an active, eligible same-country Stripe destinatio
 
 *Opening a payment page and holding captured funds have separate deadlines.*
 
-Conditional Checkout requires at least 30 minutes of remaining validity before the fixed acceptance deadline. Seller authorization is rejected after that opening window; an authorized draft unable to create Checkout expires without charging. The refund deadline never moves. For direct-work reservations, new Checkout creation must start within 30 minutes of reservation and the card page expires one hour after reservation. Manual-capture work separately follows its actual provider `capture_before`. These are the current adapter's windows, not protocol-wide defaults.
+Conditional payment setup explicitly chooses a 1-hour to 30-day hold. Seller approval binds it before Checkout; draft age imposes no work-acceptance deadline. Checkout expires 24 hours after its first creation attempt, a separate technical payment window. The expiry and all provider request parameters are persisted before the first API request and reused unchanged after response loss/retries; retries do not extend page validity. Automatic captured-charge time starts the immutable funded deadline, even when observed late. No post-capture notification/acceptance is required. For direct-work reservations, new Checkout creation must start within 30 minutes of reservation and the card page expires one hour after reservation. Manual-capture work separately follows its actual provider `capture_before`. These are the current adapter's windows, not protocol-wide defaults.
 
 ## 4. Provider conditions
 

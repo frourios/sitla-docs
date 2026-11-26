@@ -1,6 +1,6 @@
 # Portable Payment Records
 
-*SITLA Protocol v0.16 — Required for Operator-Mediated Marketplace Payments*\
+*SITLA Protocol v0.17 — Required for Operator-Mediated Marketplace Payments*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 The [Collection Agency](protocol-collection-agency.md) profile covers seller-authorized receipt, capture-time price debt discharge and prospective withdrawal across supported payment paths.
@@ -49,7 +49,7 @@ Use explicit unavailable/not-applicable observations instead of fabricating unkn
 
 ## 3.1. Explicit money throughout the work flow
 
-**MONEY-1.** Every newly issued SITLA-supported VC containing a recognized monetary value MUST bind its unit in the same signed credential: an uppercase currency code, an integer minor-unit amount and an explicit currency exponent. This applies to public requests, application quotes, work proposals/agreements, financial progress/completion claims, collection authorizations, conditional instructions and operator payment events. A schema may declare common signed `currency`/`currencyExponent` fields covering all its named monetary components, or carry `{amountMinor,currency,currencyExponent}` per money group. Never infer a unit from the server's country, a different VC, a search row, a label such as `amountMinor`, or a provider default. Nonmonetary VCs do not require fictitious currency fields.
+**MONEY-1.** Every newly issued SITLA-supported VC containing a recognized monetary value MUST bind its unit in the same signed credential: an uppercase currency code, an integer minor-unit amount and an explicit currency exponent. This applies to public requests, DM quotes, optional work-payment authorizations, financial progress/completion claims, collection authorizations, conditional instructions and operator payment events. A schema may declare common signed `currency`/`currencyExponent` fields covering all its named monetary components, or carry `{amountMinor,currency,currencyExponent}` per money group. Never infer a unit from the server's country, a different VC, a search row, a label such as `amountMinor`, or a provider default. Nonmonetary VCs do not require fictitious currency fields.
 
 The founding SITLA service currently accepts **JPY only, exponent 0**, in supported monetary fields. Recognized missing, mixed or unsupported units are rejected, not silently defaulted, rounded or converted. Prices, fee/net amounts and expense estimates have declared bases and integer bounds. The current minimum offered reward/payment is 500 JPY; estimated expenses may be zero. This minimum is an operator JPY parameter, not 500 minor units for any future currency. See [the founding provider adapter](protocol-stripe-jp.md) and [public request fields](protocol-marketplace.md).
 
@@ -140,3 +140,5 @@ Application tests cover access/mandate isolation, signed output, retained previo
 
 
 Current SITLA MCP admission, publication and delivery use the signed whole-VC [license and DID recipient policy](protocol-online.md#41-signed-license-and-recipient-metadata). Optional E2EE/ZKP payloads are opaque to the operator. This does not change frozen historical fixtures or imply content-proof verification.
+
+Required WorkResult author declarations are separate from operator observations and private approvals. [RESULT-1–4](protocol-conditional-payments.md#8-bilateral-work-results) require both agreed-policy originals before release/capture and preserve them as payment-export attachments. Reuse rights follow each result's own signed policy; a CC0 result does not publish the private evidence bundle. External payment is freely selectable and creates no automatic SITLA payment/result-delivery guarantee.

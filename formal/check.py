@@ -17,26 +17,36 @@ import time
 import urllib.request
 
 ROOT = Path(__file__).resolve().parent
-MODELS = ("ConditionalPayment", "ProviderRecovery", "CollectionAuthority", "ApprovalExecution", "PublicJobRequests", "JobApplications", "DIDHistory")
+MODELS = ("ConditionalPayment", "ProviderRecovery", "CollectionAuthority", "ApprovalExecution", "PublicJobRequests", "MarketplaceDM", "DIDHistory")
 MUTANTS = (
-    ("JobApplications", "technical-gate-bypass", '/\\ Open /\\ technicalGate /\\ i \\notin submissions', '/\\ Open /\\ i \\notin submissions', "TechnicalAdmissionRespected"),
+('CollectionAuthority', 'direct-capture-without-results', 'resultsReady \\* MUTATION: direct capture needs results', 'TRUE \\* MUTATION: direct capture needs results', 'CaptureHasResults'),
+
+    ('ConditionalPayment', 'release-without-bilateral-results', 'results = Roles \\* MUTATION: results before release', 'TRUE \\* MUTATION: results before release', 'ResultsBeforeRelease'),
+    ('ConditionalPayment', 'changed-result-policy', 'policy = Policies[a] \\* MUTATION: result policy', 'TRUE \\* MUTATION: result policy', 'ResultBindingsPinned'),
+    ('ConditionalPayment', 'changed-job-list', 'ids = jobIds \\* MUTATION: result job IDs', 'TRUE \\* MUTATION: result job IDs', 'ResultBindingsPinned'),
+    ('ConditionalPayment', 'unsigned-result', 'binding = "exact" /\\ signed \\* MUTATION: result signature', 'binding = "exact" \\* MUTATION: result signature', 'ResultBindingsPinned'),
+    ('ConditionalPayment', 'missing-counterparty-copy', "copies' = copies \\cup {<<a,p>> : p \\in Roles} \\* MUTATION: both recipient copies", "copies' = copies \\cup {<<a,a>>} \\* MUTATION: both recipient copies", 'ResultDeliveryAtomic'),
+    ('PublicJobRequests', 'hide-removes-original-access', 'published \\* MUTATION: archive retrieval independent of listing', 'published /\\ ~closed \\* MUTATION: archive retrieval independent of listing', 'RetrievalIndependentOfListing'),
+    ('PublicJobRequests', 'deletion-removes-original', "published' = published \\* MUTATION: deletion keeps public original", "published' = FALSE \\* MUTATION: deletion keeps public original", 'OriginalForever'),
+
+    ('MarketplaceDM', 'publication-no-dm', "dm' = TRUE \\* MUTATION: publication enables reception", "dm' = dm \\* MUTATION: publication enables reception", 'PublishedRequiresDM'),
+    ('MarketplaceDM', 'disable-while-published', '~Effective \\* MUTATION: published reception guard', 'TRUE \\* MUTATION: published reception guard', 'PublishedRequiresDM'),
+    ('MarketplaceDM', 'contact-closes-listing', "listings' = listings \\* MUTATION: contact keeps listing", "listings' = {} \\* MUTATION: contact keeps listing", 'OnlyOwnerUnpublishes'),
+    ('MarketplaceDM', 'technical-gate-bypass', 'technicalGate \\* MUTATION: technical gate', 'TRUE \\* MUTATION: technical gate', 'TechnicalAdmissionRespected'),
+    ('ConditionalPayment', 'observation-restarts-period', "refundAt' = captureAt + duration \\* MUTATION: capture origin", "refundAt' = now + duration \\* MUTATION: capture origin", 'CaptureBasedDeadline'),
+    ('ConditionalPayment', 'retry-extends-period', "refundAt' = refundAt \\* MUTATION: immutable deadline", "refundAt' = now + duration \\* MUTATION: immutable deadline", 'CaptureBasedDeadline'),
+
     ("DIDHistory", "history-stale-commit", '/\\ seenRevision[w] = revision \\* MUTATION: atomic compare-and-commit', '/\\ TRUE \\* MUTATION: atomic compare-and-commit', "NoRollback"),
     ("DIDHistory", "history-partial-invalid-artifact", 'IF c = "invalid" THEN s \\* MUTATION: whole artifact verification', 'IF FALSE THEN s \\* MUTATION: whole artifact verification', "WholeArtifactAtomic"),
     ("DIDHistory", "history-one-root-proof", 'IF c = "single" THEN s \\* MUTATION: both root proofs', 'IF FALSE THEN s \\* MUTATION: both root proofs', "DualRootProofs"),
     ("DIDHistory", "history-ignore-precommitment", 'IF protected /\\ c = "rogue" THEN s \\* MUTATION: committed successor', 'IF FALSE THEN s \\* MUTATION: committed successor', "Precommitment"),
     ("DIDHistory", "history-reopen-terminal", 'IF s.revoked THEN s \\* MUTATION: terminal revocation', 'IF FALSE THEN s \\* MUTATION: terminal revocation', "TerminalRevocation"),
     ("DIDHistory", "history-signature-only-fork", 'IF c = "retry" THEN "g0" ELSE c \\* MUTATION: retry identity', 'IF c = "retry" THEN "retry" ELSE c \\* MUTATION: retry identity', "NoSpuriousConflict"),
-    ("JobApplications", "per-applicant-quota", '/\\ TRUE \\* MUTATION: no per-applicant quota', '/\\ ~\\E prior \\in submissions : Owner(prior) = Owner(i) \\* MUTATION: no per-applicant quota', "NoBusinessApplicationLimit"),
-    ("JobApplications", "per-request-capacity", '/\\ TRUE \\* MUTATION: no request capacity', '/\\ Cardinality(submissions) < 1 \\* MUTATION: no request capacity', "NoBusinessApplicationLimit"),
-    ("JobApplications", "submit-auto-closes", "/\\ closed' = closed \\* MUTATION: submit must not close", "/\\ closed' = TRUE \\* MUTATION: submit must not close", "OnlyRequesterCloses"),
-    ("JobApplications", "contract-auto-closes", "/\\ closed' = closed \\* MUTATION: contract must not close", "/\\ closed' = TRUE \\* MUTATION: contract must not close", "OnlyRequesterCloses"),
-    ("JobApplications", "same-key-duplicate-submission", '(IF fresh THEN 1 ELSE 0)] \\* MUTATION: retry deduplication', '1] \\* MUTATION: retry deduplication', "ExactlyOncePerIntent"),
     ("PublicJobRequests", "unsupported-job-currency", '/\\ m.currency \\in SupportedCurrencies \\* MUTATION: supported currency', '/\\ TRUE \\* MUTATION: supported currency', "JPYOnlyAdmission"),
     ("PublicJobRequests", "details-in-index", 'desiredDueAt |-> r.desiredDueAt]\n    \\* MUTATION: projection ends here', 'desiredDueAt |-> r.desiredDueAt, details |-> r.details]\n    \\* MUTATION: projection ends here', "IndexOnlyProjection"),
-    ("PublicJobRequests", "expired-application", '/\\ now < ExpiresAt \\* MUTATION: fresh application expiry', '/\\ TRUE \\* MUTATION: fresh application expiry', "ApplicationBeforeExpiry"),
     ("PublicJobRequests", "trust-operator-label", '/\\ verified \\* MUTATION: independent verification', '/\\ OperatorSaysValid \\* MUTATION: independent verification', "ClientVerifiedBeforeTrust"),
     ("PublicJobRequests", "missing-work-currency", 'currency |-> c,\n                     currencyExponent |-> MinorUnit(c)] \\* MUTATION: explicit work unit', 'currency |-> "absent",\n                     currencyExponent |-> MinorUnit(c)] \\* MUTATION: explicit work unit', "MoneyUnitExplicit"),
-    ("ConditionalPayment", "late-release", "/\\ now < RefundAt \\* MUTATION: deadline guard", "/\\ TRUE \\* MUTATION: deadline guard", "ReleaseBeforeDeadline"),
+    ("ConditionalPayment", "late-release", "/\\ now < refundAt \\* MUTATION: deadline guard", "/\\ TRUE \\* MUTATION: deadline guard", "ReleaseBeforeDeadline"),
     ("ConditionalPayment", "missing-inspection", "/\\ inspection = TRUE \\* MUTATION: inspection guard", "/\\ TRUE \\* MUTATION: inspection guard", "ReleaseAuthorized"),
     ("ProviderRecovery", "unstable-key", '![s] = "stable"] \\* MUTATION: stable key', '![s] = FreshKey(s)] \\* MUTATION: stable key', "AtMostOneProviderEffect"),
     ("ProviderRecovery", "changed-destination", '![s] = "original"] \\* MUTATION: frozen destination', '![s] = currentDestination] \\* MUTATION: frozen destination', "FrozenDestination"),
@@ -46,9 +56,8 @@ MUTANTS = (
     ("ApprovalExecution", "stale-epoch", '/\\ seenEpoch[w] = epoch \\* MUTATION: epoch barrier', '/\\ TRUE \\* MUTATION: epoch barrier', "CurrentEpochAtCommit"),
 )
 WITNESSES = (
-    ("JobApplications", "same-applicant-reapplies", "AtMostOnePerApplicant"),
-    ("JobApplications", "multiple-applicants", "AtMostOneApplicant"),
-    ("JobApplications", "contract-keeps-listing-open", "ContractClosesListing"),
+    ("MarketplaceDM", "same-sender-contacts-twice", "AtMostOnePerSender"),
+    ("MarketplaceDM", "contact-keeps-listing", "ContactClosesListing"),
     ("PublicJobRequests", "stale-cache-is-permitted", "CacheAlwaysFresh"),
     ("PublicJobRequests", "negotiated-price-may-differ", "ContractEqualsAdvertisement"),
 )

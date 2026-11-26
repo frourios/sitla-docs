@@ -1,6 +1,6 @@
 # Portable DID Document History
 
-*SITLA Protocol v0.16 — `sitla-did-history/2`*\
+*SITLA Protocol v0.17 — `sitla-did-history/2`*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
 **Date:** November 27, 2026
 
