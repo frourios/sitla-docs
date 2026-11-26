@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC0-1.0 -->
 # Online MCP Credential Circulation
 
-**Specification revision: 0.9. Application profile: `SITLA-online/1`. Selective disclosure: `SITLA-sd-jwt/1`. Draft.**
+**Specification revision: 0.10. Application profile: `SITLA-online/1`. Selective disclosure: `SITLA-sd-jwt/1`. Draft.**
 
 *Standard MCP and OAuth carry credential operations; credentials do not replace the transport or the authorization server.*
 
@@ -98,7 +98,7 @@ The reference deployment stores exact JSON packages containing signed credential
 
 Writes archive first, then publish an index. Missing/tampered originals fail closed. A failed index write may leave an orphan requiring maintenance; it does not publish a valid credential. Deletion tracks interrupted object erasure for retry and removes only originals no longer referenced by permitted counterparties or financial records. Original copies retained by the issuer, counterparty or provider follow their own rights and retention rules. Status unknown is not equivalent to deletion or revocation.
 
-Exports include original disclosures, issuer/root authority, approvals, current status observations and signed digest manifests with explicit page cursors. Reference pages contain at most five originals within a 128 KiB aggregate target (one larger original can occupy a page); private history pages use at most twenty records and a 256 KiB target. Continue from the actual returned cursor rather than assuming a fixed record count. A partial page MUST NOT be described as a complete vault. The frozen wire/1 canonicalization and root contexts remain stable; documentation revision 0.9 does not change their bytes. Credentials can be independently re-presented without the original operator when their format and issuer policy allow it; account-URI subjects and hosted status retain declared operator dependencies.
+Exports include original disclosures, issuer/root authority, approvals, current status observations and signed digest manifests with explicit page cursors. Reference pages contain at most five originals within a 128 KiB aggregate target (one larger original can occupy a page); private history pages use at most twenty records and a 256 KiB target. Continue from the actual returned cursor rather than assuming a fixed record count. A partial page MUST NOT be described as a complete vault. The frozen wire/1 canonicalization and root contexts remain stable; documentation revision 0.10 does not change their bytes. Credentials can be independently re-presented without the original operator when their format and issuer policy allow it; account-URI subjects and hosted status retain declared operator dependencies.
 
 ## 9. Credential direct messages
 

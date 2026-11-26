@@ -228,3 +228,54 @@ def verify_payments(canonical, b64, verify_passkey):
     finally:
         fixture["trustedEnrollment"] = enrollment
     print("Independent supplemental WebAuthn payment verification passed: 1 positive, 1 signed negative, missing trusted enrollment rejected.")
+
+    from verify_sd_jwt import verify as verify_sd
+    fixture = json.loads((root / "payments-v2/sd-jwt-passkey-export.json").read_text())
+    sd_fixture = fixture
+    # Approval checks use the RP's HTTPS operator, independently of the credential issuer DID.
+    fixture = {**sd_fixture, "expectedIssuer": sd_fixture["approvalOperator"]}
+
+    def sd_export(bundle):
+        key = sd_fixture["acceptedOperatorKey"]
+        hp, pp, signature = bundle["signedManifest"].split(".")
+        header = json.loads(b64(hp))
+        require(header == {"alg": "EdDSA", "kid": key["kid"], "typ": "sitla-export+jws"}, "manifest_header")
+        edverify(key, signature, (hp + "." + pp).encode(), "manifest_signature")
+        m = json.loads(b64(pp))
+        require(m == bundle["manifest"] and m["operator"] == sd_fixture["expectedOperator"] and m["kind"] == "payments", "manifest_scope")
+        require(m["complete"] == (m["nextCursor"] is None), "manifest_pagination")
+        require(m["schemaDigest"] == digest(bundle["schema"]) and m["keyMaterialDigest"] == digest(bundle["keyMaterial"]), "manifest_metadata")
+        require(m["records"] == [{"id": r["id"], "digest": digest(r)} for r in bundle["records"]], "manifest_records")
+        require(len({r["id"] for r in bundle["records"]}) == len(bundle["records"]), "duplicate_records")
+        require(m["attachments"] == [{"kind": a["kind"], "reference": a["reference"], "digest": digest(a)} for a in bundle["attachments"]], "manifest_attachments")
+        for r in bundle["records"]:
+            require(r["format"] == "application/dc+sd-jwt", "record_format")
+            payload = verify_sd(r["secured"], key)
+            vc = {k: v for k, v in payload.items() if k not in ("iss","sub","vct","jti","iat","exp","nbf","cnf")}
+            require(vc == r["vc"] and r["digest"] == digest(vc) and vc["issuer"] == m["operator"] and vc["id"].endswith("/"+r["id"]), "record_copy")
+            authority = r["authority"]
+            g = authority["authorization"]
+            import base64
+            did = "did:sitla:v1:" + base64.urlsafe_b64encode(hashlib.sha3_512(encoded(authority["descriptor"])).digest()).decode().rstrip("=")
+            require(did == m["operator"] == g["payload"]["root"], "issuer_root")
+            require(g["signature"]["suite"] == "ML-DSA-44" and g["signature"]["context"] == "SITLA/root/1", "issuer_suite")
+            require(ML_DSA_44.verify(b64(authority["descriptor"]["identityPublicKey"],1312),encoded(g["payload"]),b64(g["signature"]["value"],2420),ctx=b"SITLA/root/1"),"issuer_authority")
+            require(g["payload"]["purpose"] == "credential-issuance" and any(k["id"] == key["kid"] and k["public_key"] == key["x"] and k["role"] == "assertion" and k["suite"] == "Ed25519" for k in g["payload"]["keys"]), "issuer_key")
+            require(instant(g["payload"]["issued_at"]) <= instant(vc["validFrom"]) < instant(g["payload"]["expires_at"]), "issuer_time")
+            s = vc["credentialSubject"]
+            require(schemas["conditional-instruction"].is_valid(s) and s["transactionId"] == m["transactionId"] and s["id"] == m["account"]["id"], "payment_scope")
+            subject(s)
+            attachments = [a for a in bundle["attachments"] if a["kind"] == "conditional-payment-holder-approval" and a["reference"] == r["id"]]
+            require(len(attachments) == 1, "approval_missing")
+            approval(s, attachments[0]["document"])
+
+    for item in sd_fixture["positive"]:
+        sd_export(item["bundle"])
+    for item in sd_fixture["negative"]:
+        try:
+            sd_export(item["bundle"])
+        except Exception:
+            pass
+        else:
+            raise AssertionError(item["id"] + ": SD-JWT export negative accepted")
+    print("Independent current SD-JWT WebAuthn export verification passed: 1 positive, 5 negatives.")

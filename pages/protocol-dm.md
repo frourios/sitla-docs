@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC0-1.0 -->
 # Credential Direct Messages
 
-**Specification revision: 0.9. Profile: `sitla-credential-dm/1`. Draft.**
+**Specification revision: 0.10. Profile: `sitla-credential-dm/1`. Draft.**
 
 *A DM delivers a signed credential. It does not create a job, charge money or approve its claims.*
 
