@@ -1,6 +1,6 @@
 # Conditional Payment Instructions
 
-**SITLA Protocol v0.11 — optional profile `sitla-conditional-payment/1`**
+**SITLA Protocol v0.12 — optional profile `sitla-conditional-payment/1`**
 
 ## 1. Purpose and scope
 
@@ -12,7 +12,7 @@ A buyer and seller may negotiate by any means and use any work-credential schema
 
 The [common Collection Agency profile](protocol-collection-agency.md) applies the same receipt/debt rules to direct/card-authorization work payments. Their standing/work-specific authorization and withdrawal are distinct from this transaction-specific conditional flow.
 
-For an adapter declaring deferred destination support, HOLD-1 and COLLECT-1 allow the exact seller account and an explicitly unassigned destination with agreed later assignment conditions instead of an existing provider destination. The [Stripe Japan extension](protocol-stripe-jp.md) distinguishes a committed settlement awaiting connection from the pre-settlement hold. Once settlement is committed within the deadline, missing connection does not trigger an expiry refund or authorize another buyer charge. Before commitment, the existing acceptance, inspection and refund rules remain unchanged. The frozen payments-v1 evidence layouts are unchanged.
+Historical transactions with an unassigned destination retain their original obligations; the current adapter admits no new unconnected collection. See [the provider adapter](protocol-stripe-jp.md).
 
 ## 1.1. Seller-authorized collection
 
@@ -26,7 +26,7 @@ For an adapter declaring deferred destination support, HOLD-1 and COLLECT-1 allo
 
 **COLLECT-4.** The settlement instruction MUST contain `inspectionConfirmed: true` and `performanceDigest`, a lower-case SHA-256 digest of the exact accepted deliverable or market-defined inspection/milestone record. The buyer declares that the agreed counter-performance for this payment has been performed and accepted and authorizes net remittance. The operator verifies the signature, bindings and state; it does not decide work quality or certify that the declaration is objectively true. A missing/false inspection confirmation or a generic delivery VC cannot release money.
 
-These clauses describe contractual allocation, not an exemption determination. Apply the jurisdiction-specific deployment assessment in the chosen adapter; the [Stripe Japan legal-assessment boundary](protocol-stripe-jp.md) is one example. No operator may infer regulatory approval from API support or passing tests.
+These clauses describe contractual allocation, not an exemption determination. Apply the provider conditions in the [chosen adapter](protocol-stripe-jp.md). No operator may infer regulatory approval from API support or passing tests.
 
 ## 2. Lifecycle
 
@@ -130,13 +130,9 @@ Unit tests mock provider observations to exercise deadlines and faults. The appl
 Direct-work capture has no conditional inspection gate: its existing collection/remittance duties survive key loss and cannot be billed again. Manual card authorization alone is not payment; only an already authorized permitted capture path within the provider window may collect it, otherwise it expires/cancels. Buyers/sellers should retain backups and export evidence before starting long work; split milestones or another expressly agreed supported payment method can limit exposure, but this profile guarantees no compensation for work when required authorization is unavailable. Legal claims and provider/statutory processes remain separate.
 
 
-**HOLD-LOSS-2.** Where a valid settlement was committed before loss of the seller's keys and no provider destination was assigned, the obligation does not vanish or become available to a newly enrolled account. Follow the deployment's approved age/exposure limits and alternative settlement procedure, including independent verification of the claimant and applicable legal rights; this is not a replacement holder approval or an account-recovery feature. Report unresolved settlement separately from successful transfer. Preserve the original transaction and authorization evidence for both parties. A real deployment must demonstrate these cases, including closure and provider failure, before enabling pre-connection collection.
+**HOLD-LOSS-2.** Where a valid settlement was committed before loss of the seller's keys and no provider destination was assigned, the obligation does not vanish or become available to a newly enrolled account. Follow the deployment's alternative settlement procedure, including independent verification of the claimant and applicable legal rights; this is not a replacement holder approval or an account-recovery feature. Report unresolved settlement separately from successful transfer. Preserve the original transaction and authorization evidence for both parties. New pre-connection collection is not supported.
 
 
-## Stripe connection at escrow entry
+## Payment entry
 
-Negotiation and work acceptance do not require Stripe connection. The minimum new work payment is 500 JPY; at the current 20% fee the seller allocation is 400 JPY before refunds, disputes or other applicable adjustments. Runtime minimum price is configured by the operator and advertised in MCP operation schemas.
-
-For new conditional escrow transactions, the seller MUST complete Stripe Standard OAuth before a draft or Checkout is created, including in Sandbox. If `create_escrow` finds no active seller connection in the selected payment mode, return `phase: awaiting-seller-connection`, `escrowId: null`, `checkoutUrl: null` and a seller-directed `stripeConnection` next-step description. No funds or escrow reservation are created in that step. The seller calls `create_stripe_connect_authorization`, approves the prepared operation, completes human Stripe login/consent, retrieves `get_stripe_connect_authorization`, approves `complete_stripe_connect_authorization`, and checks `get_stripe_connect_status`. The buyer then prepares and approves `create_escrow` again with a fresh idempotency key and the agreed terms. The new draft fixes the actual deadlines and verified destination. Existing connections must have the required country and active transfer capability; incomplete provider requirements must be resolved before starting payment.
-
-The seller separately signs transaction-specific collection authority before the buyer receives Checkout. Link completion is not collection consent. Fixed acceptance/refund deadlines begin only when the connected draft is created; the connection instruction itself starts no paid hold. Existing captured transactions retain their original settlement/refund duties and destinations. Earlier deferred-destination provisions describe existing transactions or other explicitly supported payment paths; they do not authorize new unconnected escrow collection.
+The provider adapter defines connection eligibility and the next steps before payment. See [Stripe Japan payment entry](protocol-stripe-jp.md) for the current deployment's exact workflow, amounts and fees.

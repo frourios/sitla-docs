@@ -1,6 +1,6 @@
 # Collection Agency
 
-**SITLA Protocol v0.11 — service profile `sitla-collection-agency/1`**
+**SITLA Protocol v0.12 — service profile `sitla-collection-agency/1`**
 
 ## 1. Common rule
 
@@ -42,11 +42,9 @@ Existing reservations may continue to payment or capture under their existing au
 
 **AGENCY-7.** A remittance retry reconciles provider transfers and uses the same deterministic transfer idempotency key and captured destination. It must not create a second Checkout, re-authorize a new charge or substitute the seller's latest destination. Mark successful collection independently of transfer success: the recorded price debt stays discharged while remittance is pending. Never report uncaptured funds as collected.
 
-## 3.1. Deferred destination extension
+## 3.1. Historical deferred destinations
 
-An adapter may support sales without an existing provider connection only under its approved, disclosed deployment policy as specified in [Stripe Japan](protocol-stripe-jp.md). For that binding, AGENCY-4 and AGENCY-6 permit an explicitly unassigned destination instead of an active provider binding, provided the exact seller account, processor/mode, scope and later assignment conditions are authorized and frozen. AGENCY-7 permits the first assignment under that authority only to the verified connection of the original seller; once assigned, the destination remains immutable. Withdrawal, reassociation and deletion do not transfer ownership of unsettled amounts. Preserve original approval and capture records and append binding and actual transfer observations; do not represent an unassigned destination as a provider account ID.
-
-If pre-connection collection is not approved for the deployment, listing and negotiation remain available but live collection requires a verified destination. The current payment wire profile retains its required destination fields. A deferred-destination binding must publish its own versioned evidence and tests before use.
+The current Stripe adapter admits no new pre-connection collections through any payment path. Historical null-destination evidence remains verifiable and its seller obligations survive; assign a verified destination only under the original seller authority and retain the assignment history. See [Stripe Japan](protocol-stripe-jp.md).
 
 ## 4. Portable evidence and privacy
 

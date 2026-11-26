@@ -48,6 +48,7 @@ try {
   }
   // Run the public payment and circulation tests against isolated copies, never deployed code.
   const supplemental = [
+    { file: "payment-export.ts", test: "payment-export.test.ts", name: "export-manifest-signature", from: "check(verify(null,Buffer.from(parts[0]+\".\"+parts[1]),createPublicKey({key,format:\"jwk\"}),decodeBase64url(parts[2])));", to: "void 0;" },
     { file: "payments.ts", test: "payments.test.ts", name: "payment-amount-reconciliation", from: 'check(subject.platformFeeMinor + subject.sellerNetMinor === subject.originalGrossMinor, "event_amounts")', to: 'void 0' },
     { file: "payments.ts", test: "payments.test.ts", name: "payment-inspection-consistency", from: 'check(subject.inspection.performanceDigest === subject.instruction.performanceDigest, "inspection_digest")', to: 'void 0' },
     { file: "payments.ts", test: "payments.test.ts", name: "payment-attachment-integrity", from: 'check(subject.approval.evidenceDigest === paymentDigest(evidence), "payment_approval_digest")', to: 'void 0' },
@@ -57,10 +58,10 @@ try {
   ];
   await mkdir(join(temporary, "reference"));
   await mkdir(join(temporary, "tests"));
-  for (const file of ["codec.ts", "payments.ts", "sd-jwt.ts", "webauthn.ts"])
+  for (const file of ["codec.ts", "payments.ts", "sd-jwt.ts", "webauthn.ts", "payment-export.ts"])
     await cp(new URL(file, reference), join(temporary, "reference", file));
   await symlink(fileURLToPath(new URL("../artifacts", import.meta.url)), join(temporary, "artifacts"), "dir");
-  for (const test of ["payments.test.ts", "sd-jwt.test.ts"]) {
+  for (const test of ["payments.test.ts", "sd-jwt.test.ts", "payment-export.test.ts"]) {
     await cp(new URL(test, import.meta.url), join(temporary, "tests", test));
     execFileSync(process.execPath, ["--test", join(temporary, "tests", test)], { timeout: 20000, stdio: "pipe" });
   }

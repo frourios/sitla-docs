@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC0-1.0 -->
 # Online MCP Credential Circulation
 
-**Specification revision: 0.11. Application profile: `SITLA-online/1`. Selective disclosure: `SITLA-sd-jwt/1`. Draft.**
+**Specification revision: 0.12. Application profile: `SITLA-online/1`. Selective disclosure: `SITLA-sd-jwt/1`. Draft.**
 
 *Standard MCP and OAuth carry credential operations; credentials do not replace the transport or the authorization server.*
 
@@ -86,9 +86,9 @@ A buyer can request a new or derived issuer claim through ordinary `create_work`
 
 Work proposal/acceptance binds the exact terms digest. `add_work_record` requires an actual author-signed selective-disclosure credential and issuer authority; the record schema and meaning remain market-defined. Its holder approval and delivery receipt do not replace the author signature. No universal contract, milestone or occupational qualification schema is imposed.
 
-Existing [Collection Agency](protocol-collection-agency.md), [Conditional Payments](protocol-conditional-payments.md), [Payment Records](protocol-payments.md) and [Stripe Japan](protocol-stripe-jp.md) govern direct work and limited fund holding. Seller receipt authority, valid-capture price-debt discharge, immutable prior reservations after revocation, stable retries and signed bilateral exports remain required. A response receipt is not provider confirmation or a second charge. `get_counterparty_payment_history` remains transaction-scoped, direct-session-only and returns minimal recorded binding/dispute summaries, never a reputation guarantee. Market payment conditions and legal-assessment boundaries are unchanged.
+Existing [Collection Agency](protocol-collection-agency.md), [Conditional Payments](protocol-conditional-payments.md), [Payment Records](protocol-payments.md) and [Stripe Japan](protocol-stripe-jp.md) govern direct work and limited fund holding. Seller receipt authority, valid-capture price-debt discharge, immutable prior reservations after revocation, stable retries and signed bilateral exports remain required. A response receipt is not provider confirmation or a second charge. `get_counterparty_payment_history` remains transaction-scoped, direct-session-only and returns minimal recorded binding/dispute summaries, never a reputation guarantee. Provider payment conditions are defined by the selected adapter.
 
-The [deferred seller connection binding](protocol-stripe-jp.md) permits sales before Stripe connection and prompt settlement after verified connection. Runtime discovery must distinguish this capability from the current destination-required binding; existing signed payment records remain unchanged.
+All new payment paths require a connected seller before collection. Runtime discovery declares pre-connection collection unsupported; see [Stripe Japan](protocol-stripe-jp.md).
 
 ## 8. Storage, deletion and portability
 
@@ -98,17 +98,13 @@ The reference deployment stores exact JSON packages containing signed credential
 
 Writes archive first, then publish an index. Missing/tampered originals fail closed. A failed index write may leave an orphan requiring maintenance; it does not publish a valid credential. Deletion tracks interrupted object erasure for retry and removes only originals no longer referenced by permitted counterparties or financial records. Original copies retained by the issuer, counterparty or provider follow their own rights and retention rules. Status unknown is not equivalent to deletion or revocation.
 
-Exports include original disclosures, issuer/root authority, approvals, current status observations and signed digest manifests with explicit page cursors. Reference pages contain at most five originals within a 128 KiB aggregate target (one larger original can occupy a page); private history pages use at most twenty records and a 256 KiB target. Continue from the actual returned cursor rather than assuming a fixed record count. A partial page MUST NOT be described as a complete vault. The frozen wire/1 canonicalization and root contexts remain stable; documentation revision 0.11 does not change their bytes. Credentials can be independently re-presented without the original operator when their format and issuer policy allow it; account-URI subjects and hosted status retain declared operator dependencies.
+Exports include original disclosures, issuer/root authority, approvals, current status observations and signed digest manifests with explicit page cursors. Reference pages contain at most five originals within a 128 KiB aggregate target (one larger original can occupy a page); private history pages use at most twenty records and a 256 KiB target. Continue from the actual returned cursor rather than assuming a fixed record count. A partial page MUST NOT be described as a complete vault. The frozen wire/1 canonicalization and root contexts remain stable; documentation revision 0.12 does not change their bytes. Credentials can be independently re-presented without the original operator when their format and issuer policy allow it; account-URI subjects and hosted status retain declared operator dependencies.
 
 ## 9. Credential direct messages
 
 The [Credential DM](protocol-dm.md) profile adds an opt-in DID-addressed inbox, sender blocks, atomic quotas, original selective-disclosure credential delivery and generic email notices. Reception is not credential import, acceptance or a new job. Direct sessions and holder approval protect mutations; read mandates have no DM scope. Original bodies and delivery receipts use the same private R2 vault, with mailbox rights in D1. Delivery, SMTP acceptance, retrieval and explicit account acknowledgement are distinct events.
 
 
-## Stripe connection at escrow entry
+## Payment entry
 
-Negotiation and work acceptance do not require Stripe connection. The minimum new work payment is 500 JPY; at the current 20% fee the seller allocation is 400 JPY before refunds, disputes or other applicable adjustments. Runtime minimum price is configured by the operator and advertised in MCP operation schemas.
-
-For new conditional escrow transactions, the seller MUST complete Stripe Standard OAuth before a draft or Checkout is created, including in Sandbox. If `create_escrow` finds no active seller connection in the selected payment mode, return `phase: awaiting-seller-connection`, `escrowId: null`, `checkoutUrl: null` and a seller-directed `stripeConnection` next-step description. No funds or escrow reservation are created in that step. The seller calls `create_stripe_connect_authorization`, approves the prepared operation, completes human Stripe login/consent, retrieves `get_stripe_connect_authorization`, approves `complete_stripe_connect_authorization`, and checks `get_stripe_connect_status`. The buyer then prepares and approves `create_escrow` again with a fresh idempotency key and the agreed terms. The new draft fixes the actual deadlines and verified destination. Existing connections must have the required country and active transfer capability; incomplete provider requirements must be resolved before starting payment.
-
-The seller separately signs transaction-specific collection authority before the buyer receives Checkout. Link completion is not collection consent. Fixed acceptance/refund deadlines begin only when the connected draft is created; the connection instruction itself starts no paid hold. Existing captured transactions retain their original settlement/refund duties and destinations. Earlier deferred-destination provisions describe existing transactions or other explicitly supported payment paths; they do not authorize new unconnected escrow collection.
+The provider adapter defines connection eligibility and the next steps before payment. See [Stripe Japan payment entry](protocol-stripe-jp.md) for the current deployment's exact workflow, amounts and fees.
