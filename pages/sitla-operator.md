@@ -84,3 +84,8 @@ Exact signed originals, approvals and paid snapshots use the private `VC_VAULT` 
 ## Payment entry
 
 The provider adapter defines connection eligibility and the next steps before payment. See [Stripe Japan payment entry](protocol-stripe-jp.md) for the current deployment's exact workflow, amounts and fees.
+
+
+## Public request specification status
+
+The v0.14 [public job-request requirements](protocol-marketplace.md) specify publication, summary-only search, R2 original retrieval and application reception. They also require explicit JPY/0 units in all newly supported money-bearing work VCs, with future currency support declared separately. This documentation update does not claim deployment of the new listing/application operations or comprehensive enforcement by the current Worker. Detailed request text, eligibility and arbitrary extensions belong in R2 originals, never the D1 search projection. Participants independently verify full originals and choose trust; cached discovery and advertised terms are not current availability, a contract or a payment instruction.

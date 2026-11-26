@@ -1,6 +1,6 @@
 # Wire Artifacts
 
-*SITLA Protocol v0.13 — Minimum Interoperability Subset*\
+*SITLA Protocol v0.14 — Minimum Interoperability Subset*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
 **Date:** November 15, 2026
 
@@ -14,7 +14,7 @@ This subset fixes ID-1 descriptors/documents, KEY-2 operational authorization, e
 
 Digests are lowercase hexadecimal SHA-256, except the root’s explicitly named SHA3-512/base64url digest. Unpadded base64url must round-trip exactly, with zero unused bits. A challenge is 32–64 decoded bytes, at least 43 encoded characters; challenge generation, single-use consumption and caller binding are mandatory operational checks. Times use Gregorian years 0001–9999 in UTC `YYYY-MM-DDTHH:mm:ssZ`, without fractional seconds or leap seconds, with expiry after issuance. Schema pattern matches do not replace calendar checks.
 
-**WIRE-VERSION-1.** Document revision **0.13** and wire profile **`sitla-wire/1`** are independent. The protocol field in signed/request records is `sitla-wire/1`; native root contexts are `SITLA/root/1`, `SITLA/continuity/1` and `SITLA/archive/1`. Application domains are `SITLA/approval/1` and `SITLA/service/1`; the browser proof profile is `SITLA/webauthn-approval/1`. An editorial revision does not change any of these identifiers, record bytes, schema contracts or signature validity. An incompatible byte, meaning or algorithm change needs a new wire/subprofile identifier and explicit negotiation, not a silent upgrade based on the prose version.
+**WIRE-VERSION-1.** Document revision **0.14** and wire profile **`sitla-wire/1`** are independent. The protocol field in signed/request records is `sitla-wire/1`; native root contexts are `SITLA/root/1`, `SITLA/continuity/1` and `SITLA/archive/1`. Application domains are `SITLA/approval/1` and `SITLA/service/1`; the browser proof profile is `SITLA/webauthn-approval/1`. An editorial revision does not change any of these identifiers, record bytes, schema contracts or signature validity. An incompatible byte, meaning or algorithm change needs a new wire/subprofile identifier and explicit negotiation, not a silent upgrade based on the prose version.
 
 The root descriptor remains version 1 and the same key still derives the same `did:sitla:v1` identifier. Frozen [v0.1](../artifacts/v0.1/vectors/core.json) and [legacy v0.2](../artifacts/v0.2/vectors/core.json) artifacts retain their original `sitla/0.x` fields/contexts. They can still be verified under their explicitly selected legacy profiles, subject to ordinary status/expiry/authority policy; they are not rewritten or relabeled as wire/1. Unsupported legacy operations fail explicitly. Merely publishing this revision does not revoke an old grant.
 

@@ -1,6 +1,6 @@
 # Conditional Payment Instructions
 
-**SITLA Protocol v0.13 — optional profile `sitla-conditional-payment/1`**
+**SITLA Protocol v0.14 — optional profile `sitla-conditional-payment/1`**
 
 ## 1. Purpose and scope
 

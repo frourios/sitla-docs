@@ -1,6 +1,6 @@
 # Stripe Japan Payment Adapter
 
-**SITLA Protocol v0.13 — optional deployment adapter, not Core conformance**\
+**SITLA Protocol v0.14 — optional deployment adapter, not Core conformance**\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 ## 1. Separation from the protocol
@@ -48,3 +48,7 @@ Negotiation and work acceptance do not require Stripe connection. The minimum ne
 For new conditional escrow transactions, the seller MUST complete Stripe Standard OAuth before a draft or Checkout is created, including in Sandbox. If `create_escrow` finds no active seller connection in the selected payment mode, return `phase: awaiting-seller-connection`, `escrowId: null`, `checkoutUrl: null` and a seller-directed `stripeConnection` next-step description. No funds or escrow reservation are created in that step. The seller calls `create_stripe_connect_authorization`, approves the prepared operation, completes human Stripe login/consent, retrieves `get_stripe_connect_authorization`, approves `complete_stripe_connect_authorization`, and checks `get_stripe_connect_status`. The buyer then prepares and approves `create_escrow` again with a fresh idempotency key and the agreed terms. The new draft fixes the actual deadlines and verified destination. Existing connections must have the required country and active transfer capability; incomplete provider requirements must be resolved before starting payment.
 
 The seller separately signs transaction-specific collection authority before the buyer receives Checkout. Link completion is not collection consent. Fixed acceptance/refund deadlines begin only when the connected draft is created; the connection instruction itself starts no paid hold. Existing captured transactions retain their original settlement/refund duties and destinations. All new direct, card-authorization and conditional payment paths require a verified seller destination before Checkout or capture in both live and test mode. No other path permits pre-connection collection. Existing collected obligations remain serviceable using their original evidence and settlement rules.
+
+## Explicit currency in new work credentials
+
+The founding service's current supported monetary unit is `currency: JPY` with `currencyExponent: 0`, explicitly signed into each money-bearing VC as specified by [MONEY-1–3](protocol-payments.md). This includes request estimates, offered rewards and negotiated work/completion records, not only Stripe event receipts. Other currencies require a future declared capability/adapter update and explicit matching contract/payment conditions. Neither future extension nor legacy evidence may silently change existing JPY reservations. Public expense estimates are not an extra collection authorization; the negotiated total and seller-approved budget still govern.

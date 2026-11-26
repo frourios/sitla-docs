@@ -1,6 +1,6 @@
 # Portable Payment Records
 
-*SITLA Protocol v0.13 — Required for Operator-Mediated Marketplace Payments*\
+*SITLA Protocol v0.14 — Required for Operator-Mediated Marketplace Payments*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 The [Collection Agency](protocol-collection-agency.md) profile covers seller-authorized receipt, capture-time price debt discharge and prospective withdrawal across supported payment paths.
@@ -47,13 +47,24 @@ The signed VC binds at least:
 
 Use explicit unavailable/not-applicable observations instead of fabricating unknown effective times, fees or provider confirmations. For payment instructions, preserve the approved payer/payee, amount, terms and execution conditions. For holds, identify whose funds were held, by whom, the actual mechanism and release/expiry conditions. For refunds, identify the original payment, affected amount and beneficiary; do not imply seller payout reversal merely from buyer refund. A transaction with multiple sellers/plans preserves each relevant allocation and aggregates without counting the same funds twice. No receipt grants permission to execute another payment.
 
+## 3.1. Explicit money throughout the work flow
+
+**MONEY-1.** Every newly issued SITLA-supported VC containing a recognized monetary value MUST bind its unit in the same signed credential: an uppercase currency code, an integer minor-unit amount and an explicit currency exponent. This applies to public requests, application quotes, work proposals/agreements, financial progress/completion claims, collection authorizations, conditional instructions and operator payment events. A schema may declare common signed `currency`/`currencyExponent` fields covering all its named monetary components, or carry `{amountMinor,currency,currencyExponent}` per money group. Never infer a unit from the server's country, a different VC, a search row, a label such as `amountMinor`, or a provider default. Nonmonetary VCs do not require fictitious currency fields.
+
+The founding SITLA service currently accepts **JPY only, exponent 0**, in supported monetary fields. Recognized missing, mixed or unsupported units are rejected, not silently defaulted, rounded or converted. Prices, fee/net amounts and expense estimates have declared bases and integer bounds. The current minimum offered reward/payment is 500 JPY; estimated expenses may be zero. This minimum is an operator JPY parameter, not 500 minor units for any future currency. See [the founding provider adapter](protocol-stripe-jp.md) and [public request fields](protocol-marketplace.md).
+
+**MONEY-2.** Currency support is extensible through an explicitly published adapter/capability revision identifying codes, exponents, bounds/minimums, fee rules, rounding, provider support and any separately authorized exchange flow. Adding a currency must not reinterpret existing JPY amounts or silently change a saved contract/reservation. Every payment/receipt continues to match the exact agreed currency/exponent and allocation; an authentic signature over another currency is insufficient. No FX conversion, mixed-currency total or new currency support is implied by this draft.
+
+**MONEY-3.** Arbitrary extension fields and free text are not parsed as prices or executable financial instructions. If their author expresses a monetary claim, the author must identify its unit in that VC, but SITLA does not certify unknown field semantics. An extension cannot override a standard price/currency or become a payment amount without a separately supported schema and fresh agreement. Historical signed fixtures retain their original bytes and explicitly historical profiles; these new admission requirements do not retrofit fields or invalidate their old signatures. Implementation/schema updates are required before claiming that every existing Worker issuance path enforces this revision.
+
+
 ## 4. Give Both Parties Their Evidence
 
 *Commercial confidentiality must not deprive either party of the facts needed to understand its own transaction.*
 
 **PAY-4.** Give buyer and seller consistent copies of shared transaction facts and the records materially affecting their obligations, fees or funds. Their records may be identical VCs or role-specific VCs with a common signed event/allocation reference. Do not leak another seller's private allocation, bank/card details, authentication secrets, unrelated purchases or private third-party evidence. Explain deliberate recipient-specific omissions and disclose necessary shared counterparty/transaction facts under the agreed terms and applicable permissions. Do not silently present different amounts/outcomes as the same shared fact.
 
-Protect exports with appropriate authentication/encryption; bearer payment secrets are not export material. Each party can retain and disclose its own evidence for an authorized dispute/review without needing a fresh operator presentation mandate. Export is not permission for unrestricted public publication of the other party's personal information, contract or work. Selective disclosure may supplement a complete authorized private copy, but a ZKP or online verification verdict alone must not replace the underlying evidence the party is entitled to retain.
+Protect exports with appropriate authentication/encryption; bearer payment secrets are not export material. Each party can retain and disclose its own evidence for an authorized dispute/review without needing a fresh operator presentation mandate. Export is not permission for unrestricted public publication of the other party's personal information, contract or work. Other separately supported adapters may supplement a complete authorized private copy; current SITLA circulation accepts only complete VCs. A ZKP or online verification verdict alone must not replace the underlying evidence the party is entitled to retain.
 
 ## 5. An Independently Usable Evidence Bundle
 

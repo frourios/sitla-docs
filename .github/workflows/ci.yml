@@ -62,7 +62,7 @@ jobs:
         with:
           path: formal/.cache/tla2tools.jar
           key: ${{ runner.os }}-tlc-${{ hashFiles('formal/tools.lock.json') }}
-      - name: Model-check four protocols and eight weakened guards
+      - name: Model-check protocols, weakened guards and permitted behaviors
         run: python3 formal/check.py
       - name: Retain TLC results and counterexample traces
         if: always()

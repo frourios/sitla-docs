@@ -1,6 +1,6 @@
 # Public Payment Wire Artifacts
 
-**SITLA Protocol v0.13 — optional online binding `sitla-payments-online/1`**\
+**SITLA Protocol v0.14 — optional online binding `sitla-payments-online/1`**\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 **Compatibility boundary:** the `payments-v1` securing vectors below are a frozen legacy direct-JWS fixture profile. Current online issuance uses [SITLA-vc-jwt/1](protocol-online.md), operator DID issuers and complete payment subject claims. Business subject fields/meaning remain applicable, but the legacy securing wrapper and export-envelope assertions are not the runtime complete-VC encoding. Do not relabel or regenerate historical signatures. See the whole-VC circulation profile for the current securing layer; frozen payment fixtures independently test legacy semantics.
@@ -67,3 +67,8 @@ The SD-JWT fixtures above are frozen historical fixtures. They do not establish 
 
 
 Current [whole-VC WebAuthn export vectors](../artifacts/circulation-v2/passkey-export.json) cover one positive and six negatives: manifest signature, missing approval, changed license copy, changed JWS recipient list, substituted record and signed payment-amount mismatch. Node and independent Python verify these bytes and the supplied trusted RP enrollment. [Whole-VC policy vectors](../artifacts/circulation-v2/credentials.json) separately cover accepted policies and rejected disclosure/license combinations. They are synthetic verification fixtures, not evidence of live deployment or provider execution.
+
+
+## New work-currency admission boundary
+
+[MONEY-1–3](protocol-payments.md) requires units inside each newly supported work-flow VC and currently admits JPY/0 only. Frozen `payments-v1`, `payments-v2` and prior circulation fixtures keep their original bytes and may not contain the new explicitly signed exponent fields. They are not certification of this new admission contract. Before claiming Worker support, publish the versioned monetary subject/adapter schema changes and corresponding issuance/verification updates; do not retrofit metadata into old signatures. The new [job-request schema](../artifacts/job-requests-v1/schemas/job-request.schema.json) already defines explicit units for its expense/reward groups. Its unsigned shape/projection tests do not add a new cryptographic-interoperability claim.

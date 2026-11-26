@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC0-1.0 -->
 # Online MCP Credential Circulation
 
-**Specification revision: 0.13. Application profile: `SITLA-online/1`. Whole-credential circulation: `SITLA-vc-jwt/1`. Draft.**
+**Specification revision: 0.14. Application profile: `SITLA-online/1`. Whole-credential circulation: `SITLA-vc-jwt/1`. Draft.**
 
 *Standard MCP and OAuth carry credential operations; credentials do not replace the transport or the authorization server.*
 
@@ -122,7 +122,7 @@ The reference deployment stores exact JSON packages containing signed credential
 
 Writes archive first, then publish an index. Missing/tampered originals fail closed. A failed index write may leave an orphan requiring maintenance; it does not publish a valid credential. Deletion tracks interrupted object erasure for retry and removes only originals no longer referenced by permitted counterparties or financial records. Original copies retained by the issuer, counterparty or provider follow their own rights and retention rules. Status unknown is not equivalent to deletion or revocation.
 
-Exports include complete signed originals, issuer/root authority, approvals, current status observations and signed digest manifests with explicit page cursors. Reference pages contain at most five originals within a 128 KiB aggregate target (one larger original can occupy a page); private history pages use at most twenty records and a 256 KiB target. Continue from the actual returned cursor rather than assuming a fixed record count. A partial page MUST NOT be described as a complete vault. The frozen wire/1 canonicalization and root contexts remain stable; documentation revision 0.13 does not change their bytes. Credentials can be independently re-presented without the original operator when their format and issuer policy allow it; account-URI subjects and hosted status retain declared operator dependencies.
+Exports include complete signed originals, issuer/root authority, approvals, current status observations and signed digest manifests with explicit page cursors. Reference pages contain at most five originals within a 128 KiB aggregate target (one larger original can occupy a page); private history pages use at most twenty records and a 256 KiB target. Continue from the actual returned cursor rather than assuming a fixed record count. A partial page MUST NOT be described as a complete vault. The frozen wire/1 canonicalization and root contexts remain stable; documentation revision 0.14 does not change their bytes. Credentials can be independently re-presented without the original operator when their format and issuer policy allow it; account-URI subjects and hosted status retain declared operator dependencies.
 
 ## 9. Credential direct messages
 
@@ -134,3 +134,11 @@ The [Credential DM](protocol-dm.md) profile adds an opt-in DID-addressed inbox, 
 The provider adapter defines connection eligibility and the next steps before payment. See [Stripe Japan payment entry](protocol-stripe-jp.md) for the current deployment's exact workflow, amounts and fees.
 
 Operator payment-event and delivery receipts describe operator actions and remain SITLA-internal with the participating DID recipients; negotiated `resultPolicies` govern the parties’ result VCs, not permission to publish private processor references.
+
+## 10. Public job requests and monetary units
+
+The new [public request profile](protocol-marketplace.md) specifies CC0 request listing, lightweight summary search, original retrieval from R2 and signed application reception before the existing negotiation/work flow. D1 stores only the declared projection and source/routing/status metadata; request details, applicant conditions and arbitrary extensions remain exclusively in the complete R2 original. Search cannot match those omitted fields. Cached projections can outlive a posting; no fresh application or work/payment authority follows from a cached result.
+
+All newly supported money-bearing work/transaction VCs follow [MONEY-1–3](protocol-payments.md): their own signed currency and exponent, current JPY/0-only admission, and explicit future capability negotiation. Currency is not inferred from another VC. The public request's completion-license proposal is independent of its own CC0 license; final issuer-side result policies are negotiated and signed into the work terms.
+
+These are specification requirements awaiting corresponding Worker operations/issuance changes. The existing generic VC vault, DM, work and payment tools do not by themselves implement public request discovery/application admission, and the specification's independent TLA+ checks do not certify Worker conformance. Participants verify the originals and determine their own trust rather than relying on SITLA's projection or verdict.

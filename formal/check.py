@@ -17,8 +17,13 @@ import time
 import urllib.request
 
 ROOT = Path(__file__).resolve().parent
-MODELS = ("ConditionalPayment", "ProviderRecovery", "CollectionAuthority", "ApprovalExecution")
+MODELS = ("ConditionalPayment", "ProviderRecovery", "CollectionAuthority", "ApprovalExecution", "PublicJobRequests")
 MUTANTS = (
+    ("PublicJobRequests", "unsupported-job-currency", '/\\ m.currency \\in SupportedCurrencies \\* MUTATION: supported currency', '/\\ TRUE \\* MUTATION: supported currency', "JPYOnlyAdmission"),
+    ("PublicJobRequests", "details-in-d1", 'desiredDueAt |-> r.desiredDueAt]\n    \\* MUTATION: projection ends here', 'desiredDueAt |-> r.desiredDueAt, details |-> r.details]\n    \\* MUTATION: projection ends here', "D1OnlyProjection"),
+    ("PublicJobRequests", "expired-application", '/\\ now < ExpiresAt \\* MUTATION: fresh application expiry', '/\\ TRUE \\* MUTATION: fresh application expiry', "ApplicationBeforeExpiry"),
+    ("PublicJobRequests", "trust-operator-label", '/\\ verified \\* MUTATION: independent verification', '/\\ OperatorSaysValid \\* MUTATION: independent verification', "ClientVerifiedBeforeTrust"),
+    ("PublicJobRequests", "missing-work-currency", 'currency |-> c,\n                     currencyExponent |-> MinorUnit(c)] \\* MUTATION: explicit work unit', 'currency |-> "absent",\n                     currencyExponent |-> MinorUnit(c)] \\* MUTATION: explicit work unit', "MoneyUnitExplicit"),
     ("ConditionalPayment", "late-release", "/\\ now < RefundAt \\* MUTATION: deadline guard", "/\\ TRUE \\* MUTATION: deadline guard", "ReleaseBeforeDeadline"),
     ("ConditionalPayment", "missing-inspection", "/\\ inspection = TRUE \\* MUTATION: inspection guard", "/\\ TRUE \\* MUTATION: inspection guard", "ReleaseAuthorized"),
     ("ProviderRecovery", "unstable-key", '![s] = "stable"] \\* MUTATION: stable key', '![s] = FreshKey(s)] \\* MUTATION: stable key', "AtMostOneProviderEffect"),
@@ -28,6 +33,11 @@ MUTANTS = (
     ("ApprovalExecution", "approval-replay", '/\\ a \\notin consumed \\* MUTATION: atomic consumption', '/\\ TRUE \\* MUTATION: atomic consumption', "ApprovalAtMostOnce"),
     ("ApprovalExecution", "stale-epoch", '/\\ seenEpoch[w] = epoch \\* MUTATION: epoch barrier', '/\\ TRUE \\* MUTATION: epoch barrier', "CurrentEpochAtCommit"),
 )
+WITNESSES = (
+    ("PublicJobRequests", "stale-cache-is-permitted", "CacheAlwaysFresh"),
+    ("PublicJobRequests", "negotiated-price-may-differ", "ContractEqualsAdvertisement"),
+)
+
 
 
 def sha(path):
@@ -126,8 +136,17 @@ def main():
             config = re.sub(r"^PROPERT(?:Y|IES) .*$", "", config, flags=re.M)
             (directory / f"{module}.cfg").write_text(config)
             results.append(run(args.java, jar, module, directory, name, invariant, args.timeout, reports))
+        for module, name, invariant in WITNESSES:
+            directory = work / name
+            directory.mkdir()
+            shutil.copyfile(ROOT / f"{module}.tla", directory / f"{module}.tla")
+            config = (ROOT / f"{module}.cfg").read_text()
+            config = re.sub(r"^INVARIANTS? .*$", f"INVARIANT {invariant}", config, flags=re.M)
+            config = re.sub(r"^PROPERT(?:Y|IES) .*$", "", config, flags=re.M)
+            (directory / f"{module}.cfg").write_text(config)
+            results.append(run(args.java, jar, module, directory, name, invariant, args.timeout, reports))
     summary.write_text(json.dumps({"tlcSha256": sha(jar), "checks": results}, indent=2) + "\n")
-    print(f"Verified {len(MODELS)} models and {len(MUTANTS)} expected counterexamples. Results: {summary}")
+    print(f"Verified {len(MODELS)} models and {len(MUTANTS)} guard-removal counterexamples and {len(WITNESSES)} permitted-behavior witnesses. Results: {summary}")
 
 
 if __name__ == "__main__":
