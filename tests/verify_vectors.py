@@ -331,3 +331,6 @@ verify_payments(canonical, b64, verify_passkey)
 
 from verify_complete_vc import verify_vectors as verify_complete_vectors
 verify_complete_vectors()
+
+from verify_job_requests import verify_vectors as verify_job_request_vectors
+verify_job_request_vectors()

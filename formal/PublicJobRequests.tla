@@ -18,8 +18,8 @@ ValidAmount(m, minimum) ==
 Request(c) ==
     [id |-> "request-original", issuer |-> "requester", subject |-> "requester",
      licenses |-> {"CC0-1.0"}, validUntil |-> ExpiresAt,
-     summary |-> "public summary", details |-> "R2-only detailed body",
-     eligibility |-> "R2-only applicant conditions", extensions |-> "R2-only opaque data",
+     summary |-> "public summary", details |-> "vault-only detailed body",
+     eligibility |-> "vault-only applicant conditions", extensions |-> "vault-only opaque data",
      reward |-> Money(IF c = "cheap" THEN 499 ELSE 500,
                       CASE c = "usd" -> "USD" [] c = "missing-unit" -> "absent" [] OTHER -> "JPY"),
      estimatedExpenses |-> Money(0, "JPY"), completionLicenses |-> {"CC0-1.0"},
@@ -116,7 +116,7 @@ ChooseTrust(score) ==
                    proposedPolicy, approved, contract, agreed, agreedPolicy,
                    workStage, workMoney, delivery>>
 Apply ==
-    /\ indexed /\ archived /\ ~closed /\ ~revoked /\ ~applied
+    /\ indexed /\ archived /\ ~closed /\ ~revoked
     /\ Admissible(Request(selected))
     /\ now < ExpiresAt \* MUTATION: fresh application expiry
     /\ applied' = TRUE /\ applicationAt' = now
@@ -187,7 +187,7 @@ TypeOK == /\ selected \in Cases /\ now \in 0..MaxTime
           /\ agreed \in [amountMinor : {0, 499, 500, 600}, currency : Codes, currencyExponent : {0, 2}]
           /\ workMoney \in [amountMinor : {0, 499, 500, 600}, currency : Codes, currencyExponent : {0, 2}]
 OriginalBeforeIndex == indexed => archived
-D1OnlyProjection == indexed => DOMAIN row = ProjectionKeys
+IndexOnlyProjection == indexed => DOMAIN row = ProjectionKeys
 JPYOnlyAdmission == archived =>
     (Request(selected).reward.currency \in SupportedCurrencies /\
      Request(selected).estimatedExpenses.currency \in SupportedCurrencies)

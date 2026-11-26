@@ -1,6 +1,6 @@
 # Collection Agency
 
-**SITLA Protocol v0.14 — service profile `sitla-collection-agency/1`**
+**SITLA Protocol v0.15 — service profile `sitla-collection-agency/1`**
 
 ## 1. Common rule
 

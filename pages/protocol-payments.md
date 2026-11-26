@@ -1,6 +1,6 @@
 # Portable Payment Records
 
-*SITLA Protocol v0.14 — Required for Operator-Mediated Marketplace Payments*\
+*SITLA Protocol v0.15 — Required for Operator-Mediated Marketplace Payments*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 The [Collection Agency](protocol-collection-agency.md) profile covers seller-authorized receipt, capture-time price debt discharge and prospective withdrawal across supported payment paths.
@@ -55,7 +55,7 @@ The founding SITLA service currently accepts **JPY only, exponent 0**, in suppor
 
 **MONEY-2.** Currency support is extensible through an explicitly published adapter/capability revision identifying codes, exponents, bounds/minimums, fee rules, rounding, provider support and any separately authorized exchange flow. Adding a currency must not reinterpret existing JPY amounts or silently change a saved contract/reservation. Every payment/receipt continues to match the exact agreed currency/exponent and allocation; an authentic signature over another currency is insufficient. No FX conversion, mixed-currency total or new currency support is implied by this draft.
 
-**MONEY-3.** Arbitrary extension fields and free text are not parsed as prices or executable financial instructions. If their author expresses a monetary claim, the author must identify its unit in that VC, but SITLA does not certify unknown field semantics. An extension cannot override a standard price/currency or become a payment amount without a separately supported schema and fresh agreement. Historical signed fixtures retain their original bytes and explicitly historical profiles; these new admission requirements do not retrofit fields or invalidate their old signatures. Implementation/schema updates are required before claiming that every existing Worker issuance path enforces this revision.
+**MONEY-3.** Arbitrary extension fields and free text are not parsed as prices or executable financial instructions. If their author expresses a monetary claim, the author must identify its unit in that VC, but SITLA does not certify unknown field semantics. An extension cannot override a standard price/currency or become a payment amount without a separately supported schema and fresh agreement. Historical signed fixtures retain their original bytes and explicitly historical profiles; these new admission requirements do not retrofit fields or invalidate their old signatures. The Worker includes explicit JPY/0 units in its supported money-bearing issuance paths. Current conditional-instruction and collection-authority subject schemas are published in `artifacts/circulation-v3/schemas/`; see [the operator implementation](sitla-operator.md).
 
 
 ## 4. Give Both Parties Their Evidence

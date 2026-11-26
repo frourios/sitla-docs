@@ -10,7 +10,7 @@ The files use erasable TypeScript. Node.js 26 can import `codec.ts` directly wit
 
 `webauthn.ts` verifies the named ES256 approval profile using independently enrolled RP credentials and the original clientDataJSON bytes. It does not perform browser enrollment, attest hardware, provide an approval UI, maintain a replay/counter/epoch database or execute payments. Those remain authenticated RP duties. The JSON DID adapter explicitly rejects JSON-LD representation requests.
 
-`policy_digest` and operator policy references hash exact resource bytes, including whitespace/newlines; fixture policy bytes are published under `artifacts/wire-v1/policies/`. Wire records use `sitla-wire/1`, stable native contexts such as `SITLA/root/1`, and stable approval/service domains. Prose revision 0.14 is documentary metadata, not a signature invalidation switch. Legacy v0.1/v0.2 fixtures retain their original contexts and byte identities.
+`policy_digest` and operator policy references hash exact resource bytes, including whitespace/newlines; fixture policy bytes are published under `artifacts/wire-v1/policies/`. Wire records use `sitla-wire/1`, stable native contexts such as `SITLA/root/1`, and stable approval/service domains. Prose revision 0.15 is documentary metadata, not a signature invalidation switch. Legacy v0.1/v0.2 fixtures retain their original contexts and byte identities.
 
 Run `npm run test:mutation` for targeted guard-removal checks, independently of `npm test`. The mutation runner imports each temporary mutant before testing so syntax/import failures cannot masquerade as detected security omissions. It checks 32 selected guards; it is not exhaustive or a production-verifier claim.
 
@@ -29,3 +29,7 @@ Verification scope: Node and the independently written Python code verify wire/1
 ## Selective disclosure circulation
 
 `sd-jwt.ts` verifies the restricted `SITLA-sd-jwt/1` issuer-signature/disclosure profile with native Node Ed25519. It has no network access and does not accept an issuer as trustworthy, resolve root authority, verify fresh holder possession or fetch status. `artifacts/circulation-v1/vectors.json` contains nonpersonal public fixtures, not issuer private keys. Node and `tests/verify_sd_jwt.py` independently reproduce two positive and four negative fixtures. This limited fixture coverage is distinct from legacy wire/payment conformance and from live MCP integration tests.
+
+## DID history specification boundary
+
+The [current DID-history contract](../pages/protocol-did-history.md) requires public license metadata and a `history` container. `codec.ts` reconstructs only its immutable root projection; it is not a current full-document verifier. Existing key-replacement vectors verify component rules, not complete document history, dual-root transitions, latest-state discovery or atomic retained-head/conflict behavior. No history conformance is claimed until dedicated signed fixtures and independently implemented verification are added.

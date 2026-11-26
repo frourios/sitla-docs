@@ -38,7 +38,7 @@ jobs:
           python -m pip install --require-hashes --only-binary=:all: -r tests/requirements.lock
       - name: Verify historical selective-disclosure fixtures with independent Python
         run: python tests/verify_sd_jwt.py
-      - name: Verify core, profiles and payment records with independent Python
+      - name: Verify core, profiles, payments and job requests with independent Python
         run: npm run test:python
 
   formal:

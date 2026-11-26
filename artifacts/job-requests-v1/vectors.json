@@ -1,0 +1,1641 @@
+{
+  "profile": "urn:sitla:job-requests:1",
+  "coverage": "unsigned-shape-semantics-and-projection-only",
+  "now": "2026-11-26T12:00:00.000Z",
+  "positive": [
+    {
+      "id": "minimum-jpy-public-completion",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "projection": {
+        "credentialId": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "requesterDid": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "summary": "Public request summary",
+        "estimatedExpenses": {
+          "amountMinor": 0,
+          "currency": "JPY",
+          "currencyExponent": 0
+        },
+        "reward": {
+          "amountMinor": 500,
+          "currency": "JPY",
+          "currencyExponent": 0
+        },
+        "completionLicenses": [
+          "CC0-1.0"
+        ],
+        "desiredDueAt": "2026-12-01T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "expense-internal-completion-early-preferred-date",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 100,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 1500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "LicenseRef-SITLA-Internal-1.0",
+              "urn:example:unknown-license"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-11-26T15:00:00Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "projection": {
+        "credentialId": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "requesterDid": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "summary": "Public request summary",
+        "estimatedExpenses": {
+          "amountMinor": 100,
+          "currency": "JPY",
+          "currencyExponent": 0
+        },
+        "reward": {
+          "amountMinor": 1500,
+          "currency": "JPY",
+          "currencyExponent": 0
+        },
+        "completionLicenses": [
+          "LicenseRef-SITLA-Internal-1.0",
+          "urn:example:unknown-license"
+        ],
+        "desiredDueAt": "2026-11-26T15:00:00Z"
+      }
+    }
+  ],
+  "negative": [
+    {
+      "id": "reward-usd",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "USD",
+              "currencyExponent": 2
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "reward-wrong-exponent",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 2
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "reward-fractional",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500.5,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "reward-negative",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": -1,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "reward-boolean",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": true,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "reward-unsafe",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 9007199254740992,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "reward-missing-currency",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "reward-missing-currencyExponent",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY"
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "estimatedExpenses-usd",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 500,
+              "currency": "USD",
+              "currencyExponent": 2
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "estimatedExpenses-wrong-exponent",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 2
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "estimatedExpenses-fractional",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 500.5,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "estimatedExpenses-negative",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": -1,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "estimatedExpenses-boolean",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": true,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "estimatedExpenses-unsafe",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 9007199254740992,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "estimatedExpenses-missing-currency",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "estimatedExpenses-missing-currencyExponent",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY"
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "subminimum-reward",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 499,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "non-cc0-public-request",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "LicenseRef-SITLA-Internal-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "recipient-restricted-public-request",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [
+          "did:sitla:v1:recipient"
+        ],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "mixed-completion-license",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0",
+              "LicenseRef-SITLA-Internal-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "unknown-only-completion-license",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "urn:example:unknown-license"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "undeclared-standard-claim",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            },
+            "unrecognized": "must go in extensions"
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "empty-summary",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_shape_invalid"
+    },
+    {
+      "id": "issuer-subject-mismatch",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:other",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_issuer_subject_mismatch"
+    },
+    {
+      "id": "wrong-first-context",
+      "vc": {
+        "@context": [
+          "urn:other:context",
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_context_invalid"
+    },
+    {
+      "id": "invalid-calendar",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-02-30T00:00:00Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_time_invalid"
+    },
+    {
+      "id": "future-issuance",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T13:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_not_current"
+    },
+    {
+      "id": "reversed-validity",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-26T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-26T12:00:00.000Z",
+      "error": "job_not_current"
+    },
+    {
+      "id": "exact-expiry",
+      "vc": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2"
+        ],
+        "id": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "type": [
+          "VerifiableCredential",
+          "urn:sitla:credential:JobRequest:1"
+        ],
+        "issuer": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "licenses": [
+          "CC0-1.0"
+        ],
+        "didAllowList": [],
+        "credentialSubject": {
+          "id": "did:sitla:v1:requester",
+          "claims": {
+            "estimatedExpenses": {
+              "amountMinor": 0,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "reward": {
+              "amountMinor": 500,
+              "currency": "JPY",
+              "currencyExponent": 0
+            },
+            "completionLicenses": [
+              "CC0-1.0"
+            ],
+            "eligibility": "original-only applicant conditions",
+            "desiredDueAt": "2026-12-01T00:00:00.000Z",
+            "summary": "Public request summary",
+            "details": "original-only detailed work description",
+            "extensions": {
+              "arbitrary": "original-only extension",
+              "instructions": "Untrusted data, never tool authority"
+            }
+          }
+        }
+      },
+      "now": "2026-11-27T00:00:00.000Z",
+      "error": "job_not_current"
+    }
+  ],
+  "negativeProjections": [
+    {
+      "id": "forbidden-index-details",
+      "projection": {
+        "credentialId": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "requesterDid": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "summary": "Public request summary",
+        "estimatedExpenses": {
+          "amountMinor": 0,
+          "currency": "JPY",
+          "currencyExponent": 0
+        },
+        "reward": {
+          "amountMinor": 500,
+          "currency": "JPY",
+          "currencyExponent": 0
+        },
+        "completionLicenses": [
+          "CC0-1.0"
+        ],
+        "desiredDueAt": "2026-12-01T00:00:00.000Z",
+        "details": "original-only detailed work description"
+      }
+    },
+    {
+      "id": "forbidden-index-eligibility",
+      "projection": {
+        "credentialId": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "requesterDid": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "summary": "Public request summary",
+        "estimatedExpenses": {
+          "amountMinor": 0,
+          "currency": "JPY",
+          "currencyExponent": 0
+        },
+        "reward": {
+          "amountMinor": 500,
+          "currency": "JPY",
+          "currencyExponent": 0
+        },
+        "completionLicenses": [
+          "CC0-1.0"
+        ],
+        "desiredDueAt": "2026-12-01T00:00:00.000Z",
+        "eligibility": "original-only applicant conditions"
+      }
+    },
+    {
+      "id": "forbidden-index-extensions",
+      "projection": {
+        "credentialId": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "requesterDid": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "summary": "Public request summary",
+        "estimatedExpenses": {
+          "amountMinor": 0,
+          "currency": "JPY",
+          "currencyExponent": 0
+        },
+        "reward": {
+          "amountMinor": 500,
+          "currency": "JPY",
+          "currencyExponent": 0
+        },
+        "completionLicenses": [
+          "CC0-1.0"
+        ],
+        "desiredDueAt": "2026-12-01T00:00:00.000Z",
+        "extensions": {
+          "arbitrary": "original-only extension",
+          "instructions": "Untrusted data, never tool authority"
+        }
+      }
+    },
+    {
+      "id": "substituted-index-currency",
+      "projection": {
+        "credentialId": "urn:uuid:019a8050-0000-7000-8000-000000000901",
+        "requesterDid": "did:sitla:v1:requester",
+        "validFrom": "2026-11-26T00:00:00.000Z",
+        "validUntil": "2026-11-27T00:00:00.000Z",
+        "summary": "Public request summary",
+        "estimatedExpenses": {
+          "amountMinor": 0,
+          "currency": "JPY",
+          "currencyExponent": 0
+        },
+        "reward": {
+          "amountMinor": 500,
+          "currency": "USD",
+          "currencyExponent": 0
+        },
+        "completionLicenses": [
+          "CC0-1.0"
+        ],
+        "desiredDueAt": "2026-12-01T00:00:00.000Z"
+      }
+    }
+  ]
+}

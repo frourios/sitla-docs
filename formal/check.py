@@ -17,10 +17,15 @@ import time
 import urllib.request
 
 ROOT = Path(__file__).resolve().parent
-MODELS = ("ConditionalPayment", "ProviderRecovery", "CollectionAuthority", "ApprovalExecution", "PublicJobRequests")
+MODELS = ("ConditionalPayment", "ProviderRecovery", "CollectionAuthority", "ApprovalExecution", "PublicJobRequests", "JobApplications")
 MUTANTS = (
+    ("JobApplications", "per-applicant-quota", '/\\ TRUE \\* MUTATION: no per-applicant quota', '/\\ ~\\E prior \\in submissions : Owner(prior) = Owner(i) \\* MUTATION: no per-applicant quota', "NoBusinessApplicationLimit"),
+    ("JobApplications", "per-request-capacity", '/\\ TRUE \\* MUTATION: no request capacity', '/\\ Cardinality(submissions) < 1 \\* MUTATION: no request capacity', "NoBusinessApplicationLimit"),
+    ("JobApplications", "submit-auto-closes", "/\\ closed' = closed \\* MUTATION: submit must not close", "/\\ closed' = TRUE \\* MUTATION: submit must not close", "OnlyRequesterCloses"),
+    ("JobApplications", "contract-auto-closes", "/\\ closed' = closed \\* MUTATION: contract must not close", "/\\ closed' = TRUE \\* MUTATION: contract must not close", "OnlyRequesterCloses"),
+    ("JobApplications", "same-key-duplicate-submission", '(IF fresh THEN 1 ELSE 0)] \\* MUTATION: retry deduplication', '1] \\* MUTATION: retry deduplication', "ExactlyOncePerIntent"),
     ("PublicJobRequests", "unsupported-job-currency", '/\\ m.currency \\in SupportedCurrencies \\* MUTATION: supported currency', '/\\ TRUE \\* MUTATION: supported currency', "JPYOnlyAdmission"),
-    ("PublicJobRequests", "details-in-d1", 'desiredDueAt |-> r.desiredDueAt]\n    \\* MUTATION: projection ends here', 'desiredDueAt |-> r.desiredDueAt, details |-> r.details]\n    \\* MUTATION: projection ends here', "D1OnlyProjection"),
+    ("PublicJobRequests", "details-in-index", 'desiredDueAt |-> r.desiredDueAt]\n    \\* MUTATION: projection ends here', 'desiredDueAt |-> r.desiredDueAt, details |-> r.details]\n    \\* MUTATION: projection ends here', "IndexOnlyProjection"),
     ("PublicJobRequests", "expired-application", '/\\ now < ExpiresAt \\* MUTATION: fresh application expiry', '/\\ TRUE \\* MUTATION: fresh application expiry', "ApplicationBeforeExpiry"),
     ("PublicJobRequests", "trust-operator-label", '/\\ verified \\* MUTATION: independent verification', '/\\ OperatorSaysValid \\* MUTATION: independent verification', "ClientVerifiedBeforeTrust"),
     ("PublicJobRequests", "missing-work-currency", 'currency |-> c,\n                     currencyExponent |-> MinorUnit(c)] \\* MUTATION: explicit work unit', 'currency |-> "absent",\n                     currencyExponent |-> MinorUnit(c)] \\* MUTATION: explicit work unit', "MoneyUnitExplicit"),
@@ -34,6 +39,9 @@ MUTANTS = (
     ("ApprovalExecution", "stale-epoch", '/\\ seenEpoch[w] = epoch \\* MUTATION: epoch barrier', '/\\ TRUE \\* MUTATION: epoch barrier', "CurrentEpochAtCommit"),
 )
 WITNESSES = (
+    ("JobApplications", "same-applicant-reapplies", "AtMostOnePerApplicant"),
+    ("JobApplications", "multiple-applicants", "AtMostOneApplicant"),
+    ("JobApplications", "contract-keeps-listing-open", "ContractClosesListing"),
     ("PublicJobRequests", "stale-cache-is-permitted", "CacheAlwaysFresh"),
     ("PublicJobRequests", "negotiated-price-may-differ", "ContractEqualsAdvertisement"),
 )

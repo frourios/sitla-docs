@@ -1,6 +1,6 @@
 # Public Payment Wire Artifacts
 
-**SITLA Protocol v0.14 — optional online binding `sitla-payments-online/1`**\
+**SITLA Protocol v0.15 — optional online binding `sitla-payments-online/1`**\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 **Compatibility boundary:** the `payments-v1` securing vectors below are a frozen legacy direct-JWS fixture profile. Current online issuance uses [SITLA-vc-jwt/1](protocol-online.md), operator DID issuers and complete payment subject claims. Business subject fields/meaning remain applicable, but the legacy securing wrapper and export-envelope assertions are not the runtime complete-VC encoding. Do not relabel or regenerate historical signatures. See the whole-VC circulation profile for the current securing layer; frozen payment fixtures independently test legacy semantics.

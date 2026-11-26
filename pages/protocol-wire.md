@@ -1,30 +1,30 @@
 # Wire Artifacts
 
-*SITLA Protocol v0.14 — Minimum Interoperability Subset*\
+*SITLA Protocol v0.15 — Minimum Interoperability Subset*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
-**Date:** November 15, 2026
+**Date:** November 27, 2026
 
 ## 1. Scope, Encoding and Version Boundary
 
 *Independent implementations need identical bytes and rejection rules. A newer protocol does not rename a holder’s identity root.*
 
-This subset fixes ID-1 descriptors/documents, KEY-2 operational authorization, evidence requests/envelopes, EVID-2 Ed25519/passkey approvals and service assertions from [Core](protocol.md). Schemas do not authenticate an issuer, grant permission or establish real-world truth. Credential-format adapters, full operator discovery, live status and transport profiles remain separate.
+This subset fixes ID-1 descriptors/root projections, KEY-2 operational authorization, evidence requests/envelopes, EVID-2 Ed25519/passkey approvals and service assertions from [Core](protocol.md). Schemas do not authenticate an issuer, grant permission or establish real-world truth. Credential-format adapters, full operator discovery, live status and transport profiles remain separate.
 
 **WIRE-1.** Use the linked JSON Schema draft 2020-12 schemas; reject unknown fields. Wire objects are canonical UTF-8 without BOM, using the RFC 8785 JCS subset: safe integers only (absolute value at most 2^53−1), no negative zero, no unpaired Unicode surrogates, no Unicode normalization, UTF-16 code-unit property ordering, JCS string escapes and preserved array order. Reject duplicate fields at every depth, whitespace and alternate wire spellings. Exact reserialization comparison after strict decoding can detect these ambiguities. Check byte/depth budgets before parsing and enforce collection, time and rate limits. Schema changes require a named profile/revision, not undocumented signed fields.
 
 Digests are lowercase hexadecimal SHA-256, except the root’s explicitly named SHA3-512/base64url digest. Unpadded base64url must round-trip exactly, with zero unused bits. A challenge is 32–64 decoded bytes, at least 43 encoded characters; challenge generation, single-use consumption and caller binding are mandatory operational checks. Times use Gregorian years 0001–9999 in UTC `YYYY-MM-DDTHH:mm:ssZ`, without fractional seconds or leap seconds, with expiry after issuance. Schema pattern matches do not replace calendar checks.
 
-**WIRE-VERSION-1.** Document revision **0.14** and wire profile **`sitla-wire/1`** are independent. The protocol field in signed/request records is `sitla-wire/1`; native root contexts are `SITLA/root/1`, `SITLA/continuity/1` and `SITLA/archive/1`. Application domains are `SITLA/approval/1` and `SITLA/service/1`; the browser proof profile is `SITLA/webauthn-approval/1`. An editorial revision does not change any of these identifiers, record bytes, schema contracts or signature validity. An incompatible byte, meaning or algorithm change needs a new wire/subprofile identifier and explicit negotiation, not a silent upgrade based on the prose version.
+**WIRE-VERSION-1.** Document revision **0.15** and wire profile **`sitla-wire/1`** are independent. The protocol field in signed/request records is `sitla-wire/1`; native root contexts are `SITLA/root/1`, `SITLA/continuity/1` and `SITLA/archive/1`. Application domains are `SITLA/approval/1` and `SITLA/service/1`; the browser proof profile is `SITLA/webauthn-approval/1`. An editorial revision does not change any of these identifiers, record bytes, schema contracts or signature validity. An incompatible byte, meaning or algorithm change needs a new wire/subprofile identifier and explicit negotiation, not a silent upgrade based on the prose version.
 
 The root descriptor remains version 1 and the same key still derives the same `did:sitla:v1` identifier. Frozen [v0.1](../artifacts/v0.1/vectors/core.json) and [legacy v0.2](../artifacts/v0.2/vectors/core.json) artifacts retain their original `sitla/0.x` fields/contexts. They can still be verified under their explicitly selected legacy profiles, subject to ordinary status/expiry/authority policy; they are not rewritten or relabeled as wire/1. Unsupported legacy operations fail explicitly. Merely publishing this revision does not revoke an old grant.
 
-## 2. Root Descriptor and Exact DID Document
+## 2. Root Descriptor and Immutable Document Projection
 
 *Resolve locally from the signing descriptor. No operator domain, communication key or endpoint enters the root hash.*
 
 [Descriptor schema](../artifacts/wire-v1/schemas/identity-descriptor.schema.json) allows exactly `version: 1`, `identitySuite: ML-DSA-44` and `identityPublicKey`, the 1,312-byte public key in unpadded base64url. Hash canonical descriptor bytes with SHA3-512, base64url-encode, and prepend `did:sitla:v1:`.
 
-**WIRE-2.** Reconstruct exactly the [DID-document schema](../artifacts/wire-v1/schemas/did-document.schema.json) and fixed document vector. For derived DID `D` and descriptor public key `P`, the document is:
+**WIRE-2.** Reconstruct exactly the immutable root projection represented by the frozen [DID-document schema](../artifacts/wire-v1/schemas/did-document.schema.json) and fixed document vector. This schema is a component fixture, not the full current DID-document admission contract. For derived DID `D` and descriptor public key `P`, the root projection is:
 
 ```json
 {
@@ -42,7 +42,7 @@ The root descriptor remains version 1 and the same key still derives the same `d
 }
 ```
 
-`D` and `P` above are substitutions, not literal wire values. No extra/private JWK fields, communication methods, service endpoints or `keyAgreement` appear. **DID-REP-1.** Resolution produces **`application/did+json`**, using the [DID Core JSON representation](https://www.w3.org/TR/2022/REC-did-core-20220719/#json). Consumers MUST preserve and process the named properties as JSON; they MUST NOT apply JSON-LD expansion, compaction, term dropping or context retrieval to this profile. The literal `@context` member is retained in the fixed JSON shape but does not select `application/did+ld+json`. That representation is unsupported and a resolver must return `representationNotSupported` rather than fabricate a JSON-LD view.
+`D` and `P` above are substitutions, not literal wire values. The current full document MUST add exactly `licenses: ["CC0-1.0"]` and `history` under [Portable DID Document History](protocol-did-history.md). The descriptor and this immutable projection remain derivable offline; mutable signed history is supplied and verified separately. A missing history is not accepted as the current document, and the frozen schema is not used to reject the required current extension. No extra/private JWK fields, communication methods, service endpoints or `keyAgreement` appear. **DID-REP-1.** Resolution produces **`application/did+json`**, using the [DID Core JSON representation](https://www.w3.org/TR/2022/REC-did-core-20220719/#json). Consumers MUST preserve and process the named properties as JSON; they MUST NOT apply JSON-LD expansion, compaction, term dropping or context retrieval to this profile. The literal `@context` member is retained in the fixed JSON shape but does not select `application/did+ld+json`. That representation is unsupported and a resolver must return `representationNotSupported` rather than fabricate a JSON-LD view.
 
 This is a fixed JSON DID profile using RFC 9964’s **AKP JWK representation**; its explicit experimental verification-method type does not claim registration or a standard ML-DSA DIDComm/JSON-LD signature suite. Native nonempty-context root signatures still follow Core, not RFC 9964’s empty-context JWS encoding. An independent wallet needs the declared adapter, not a guess based on a JWK’s appearance. Root reconstruction requires neither fetching a context nor contacting the operator.
 

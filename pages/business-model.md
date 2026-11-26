@@ -23,4 +23,4 @@ Changing these commercial conditions does not change a circuit, an evidence leve
 
 *Use the transaction's actual terms when deciding to pay.*
 
-This draft is not a substitute for the [terms](terms.md), [privacy policy](privacy.md), payment-provider agreement or a specific quote/contract. It does not announce support for task escrow, institutional verification, milestone settlement or any unimplemented feature. The protocol and document publication do not themselves execute, capture or guarantee a payment.
+This draft is not a substitute for the [terms](terms.md), [privacy policy](privacy.md), payment-provider agreement or a specific quote/contract. Supported conditional payments follow [the payment profile](protocol-conditional-payments.md) and the operator's runtime capability metadata. Institutional verification, legal escrow and other separately defined capabilities require their actual declared support. The protocol and document publication do not themselves execute, capture or guarantee a payment.
