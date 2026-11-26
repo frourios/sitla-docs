@@ -48,6 +48,9 @@ try {
   }
   // Run the public payment and circulation tests against isolated copies, never deployed code.
   const supplemental = [
+    { file: "did-history.ts", test: "did-history.test.ts", name: "history-root-signature", from: 'check(verify(null,bytes(payload)', to: 'check(true || verify(null,bytes(payload)' },
+    { file: "did-history.ts", test: "did-history.test.ts", name: "history-precommitted-root", from: 'check(p.predecessorDescriptor.nextRootCommitment===historyDigest(p.successorDescriptor),"history_precommitment_mismatch")', to: 'void 0' },
+    { file: "did-history.ts", test: "did-history.test.ts", name: "history-terminal-series", from: 'check(old.operation!=="revoke-operational-keys","history_terminal")', to: 'void 0' },
     { file: "credential-jwt.ts", test: "credential-policy.test.ts", name: "whole-vc-license-authority", from: 'check(licenses.includes(CC0)?licenses.length===1&&recipients.length===0:licenses.includes(SITLA));', to: 'void 0;' },
     { file: "credential-jwt.ts", test: "credential-policy.test.ts", name: "whole-vc-disclosure-rejection", from: 'check(!["_sd","_sd_alg","...","disclosures"].includes(key));', to: 'void 0;' },
     { file: "credential-jwt.ts", test: "credential-policy.test.ts", name: "whole-vc-recipient-check", from: 'check(p.licenses.includes(CC0)||(did.startsWith("did:sitla:")&&p.didAllowList.includes(did)));', to: 'void 0;' },
@@ -61,10 +64,10 @@ try {
   ];
   await mkdir(join(temporary, "reference"));
   await mkdir(join(temporary, "tests"));
-  for (const file of ["codec.ts", "payments.ts", "sd-jwt.ts", "webauthn.ts", "payment-export.ts", "credential-jwt.ts"])
+  for (const file of ["codec.ts", "payments.ts", "sd-jwt.ts", "webauthn.ts", "payment-export.ts", "credential-jwt.ts", "did-history.ts"])
     await cp(new URL(file, reference), join(temporary, "reference", file));
   await symlink(fileURLToPath(new URL("../artifacts", import.meta.url)), join(temporary, "artifacts"), "dir");
-  for (const test of ["payments.test.ts", "sd-jwt.test.ts", "payment-export.test.ts", "credential-policy.test.ts"]) {
+  for (const test of ["payments.test.ts", "sd-jwt.test.ts", "payment-export.test.ts", "credential-policy.test.ts", "did-history.test.ts"]) {
     await cp(new URL(test, import.meta.url), join(temporary, "tests", test));
     execFileSync(process.execPath, ["--test", join(temporary, "tests", test)], { timeout: 20000, stdio: "pipe" });
   }

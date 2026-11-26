@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC0-1.0 -->
 # Credential Direct Messages
 
-**Specification revision: 0.15. Profile: `sitla-credential-dm/1`. Draft.**
+**Specification revision: 0.16. Profile: `sitla-credential-dm/1`. Draft.**
 
 *A DM delivers a signed credential. It does not create a job, charge money or approve its claims.*
 
@@ -31,7 +31,7 @@ The reference deployment accepts at most 32 KiB of compact complete-VC JWS per m
 
 Prepare `send_credential_dm` with `{recipientDid, credential:{secured,authority}}` and a fresh idempotency key, review the recipient, complete original claims, issuer, subject, signed licenses and DID recipient list locally, then execute the holder-approved operation. The prepared summary identifies whole-credential delivery; it is not a substitute for reviewing every claim in the complete signed VC. Disclosure-path arguments and selective-disclosure credentials are rejected. If the recipient needs fewer claims, obtain a separate complete issuer-signed VC.
 
-The message ID is UUIDv7 and fixed by the prepared operation. Replaying the admitted operation returns the same delivery rather than sending again, charging or consuming another quota. Retrying with a new operation is a new message. The operator persists exact credential bytes in the private vault before publishing a D1 delivery index. Recipients receive no R2 public URL. A failure before admission can leave an unreferenced private object; it does not establish delivery.
+The message ID is UUIDv7 and fixed by the prepared operation. Replaying the admitted operation returns the same delivery rather than sending again, charging or consuming another quota. Retrying with a new operation is a new message. The operator persists exact credential bytes in the private vault before publishing a lightweight delivery index. Recipients receive no public vault URL. A failure before admission can leave an unreferenced private object; it does not establish delivery.
 
 **DM-6.** After admission the operator issues `urn:sitla:credential:CredentialDMDelivery:1`, secured with `SITLA-vc-jwt/1`. Its subject includes the authenticated sender DID, message ID, immutable recipient DID, delivery timestamp, canonical-string SHA-256 `credentialDigest`, `event: inbox-delivery`, `humanReadProven:false`, and `acceptedAsCredential:false`. This attests only an operator inbox event. It is not an issuer's endorsement, a work acceptance, an email-provider signature or proof of human reading. The sender and recipient can retrieve this receipt with the message; ordinary signed tool-response bindings still apply.
 

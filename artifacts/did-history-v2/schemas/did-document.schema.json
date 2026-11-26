@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sitla:did-history:2:schema:did-document",
+  "$comment": "SPDX-License-Identifier: CC0-1.0; structural validity is not authorization",
+  "title": "did-document",
+  "type": "object",
+  "properties": {
+    "@context": {
+      "const": [
+        "https://www.w3.org/ns/did/v1"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^did:sitla:v2:[A-Za-z0-9_-]{86}$"
+    },
+    "verificationMethod": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          },
+          "type": {
+            "const": "urn:sitla:verification-method:akp-jwk-v1"
+          },
+          "controller": {
+            "type": "string",
+            "pattern": "^did:sitla:v2:[A-Za-z0-9_-]{86}$"
+          },
+          "publicKeyJwk": {
+            "type": "object",
+            "properties": {
+              "kty": {
+                "const": "AKP"
+              },
+              "alg": {
+                "const": "ML-DSA-44"
+              },
+              "pub": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_-]{1750}$"
+              }
+            },
+            "required": [
+              "kty",
+              "alg",
+              "pub"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "controller",
+          "publicKeyJwk"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "authentication": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2048
+      },
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "assertionMethod": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2048
+      },
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "capabilityDelegation": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2048
+      },
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "licenses": {
+      "const": [
+        "CC0-1.0"
+      ]
+    },
+    "history": {
+      "type": "object",
+      "properties": {
+        "profile": {
+          "const": "sitla-did-history/2"
+        },
+        "coverage": {
+          "const": "subset"
+        },
+        "rootDescriptor": {
+          "$ref": "urn:sitla:did-history:2:schema:identity-descriptor"
+        },
+        "keyHistories": {
+          "type": "array",
+          "maxItems": 128,
+          "items": {
+            "type": "object",
+            "properties": {
+              "rootDescriptor": {
+                "$ref": "urn:sitla:did-history:2:schema:identity-descriptor"
+              },
+              "series": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2048
+              },
+              "records": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 128,
+                "items": {
+                  "$ref": "urn:sitla:did-history:2:schema:operational-key-authorization"
+                }
+              },
+              "headDigest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "rootDescriptor",
+              "series",
+              "records",
+              "headDigest"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "rootTransitions": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "$ref": "urn:sitla:did-history:2:schema:did-root-transition"
+          }
+        }
+      },
+      "required": [
+        "profile",
+        "coverage",
+        "rootDescriptor",
+        "keyHistories",
+        "rootTransitions"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "@context",
+    "id",
+    "verificationMethod",
+    "authentication",
+    "assertionMethod",
+    "capabilityDelegation",
+    "licenses",
+    "history"
+  ],
+  "additionalProperties": false
+}

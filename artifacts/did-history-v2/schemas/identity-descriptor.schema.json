@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sitla:did-history:2:schema:identity-descriptor",
+  "$comment": "SPDX-License-Identifier: CC0-1.0. Structural validation is not signature, freshness or issuer acceptance.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "const": 2
+    },
+    "identitySuite": {
+      "const": "ML-DSA-44"
+    },
+    "identityPublicKey": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1750}$"
+    },
+    "nextRootCommitment": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "version",
+    "identitySuite",
+    "identityPublicKey"
+  ],
+  "additionalProperties": false
+}

@@ -1,6 +1,6 @@
 # Portable Payment Records
 
-*SITLA Protocol v0.15 — Required for Operator-Mediated Marketplace Payments*\
+*SITLA Protocol v0.16 — Required for Operator-Mediated Marketplace Payments*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 The [Collection Agency](protocol-collection-agency.md) profile covers seller-authorized receipt, capture-time price debt discharge and prospective withdrawal across supported payment paths.
@@ -55,7 +55,7 @@ The founding SITLA service currently accepts **JPY only, exponent 0**, in suppor
 
 **MONEY-2.** Currency support is extensible through an explicitly published adapter/capability revision identifying codes, exponents, bounds/minimums, fee rules, rounding, provider support and any separately authorized exchange flow. Adding a currency must not reinterpret existing JPY amounts or silently change a saved contract/reservation. Every payment/receipt continues to match the exact agreed currency/exponent and allocation; an authentic signature over another currency is insufficient. No FX conversion, mixed-currency total or new currency support is implied by this draft.
 
-**MONEY-3.** Arbitrary extension fields and free text are not parsed as prices or executable financial instructions. If their author expresses a monetary claim, the author must identify its unit in that VC, but SITLA does not certify unknown field semantics. An extension cannot override a standard price/currency or become a payment amount without a separately supported schema and fresh agreement. Historical signed fixtures retain their original bytes and explicitly historical profiles; these new admission requirements do not retrofit fields or invalidate their old signatures. The Worker includes explicit JPY/0 units in its supported money-bearing issuance paths. Current conditional-instruction and collection-authority subject schemas are published in `artifacts/circulation-v3/schemas/`; see [the operator implementation](sitla-operator.md).
+**MONEY-3.** Arbitrary extension fields and free text are not parsed as prices or executable financial instructions. If their author expresses a monetary claim, the author must identify its unit in that VC, but SITLA does not certify unknown field semantics. An extension cannot override a standard price/currency or become a payment amount without a separately supported schema and fresh agreement. Historical signed fixtures retain their original bytes and explicitly historical profiles; these new admission requirements do not retrofit fields or invalidate their old signatures. The reference operator includes explicit JPY/0 units in its supported money-bearing issuance paths. Current conditional-instruction and collection-authority subject schemas are published in `artifacts/circulation-v3/schemas/`; see [the operator implementation](sitla-operator.md).
 
 
 ## 4. Give Both Parties Their Evidence
@@ -136,7 +136,7 @@ The current tool does not make live Stripe API calls during a read. Coverage beg
 
 Log requester/context/counterparty and read time without duplicating private case data. The authorized recipient may retain the signed assertion for its transaction; access is not blanket permission to publish it. Publish purpose-limited disclosure, retention and correction/contest procedures. Normal access logs are removed on account erasure; necessary financial observations follow the separate financial retention rules.
 
-Application tests cover access/mandate isolation, signed output, retained previous-owner cases, multi-seller privacy, missing/partial history, frozen destinations, mode separation, latest-state deduplication, provider-link failures and deletion retention. Worker/MCP tests exercise proposal rejection and accepted-party access. These are application checks, not an addition to the public payment-VC fixture counts or a third-party/legal audit.
+Application tests cover access/mandate isolation, signed output, retained previous-owner cases, multi-seller privacy, missing/partial history, frozen destinations, mode separation, latest-state deduplication, provider-link failures and deletion retention. reference operator/MCP tests exercise proposal rejection and accepted-party access. These are application checks, not an addition to the public payment-VC fixture counts or a third-party/legal audit.
 
 
 Current SITLA MCP admission, publication and delivery use the signed whole-VC [license and DID recipient policy](protocol-online.md#41-signed-license-and-recipient-metadata). Optional E2EE/ZKP payloads are opaque to the operator. This does not change frozen historical fixtures or imply content-proof verification.

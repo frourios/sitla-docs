@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:sitla:did-history:2:schema:did-root-transition",
+  "$comment": "SPDX-License-Identifier: CC0-1.0. Structural validation is not signature, freshness or issuer acceptance.",
+  "type": "object",
+  "properties": {
+    "payload": {
+      "type": "object",
+      "properties": {
+        "protocol": {
+          "const": "sitla-did-history/2"
+        },
+        "type": {
+          "const": "DIDRootTransition"
+        },
+        "predecessor": {
+          "type": "string",
+          "pattern": "^did:sitla:v2:[A-Za-z0-9_-]{86}$"
+        },
+        "successor": {
+          "type": "string",
+          "pattern": "^did:sitla:v2:[A-Za-z0-9_-]{86}$"
+        },
+        "predecessorDescriptor": {
+          "$ref": "urn:sitla:did-history:2:schema:identity-descriptor"
+        },
+        "successorDescriptor": {
+          "$ref": "urn:sitla:did-history:2:schema:identity-descriptor"
+        },
+        "previousTransitionDigest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "successorAuthorizationDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "issuedAt": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\dZ$"
+        },
+        "purpose": {
+          "const": "root-continuity"
+        }
+      },
+      "required": [
+        "protocol",
+        "type",
+        "predecessor",
+        "successor",
+        "predecessorDescriptor",
+        "successorDescriptor",
+        "previousTransitionDigest",
+        "successorAuthorizationDigest",
+        "issuedAt",
+        "purpose"
+      ],
+      "additionalProperties": false
+    },
+    "predecessorSignature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{3227}$"
+    },
+    "successorSignature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{3227}$"
+    }
+  },
+  "required": [
+    "payload",
+    "predecessorSignature",
+    "successorSignature"
+  ],
+  "additionalProperties": false
+}

@@ -334,3 +334,9 @@ verify_complete_vectors()
 
 from verify_job_requests import verify_vectors as verify_job_request_vectors
 verify_job_request_vectors()
+
+from verify_did_history import verify_vectors as verify_did_history_vectors
+verify_did_history_vectors()
+
+from verify_circulation_v3 import verify_vectors as verify_circulation_v3_vectors
+verify_circulation_v3_vectors()

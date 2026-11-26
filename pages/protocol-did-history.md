@@ -1,6 +1,6 @@
 # Portable DID Document History
 
-*SITLA Protocol v0.15 — `sitla-did-history/1`*\
+*SITLA Protocol v0.16 — `sitla-did-history/2`*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
 **Date:** November 27, 2026
 
@@ -24,7 +24,7 @@ The cost is maintaining a complete method specification, cryptographic adapters,
 
 ## 2. Current Document Representation
 
-**HIST-1.** The current DID document MUST contain `history`, including when all history arrays are empty. Its representation is `application/did+json`, with profile `sitla-did-history/1` identified inside `history`. JSON-LD processing and remote context retrieval remain unsupported. The exact top-level members are the fixed root-document members in [Wire Artifacts](protocol-wire.md), plus `licenses` and `history`. The root verification method and all three root relationships remain exactly derived from the descriptor; historical operational methods MUST NOT be promoted into those relationships.
+**HIST-1.** The current DID document MUST contain `history`, including when all history arrays are empty. Its representation is `application/did+json`, with profile `sitla-did-history/2` identified inside `history`. JSON-LD processing and remote context retrieval remain unsupported. The exact top-level members are the fixed root-document members in [Wire Artifacts](protocol-wire.md), plus `licenses` and `history`. The root verification method and all three root relationships remain exactly derived from the descriptor; historical operational methods MUST NOT be promoted into those relationships.
 
 ```json
 {
@@ -41,9 +41,10 @@ The cost is maintaining a complete method specification, cryptographic adapters,
   "capabilityDelegation": ["D#root"],
   "licenses": ["CC0-1.0"],
   "history": {
-    "profile": "sitla-did-history/1",
+    "profile": "sitla-did-history/2",
+    "coverage": "subset",
     "rootDescriptor": {
-      "version": 1,
+      "version": 2,
       "identitySuite": "ML-DSA-44",
       "identityPublicKey": "P"
     },
@@ -53,9 +54,9 @@ The cost is maintaining a complete method specification, cryptographic adapters,
 }
 ```
 
-`D` and `P` are explanatory substitutions, not literal identifiers or keys. This is a structural example, not a signed positive fixture. `history` has exactly the four members shown. No `didAllowList` member is allowed, even with an empty array.
+`D` and `P` are explanatory substitutions, not literal identifiers or keys. This is a structural example, not a signed positive fixture. `history` has exactly the five members shown. No `didAllowList` member is allowed, even with an empty array.
 
-**HIST-2.** Derive `D` only from canonical `rootDescriptor` using ID-1. Neither `history`, its heads, timestamps, license metadata nor document serialization enters the root hash. The same descriptor therefore derives the same DID as before. This is a deliberate identity design, not a compatibility fallback. The root descriptor's version and `did:sitla:v1` identify that derivation algorithm; `sitla-did-history/1` identifies this new document contract.
+**HIST-2.** Derive `D` only from canonical `rootDescriptor` using ID-1. Neither `history`, its heads, timestamps, license metadata nor document serialization enters the root hash. This version intentionally changes the descriptor version and DID prefix; a v1 descriptor is not silently upgraded or accepted as a v2 identity. The optional `nextRootCommitment` is included in the root hash when present. No deployed-user migration is required for this empty-service cutover. The root descriptor's version and `did:sitla:v2` identify that derivation algorithm; `sitla-did-history/2` identifies this new document contract.
 
 The outer document is a container, not an aggregate root signature. Authenticate each embedded record and its binding separately. The root fields are reconstructed and compared exactly. A root-document signature or TLS connection alone cannot establish the history's integrity, completeness or freshness. An empty history proves only the descriptor-to-DID relationship; it proves neither that operational keys never existed nor that the root has no predecessor or successor.
 
@@ -70,7 +71,9 @@ The outer document is a container, not an aggregate root signature. Authenticate
 | `records` | Nonempty array of complete signed KEY-2 records, from sequence zero through the presented head, in ascending sequence order |
 | `headDigest` | Lowercase hexadecimal SHA-256 of the canonical complete final signed record |
 
-Use the existing [operational-key authorization schema](../artifacts/wire-v1/schemas/operational-key-authorization.schema.json), pure ML-DSA-44 verification and native context `SITLA/root/1`. Apply KEY-2 and WIRE-3 to every record, not merely to the last one. Require sequence zero with null predecessor, increments of exactly one, exact predecessor digests, invariant root/operational DID/audience/purpose/series and nondecreasing issue times. Verify all signatures and enforce schema/key/role rules. Re-signing the same payload creates a different complete-record digest, not an equivalent retry.
+Use the [current key-history authorization schema](../artifacts/did-history-v2/schemas/operational-key-authorization.schema.json), pure ML-DSA-44 verification and native context `SITLA/root/2`. Apply KEY-2 and WIRE-3 to every record, not merely to the last one. Require sequence zero with null predecessor, increments of exactly one, exact predecessor digests, invariant root/operational DID/audience/purpose/series and nondecreasing issue times. Verify all signatures and enforce schema/key/role rules. **HIST-SIGN-1.** Signers MUST use FIPS 204 deterministic ML-DSA (`rnd` is 32 zero bytes; the native context is still applied) for `sitla-key-history/2` authorizations and `sitla-did-history/2` root transitions. Persist the exact reviewed payload and complete signed record before transmission. Retry those bytes; do not regenerate timestamps, request IDs, keys or other payload fields. A conforming re-signature of the same payload is byte-identical and is an idempotent retry, including after restoring the same key and payload from backup. Different payloads at the same position remain genuine conflicts.
+
+The signature mode cannot be inferred from a single public signature. If two verified records have identical canonical payloads but different signatures, report `history_signature_profile_mismatch` and refuse that presentation without creating a sticky authority conflict or changing accepted heads. Keep the prior accepted record. This refusal does not endorse randomized issuance; it prevents a nonconforming retry from permanently freezing authority. Original wire/1 hedged records retain their historical context and schema; they are not relabeled as current records.
 
 The history's root MUST be the document root or an endpoint on its verified root-transition path. At most one history for each `(root, series)` is allowed in a document. An unconnected root's key history is rejected. No ordering between independent series is inferred from their sequence values. A revocation with no keys terminates its series; a successor after it is invalid. Complete replacement removes omitted keys from that series without changing unrelated grants.
 
@@ -86,12 +89,12 @@ Each transition has exactly `payload`, `predecessorSignature` and `successorSign
 
 ```json
 {
-  "protocol": "sitla-did-history/1",
+  "protocol": "sitla-did-history/2",
   "type": "DIDRootTransition",
   "predecessor": "<predecessor did:sitla>",
   "successor": "<different successor did:sitla>",
-  "predecessorDescriptor": {"version":1,"identitySuite":"ML-DSA-44","identityPublicKey":"<old key>"},
-  "successorDescriptor": {"version":1,"identitySuite":"ML-DSA-44","identityPublicKey":"<new key>"},
+  "predecessorDescriptor": {"version":2,"identitySuite":"ML-DSA-44","identityPublicKey":"<old key>"},
+  "successorDescriptor": {"version":2,"identitySuite":"ML-DSA-44","identityPublicKey":"<new key>"},
   "previousTransitionDigest": null,
   "successorAuthorizationDigest": "<SHA-256 of complete successor KEY-2 record>",
   "issuedAt": "2026-11-27T00:00:00Z",
@@ -99,7 +102,7 @@ Each transition has exactly `payload`, `predecessorSignature` and `successorSign
 }
 ```
 
-Both roots sign the same canonical payload UTF-8 bytes using pure ML-DSA-44 and native context `SITLA/continuity/1`; both signatures are canonical unpadded base64url encoding of exactly 2,420 bytes. Root descriptors have exactly the ID-1 fields. Validate distinct endpoints, both DID derivations, both proofs and the timestamp. A valid signature from the new root alone cannot claim somebody else's DID as its predecessor.
+Both roots sign the same canonical payload UTF-8 bytes using pure ML-DSA-44 and native context `SITLA/continuity/2`; both signatures are canonical unpadded base64url encoding of exactly 2,420 bytes. Root descriptors have exactly the ID-1 fields. Validate distinct endpoints, both DID derivations, both proofs and the timestamp. A valid signature from the new root alone cannot claim somebody else's DID as its predecessor.
 
 The first transition has `previousTransitionDigest: null`; each next transition names SHA-256 of the complete canonical preceding record, including both signatures. Chains presented in this profile start at their transition genesis; no prefix omission is permitted within the presented path. A previously unknown incoming transition can still exist outside the path: genesis here means the start declared by this signed chain, not a proof that the first root has no other history.
 
@@ -109,11 +112,21 @@ Both signatures prove authorization by the two keys, not that the same human or 
 
 The operator-specific `OperatorRootTransition`/`OperatorContinuity` records remain distinct application evidence; they cannot be inserted here by changing their type or stripping their domain/successor-grant binding. Operator identity publication must use this general history format as well as any operator-specific continuity evidence it advertises.
 
+### Optional next-root commitment
+
+**HIST-PRECOMMIT-1.** A version-2 descriptor MAY contain `nextRootCommitment`, exactly the lowercase hexadecimal SHA-256 of the canonical **complete successor descriptor**, including any successor commitment. Absent means no pre-rotation protection; an empty value is invalid. The field is part of the immutable descriptor and therefore the DID. It cannot be added, removed or replaced while keeping that DID.
+
+Before accepting a dual-root transition, the verifier MUST compare the committed digest with the supplied successor descriptor. A transition signed by the stolen old key and an attacker's own new key is rejected when it violates the pinned commitment. Both root signatures and the exact successor grant are still required. Neither a new signature by the old root nor a third-party VC overrides the commitment. This protection assumes an independently accepted predecessor DID/descriptor; first-use discovery does not supply identity trust or reveal unseen forks.
+
+Generate the next root in advance and keep its private key offline or under custody independent from the active key. Only the public descriptor/digest is supplied to the operator. Keeping both secrets on the same compromised host defeats that protection. Because the commitment covers the whole next descriptor, a finite precommitted chain is prepared backwards and ends at an uncommitted descriptor; protection does not silently extend beyond that chain. Users must plan that boundary explicitly. The reference operator's automatically generated signing root is uncommitted by default and advertises no offline-key protection.
+
+This is protection against active-key compromise, not lost-key recovery. If either required root key is lost, a valid dual-root transition cannot be produced; the existing new-account and separately evaluated continuity-VC rules still apply. No service account, balance or private vault is recovered by a commitment.
+
 ## 5. Verification and Retained State
 
 **HIST-5.** A verifier performs the following before using history:
 
-1. Require the declared profile and exact fields. Reject duplicate JSON keys, noncanonical encodings, unknown suites/versions and malformed calendar times. Apply WIRE-1 canonicalization to signed objects and digests. Bound bytes, depth, records and signature work before verification. The default receiving limit is 1 MiB, depth 32, 100,000 JSON nodes, 128 total KEY-2 records and 16 transitions. Exceeding a limit returns `history_resource_limit`; never accept a silently truncated prefix. Each signed KEY-2 payload/record still obeys its own wire limits.
+1. Require the declared profile and exact fields. Reject duplicate JSON keys, noncanonical encodings, unknown suites/versions and malformed calendar times. Apply WIRE-1 canonicalization to signed objects and digests. Bound bytes, depth, records and signature work before verification. The default canonical document limit is **192 KiB**, depth 32, 100,000 JSON nodes, 128 total key-authorization records and 16 transitions. All bounds apply together; the count ceiling does not promise that 128 signatures fit the byte budget. The reference operator has a separate **256 KiB total HTTP request ceiling**, reserving room for the request envelope. Advertise smaller receiving limits explicitly. Exceeding a limit returns `history_resource_limit`; never accept a silently truncated prefix. Each signed KEY-2 payload/record still obeys its own wire limits.
 2. Derive and compare the requested root DID and reconstruct the immutable root fields. Verify all presented root transitions and their connected path, then each key series and head. References are local to the document; do not fetch proof-provided URLs or substitute proof-provided conventional verification keys.
 3. Compare authenticated evidence with independently retained state. Index key heads by exact `(root, authorization_series_id)` and retain complete-record digest plus sequence, scope and terminal revocation. Store root-transition digests and endpoints, including known conflicting successors. Compare intermediate records too: an extension must include the known head at its original position, not merely claim a higher sequence.
 4. An identical complete record is an idempotent repeat. Reject a lower presented head as `history_rollback`. Different complete records at the same sequence or incompatible predecessors/transition successors are `history_conflict`. Do not choose the latest received or greatest self-declared timestamp. Retain conflict evidence and block authority affected by that conflict pending an explicit external resolution policy; unrelated series remain separately scoped. A terminal series never reopens.
@@ -134,12 +147,14 @@ Verify the VC's signature, exact predecessor/successor, basis, scope and status,
 
 **HIST-8.** Public DID documents, including their embedded histories, require exactly `["CC0-1.0"]` and no DID allowlist under the Online MCP policy. Only records authorized for that public use may be embedded. History can expose key reuse, scope, audience and predecessor/successor relationships; CC0 does not establish consent to publish somebody else's personal information or erase other applicable rights. Obtain necessary authority and avoid private routing or account data in public history.
 
-A presentation MAY include only the relevant independent series and transition path, while disclosing that it is a subset; it MUST NOT remove records from the middle of an included series/path. This is selection of complete separately signed records, not selective disclosure inside a VC. The current whole-VC rule and rejection of SD-JWT remain unchanged. Private third-party continuity VCs follow their own signed license/recipient restrictions and are supplied separately. Pairwise transport does not make a disclosed root history unlinkable. Optional bilateral E2EE/ZKP payloads do not replace required readable and verifiable history fields, and SITLA does not interpret their contents.
+Public discovery MUST default to the root-transition path, the complete series needed to verify its successor grants, and operator-facing series whose audience is the configured operator and purpose is `credential-issuance` or `sitla-online-account`. Other peer, partner and application series remain holder-carried evidence presented only when needed; the service must not aggregate them into a public relationship graph. All documents declare `coverage: subset`, including an empty presentation; no inventory completeness is implied.
+
+A presentation MAY include only the relevant independent series and transition path; it MUST NOT remove records from the middle of an included series/path. This is selection of complete separately signed records, not selective disclosure inside a VC. The current whole-VC rule and rejection of SD-JWT remain unchanged. Private third-party continuity VCs follow their own signed license/recipient restrictions and are supplied separately. Pairwise transport does not make a disclosed root history unlinkable. Optional bilateral E2EE/ZKP payloads do not replace required readable and verifiable history fields, and SITLA does not interpret their contents.
 
 ## 7. Adoption and Verification Scope
 
 **HIST-9.** This is the new current document contract. Deployments adopting it MUST require `history`, the declared profile and the public license; they MUST NOT silently accept a document without history as the current representation. No old-document migration, dual-format acceptance or old-client interoperability is required. Keeping the immutable descriptor algorithm does not create an exception to those rules.
 
-The frozen `wire-v1` DID-document schema/vectors and `reference/codec.ts` demonstrate the immutable root projection, not the full current document. They remain historical/component test material and MUST NOT be cited as history conformance. This revision defines the document and signed-transition contract in this page; the Worker now implements validation, serialized retained-head/conflict state, account/operator publication and holder-approved updates/rotations, with application-level signed tests. A standalone public full-history schema, signed cross-language fixtures and history-specific TLA+ model remain to be implemented. Existing key-chain fixtures and formal payment/job models do not verify this new contract. The implementation tests do not assert production deployment or independent cross-language history conformance. The founding Worker retains its existing 256 KiB total HTTP request ceiling, advertised in its deployment document; over-limit presentations fail explicitly.
+The frozen `wire-v1` artifacts remain historical/component material. The current [four public schemas](../artifacts/did-history-v2/schemas/did-document.schema.json), [signed vectors and observation sequences](../artifacts/did-history-v2/vectors.json), [standalone Node verifier](../reference/did-history.ts), independent Python verifier and [bounded TLA+ model](../formal/README.md) cover the new contract. Node verifies ML-DSA with its native crypto backend; Python uses its own JSON/schema and ML-DSA implementation. Neither imports the application repository. The reference operator runs the same signed vectors through its implementation as an additional interoperability check. Those are repository-maintained implementations, not a third-party audit, production deployment proof or a global freshness guarantee.
 
 Required conformance cases for that implementation include valid empty root-only presentation; complete replacement and terminal revocation; dual-root transition; tampered descriptor, signature and predecessor; a missing intermediate record; swapped successor grant; wrong scope; expired intermediate versus expired current grant; post-revocation extension; same-sequence fork; higher-sequence fork diverging before a pinned head; concurrent head updates; rollback; omitted relevant series; truncated tail with no prior observation; transition loop/conflicting successor; root-loss attestation accepted only as a separate trust decision; public-license violation; private-VC injection; and resource-limit rejection. Test cryptographic failures and policy refusals separately.

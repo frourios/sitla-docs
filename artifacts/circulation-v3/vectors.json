@@ -1,0 +1,748 @@
+{
+  "profile": "circulation-v3-subject-units",
+  "limitations": [
+    "Unsigned subject-schema examples, not signature or provider-execution evidence."
+  ],
+  "positive": [
+    {
+      "id": "collection-authorization-JPY-0",
+      "schema": "collection-authorization",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-collection-authorization/1",
+        "authorizationId": "019a8050-0000-7000-8000-000000000010",
+        "policy": "sitla-collection-agency/1",
+        "agent": "https://operator.example",
+        "processor": "Stripe",
+        "sellerId": "019a8050-0000-7000-8000-000000000002",
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:PN99PIVpL6Qc9pLqOZTC_gM-TBR_M1WBVkkDNEDAGRn3fbOVa6pLeyDIrDP2D2hhRzjGz9wx5cYyk0EteuoNFw"
+        },
+        "processorAccount": "acct_fixture",
+        "livemode": 0,
+        "currency": "JPY",
+        "feeBasisPoints": 2000,
+        "refundPolicy": "fixture-refund/1",
+        "scope": {
+          "kind": "profile",
+          "profileVersion": 1,
+          "termsDigest": "d32c2f004172a257b41d042e9f6258e08060d0f812cadfc613babd3a11c44e0d",
+          "plans": [
+            {
+              "planIndex": 1,
+              "priceYen": 1000,
+              "fieldKeys": [
+                "experience"
+              ]
+            }
+          ]
+        },
+        "authorizedAt": "2026-11-15T00:00:01.000Z",
+        "approvalDigest": "3f557a1830c89d67cda835954d81a6d536f50ed85be8aa0ce30c6cd4395b997d",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000010",
+          "evidenceDigest": "3f557a1830c89d67cda835954d81a6d536f50ed85be8aa0ce30c6cd4395b997d"
+        },
+        "limitations": [
+          "Synthetic fixture; not a real delegation or provider event."
+        ],
+        "currencyExponent": 0
+      }
+    },
+    {
+      "id": "conditional-instruction-JPY-0",
+      "schema": "conditional-instruction",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/1",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "acceptBy": "2026-11-16T00:00:00.000Z",
+        "refundAt": "2026-11-22T00:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_fixture",
+          "predecessor": "019a8050-0000-7000-8000-000000000018",
+          "inspectionConfirmed": true,
+          "performanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0
+      }
+    }
+  ],
+  "negative": [
+    {
+      "id": "collection-authorization-currency-None",
+      "schema": "collection-authorization",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-collection-authorization/1",
+        "authorizationId": "019a8050-0000-7000-8000-000000000010",
+        "policy": "sitla-collection-agency/1",
+        "agent": "https://operator.example",
+        "processor": "Stripe",
+        "sellerId": "019a8050-0000-7000-8000-000000000002",
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:PN99PIVpL6Qc9pLqOZTC_gM-TBR_M1WBVkkDNEDAGRn3fbOVa6pLeyDIrDP2D2hhRzjGz9wx5cYyk0EteuoNFw"
+        },
+        "processorAccount": "acct_fixture",
+        "livemode": 0,
+        "feeBasisPoints": 2000,
+        "refundPolicy": "fixture-refund/1",
+        "scope": {
+          "kind": "profile",
+          "profileVersion": 1,
+          "termsDigest": "d32c2f004172a257b41d042e9f6258e08060d0f812cadfc613babd3a11c44e0d",
+          "plans": [
+            {
+              "planIndex": 1,
+              "priceYen": 1000,
+              "fieldKeys": [
+                "experience"
+              ]
+            }
+          ]
+        },
+        "authorizedAt": "2026-11-15T00:00:01.000Z",
+        "approvalDigest": "3f557a1830c89d67cda835954d81a6d536f50ed85be8aa0ce30c6cd4395b997d",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000010",
+          "evidenceDigest": "3f557a1830c89d67cda835954d81a6d536f50ed85be8aa0ce30c6cd4395b997d"
+        },
+        "limitations": [
+          "Synthetic fixture; not a real delegation or provider event."
+        ],
+        "currencyExponent": 0
+      }
+    },
+    {
+      "id": "collection-authorization-currency-USD",
+      "schema": "collection-authorization",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-collection-authorization/1",
+        "authorizationId": "019a8050-0000-7000-8000-000000000010",
+        "policy": "sitla-collection-agency/1",
+        "agent": "https://operator.example",
+        "processor": "Stripe",
+        "sellerId": "019a8050-0000-7000-8000-000000000002",
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:PN99PIVpL6Qc9pLqOZTC_gM-TBR_M1WBVkkDNEDAGRn3fbOVa6pLeyDIrDP2D2hhRzjGz9wx5cYyk0EteuoNFw"
+        },
+        "processorAccount": "acct_fixture",
+        "livemode": 0,
+        "currency": "USD",
+        "feeBasisPoints": 2000,
+        "refundPolicy": "fixture-refund/1",
+        "scope": {
+          "kind": "profile",
+          "profileVersion": 1,
+          "termsDigest": "d32c2f004172a257b41d042e9f6258e08060d0f812cadfc613babd3a11c44e0d",
+          "plans": [
+            {
+              "planIndex": 1,
+              "priceYen": 1000,
+              "fieldKeys": [
+                "experience"
+              ]
+            }
+          ]
+        },
+        "authorizedAt": "2026-11-15T00:00:01.000Z",
+        "approvalDigest": "3f557a1830c89d67cda835954d81a6d536f50ed85be8aa0ce30c6cd4395b997d",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000010",
+          "evidenceDigest": "3f557a1830c89d67cda835954d81a6d536f50ed85be8aa0ce30c6cd4395b997d"
+        },
+        "limitations": [
+          "Synthetic fixture; not a real delegation or provider event."
+        ],
+        "currencyExponent": 0
+      }
+    },
+    {
+      "id": "collection-authorization-currencyExponent-None",
+      "schema": "collection-authorization",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-collection-authorization/1",
+        "authorizationId": "019a8050-0000-7000-8000-000000000010",
+        "policy": "sitla-collection-agency/1",
+        "agent": "https://operator.example",
+        "processor": "Stripe",
+        "sellerId": "019a8050-0000-7000-8000-000000000002",
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:PN99PIVpL6Qc9pLqOZTC_gM-TBR_M1WBVkkDNEDAGRn3fbOVa6pLeyDIrDP2D2hhRzjGz9wx5cYyk0EteuoNFw"
+        },
+        "processorAccount": "acct_fixture",
+        "livemode": 0,
+        "currency": "JPY",
+        "feeBasisPoints": 2000,
+        "refundPolicy": "fixture-refund/1",
+        "scope": {
+          "kind": "profile",
+          "profileVersion": 1,
+          "termsDigest": "d32c2f004172a257b41d042e9f6258e08060d0f812cadfc613babd3a11c44e0d",
+          "plans": [
+            {
+              "planIndex": 1,
+              "priceYen": 1000,
+              "fieldKeys": [
+                "experience"
+              ]
+            }
+          ]
+        },
+        "authorizedAt": "2026-11-15T00:00:01.000Z",
+        "approvalDigest": "3f557a1830c89d67cda835954d81a6d536f50ed85be8aa0ce30c6cd4395b997d",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000010",
+          "evidenceDigest": "3f557a1830c89d67cda835954d81a6d536f50ed85be8aa0ce30c6cd4395b997d"
+        },
+        "limitations": [
+          "Synthetic fixture; not a real delegation or provider event."
+        ]
+      }
+    },
+    {
+      "id": "collection-authorization-currencyExponent-2",
+      "schema": "collection-authorization",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-collection-authorization/1",
+        "authorizationId": "019a8050-0000-7000-8000-000000000010",
+        "policy": "sitla-collection-agency/1",
+        "agent": "https://operator.example",
+        "processor": "Stripe",
+        "sellerId": "019a8050-0000-7000-8000-000000000002",
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:PN99PIVpL6Qc9pLqOZTC_gM-TBR_M1WBVkkDNEDAGRn3fbOVa6pLeyDIrDP2D2hhRzjGz9wx5cYyk0EteuoNFw"
+        },
+        "processorAccount": "acct_fixture",
+        "livemode": 0,
+        "currency": "JPY",
+        "feeBasisPoints": 2000,
+        "refundPolicy": "fixture-refund/1",
+        "scope": {
+          "kind": "profile",
+          "profileVersion": 1,
+          "termsDigest": "d32c2f004172a257b41d042e9f6258e08060d0f812cadfc613babd3a11c44e0d",
+          "plans": [
+            {
+              "planIndex": 1,
+              "priceYen": 1000,
+              "fieldKeys": [
+                "experience"
+              ]
+            }
+          ]
+        },
+        "authorizedAt": "2026-11-15T00:00:01.000Z",
+        "approvalDigest": "3f557a1830c89d67cda835954d81a6d536f50ed85be8aa0ce30c6cd4395b997d",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000010",
+          "evidenceDigest": "3f557a1830c89d67cda835954d81a6d536f50ed85be8aa0ce30c6cd4395b997d"
+        },
+        "limitations": [
+          "Synthetic fixture; not a real delegation or provider event."
+        ],
+        "currencyExponent": 2
+      }
+    },
+    {
+      "id": "collection-authorization-currencyExponent--1",
+      "schema": "collection-authorization",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-collection-authorization/1",
+        "authorizationId": "019a8050-0000-7000-8000-000000000010",
+        "policy": "sitla-collection-agency/1",
+        "agent": "https://operator.example",
+        "processor": "Stripe",
+        "sellerId": "019a8050-0000-7000-8000-000000000002",
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:PN99PIVpL6Qc9pLqOZTC_gM-TBR_M1WBVkkDNEDAGRn3fbOVa6pLeyDIrDP2D2hhRzjGz9wx5cYyk0EteuoNFw"
+        },
+        "processorAccount": "acct_fixture",
+        "livemode": 0,
+        "currency": "JPY",
+        "feeBasisPoints": 2000,
+        "refundPolicy": "fixture-refund/1",
+        "scope": {
+          "kind": "profile",
+          "profileVersion": 1,
+          "termsDigest": "d32c2f004172a257b41d042e9f6258e08060d0f812cadfc613babd3a11c44e0d",
+          "plans": [
+            {
+              "planIndex": 1,
+              "priceYen": 1000,
+              "fieldKeys": [
+                "experience"
+              ]
+            }
+          ]
+        },
+        "authorizedAt": "2026-11-15T00:00:01.000Z",
+        "approvalDigest": "3f557a1830c89d67cda835954d81a6d536f50ed85be8aa0ce30c6cd4395b997d",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000010",
+          "evidenceDigest": "3f557a1830c89d67cda835954d81a6d536f50ed85be8aa0ce30c6cd4395b997d"
+        },
+        "limitations": [
+          "Synthetic fixture; not a real delegation or provider event."
+        ],
+        "currencyExponent": -1
+      }
+    },
+    {
+      "id": "collection-authorization-currencyExponent-0",
+      "schema": "collection-authorization",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-collection-authorization/1",
+        "authorizationId": "019a8050-0000-7000-8000-000000000010",
+        "policy": "sitla-collection-agency/1",
+        "agent": "https://operator.example",
+        "processor": "Stripe",
+        "sellerId": "019a8050-0000-7000-8000-000000000002",
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:PN99PIVpL6Qc9pLqOZTC_gM-TBR_M1WBVkkDNEDAGRn3fbOVa6pLeyDIrDP2D2hhRzjGz9wx5cYyk0EteuoNFw"
+        },
+        "processorAccount": "acct_fixture",
+        "livemode": 0,
+        "currency": "JPY",
+        "feeBasisPoints": 2000,
+        "refundPolicy": "fixture-refund/1",
+        "scope": {
+          "kind": "profile",
+          "profileVersion": 1,
+          "termsDigest": "d32c2f004172a257b41d042e9f6258e08060d0f812cadfc613babd3a11c44e0d",
+          "plans": [
+            {
+              "planIndex": 1,
+              "priceYen": 1000,
+              "fieldKeys": [
+                "experience"
+              ]
+            }
+          ]
+        },
+        "authorizedAt": "2026-11-15T00:00:01.000Z",
+        "approvalDigest": "3f557a1830c89d67cda835954d81a6d536f50ed85be8aa0ce30c6cd4395b997d",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000010",
+          "evidenceDigest": "3f557a1830c89d67cda835954d81a6d536f50ed85be8aa0ce30c6cd4395b997d"
+        },
+        "limitations": [
+          "Synthetic fixture; not a real delegation or provider event."
+        ],
+        "currencyExponent": "0"
+      }
+    },
+    {
+      "id": "conditional-instruction-currency-None",
+      "schema": "conditional-instruction",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/1",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "acceptBy": "2026-11-16T00:00:00.000Z",
+        "refundAt": "2026-11-22T00:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_fixture",
+          "predecessor": "019a8050-0000-7000-8000-000000000018",
+          "inspectionConfirmed": true,
+          "performanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0
+      }
+    },
+    {
+      "id": "conditional-instruction-currency-USD",
+      "schema": "conditional-instruction",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/1",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "currency": "USD",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "acceptBy": "2026-11-16T00:00:00.000Z",
+        "refundAt": "2026-11-22T00:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_fixture",
+          "predecessor": "019a8050-0000-7000-8000-000000000018",
+          "inspectionConfirmed": true,
+          "performanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 0
+      }
+    },
+    {
+      "id": "conditional-instruction-currencyExponent-None",
+      "schema": "conditional-instruction",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/1",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "acceptBy": "2026-11-16T00:00:00.000Z",
+        "refundAt": "2026-11-22T00:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_fixture",
+          "predecessor": "019a8050-0000-7000-8000-000000000018",
+          "inspectionConfirmed": true,
+          "performanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        }
+      }
+    },
+    {
+      "id": "conditional-instruction-currencyExponent-2",
+      "schema": "conditional-instruction",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/1",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "acceptBy": "2026-11-16T00:00:00.000Z",
+        "refundAt": "2026-11-22T00:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_fixture",
+          "predecessor": "019a8050-0000-7000-8000-000000000018",
+          "inspectionConfirmed": true,
+          "performanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": 2
+      }
+    },
+    {
+      "id": "conditional-instruction-currencyExponent--1",
+      "schema": "conditional-instruction",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/1",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "acceptBy": "2026-11-16T00:00:00.000Z",
+        "refundAt": "2026-11-22T00:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_fixture",
+          "predecessor": "019a8050-0000-7000-8000-000000000018",
+          "inspectionConfirmed": true,
+          "performanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": -1
+      }
+    },
+    {
+      "id": "conditional-instruction-currencyExponent-0",
+      "schema": "conditional-instruction",
+      "value": {
+        "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+        "profile": "sitla-conditional-payment-instruction/1",
+        "action": "settle",
+        "transactionId": "019a8050-0000-7000-8000-000000000001",
+        "buyer": {
+          "id": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "seller": {
+          "id": "https://operator.example/accounts/SSSSSSSSSSSSSSSSSSSSSS",
+          "controllerDid": "did:sitla:v1:QD7OuN_T3RSXT4FqyBXybCS2G2c2rNQasu6RakkxRXjiTJknst3Ha0asCv99BSf60_VRUO6C01z4tYZqnNFt8w"
+        },
+        "assertingAccount": "https://operator.example/accounts/BBBBBBBBBBBBBBBBBBBBBB",
+        "amountMinor": 1000,
+        "currency": "JPY",
+        "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "acceptBy": "2026-11-16T00:00:00.000Z",
+        "refundAt": "2026-11-22T00:00:00.000Z",
+        "instruction": {
+          "escrowId": "019a8050-0000-7000-8000-000000000001",
+          "termsDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "depositReference": "pi_fixture",
+          "predecessor": "019a8050-0000-7000-8000-000000000018",
+          "inspectionConfirmed": true,
+          "performanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "collectionPolicy": "sitla-collection-agency/1",
+        "approval": {
+          "operationId": "019a8050-0000-7000-8000-000000000022",
+          "evidenceDigest": "5a010efff6fc3f9000398da3eba2afd061f92d697f66014d55ac79f315f26f17"
+        },
+        "limitations": [
+          "Synthetic holder authorization; not proof of completed work."
+        ],
+        "inspection": {
+          "confirmedByBuyer": true,
+          "performanceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "basis": "buyer-signed-declaration; not operator adjudication"
+        },
+        "resultPolicies": {
+          "buyer": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          },
+          "seller": {
+            "licenses": [
+              "CC0-1.0"
+            ],
+            "didAllowList": []
+          }
+        },
+        "currencyExponent": "0"
+      }
+    }
+  ]
+}

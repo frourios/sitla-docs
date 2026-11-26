@@ -17,8 +17,15 @@ import time
 import urllib.request
 
 ROOT = Path(__file__).resolve().parent
-MODELS = ("ConditionalPayment", "ProviderRecovery", "CollectionAuthority", "ApprovalExecution", "PublicJobRequests", "JobApplications")
+MODELS = ("ConditionalPayment", "ProviderRecovery", "CollectionAuthority", "ApprovalExecution", "PublicJobRequests", "JobApplications", "DIDHistory")
 MUTANTS = (
+    ("JobApplications", "technical-gate-bypass", '/\\ Open /\\ technicalGate /\\ i \\notin submissions', '/\\ Open /\\ i \\notin submissions', "TechnicalAdmissionRespected"),
+    ("DIDHistory", "history-stale-commit", '/\\ seenRevision[w] = revision \\* MUTATION: atomic compare-and-commit', '/\\ TRUE \\* MUTATION: atomic compare-and-commit', "NoRollback"),
+    ("DIDHistory", "history-partial-invalid-artifact", 'IF c = "invalid" THEN s \\* MUTATION: whole artifact verification', 'IF FALSE THEN s \\* MUTATION: whole artifact verification', "WholeArtifactAtomic"),
+    ("DIDHistory", "history-one-root-proof", 'IF c = "single" THEN s \\* MUTATION: both root proofs', 'IF FALSE THEN s \\* MUTATION: both root proofs', "DualRootProofs"),
+    ("DIDHistory", "history-ignore-precommitment", 'IF protected /\\ c = "rogue" THEN s \\* MUTATION: committed successor', 'IF FALSE THEN s \\* MUTATION: committed successor', "Precommitment"),
+    ("DIDHistory", "history-reopen-terminal", 'IF s.revoked THEN s \\* MUTATION: terminal revocation', 'IF FALSE THEN s \\* MUTATION: terminal revocation', "TerminalRevocation"),
+    ("DIDHistory", "history-signature-only-fork", 'IF c = "retry" THEN "g0" ELSE c \\* MUTATION: retry identity', 'IF c = "retry" THEN "retry" ELSE c \\* MUTATION: retry identity', "NoSpuriousConflict"),
     ("JobApplications", "per-applicant-quota", '/\\ TRUE \\* MUTATION: no per-applicant quota', '/\\ ~\\E prior \\in submissions : Owner(prior) = Owner(i) \\* MUTATION: no per-applicant quota', "NoBusinessApplicationLimit"),
     ("JobApplications", "per-request-capacity", '/\\ TRUE \\* MUTATION: no request capacity', '/\\ Cardinality(submissions) < 1 \\* MUTATION: no request capacity', "NoBusinessApplicationLimit"),
     ("JobApplications", "submit-auto-closes", "/\\ closed' = closed \\* MUTATION: submit must not close", "/\\ closed' = TRUE \\* MUTATION: submit must not close", "OnlyRequesterCloses"),

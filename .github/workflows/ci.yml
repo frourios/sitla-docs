@@ -23,7 +23,7 @@ jobs:
         run: npm ci --ignore-scripts
       - name: Check for secrets
         run: npm run secretlint
-      - name: Verify schemas, bytes, signatures and rejection layers
+      - name: Verify schemas, DID history, money units, signatures and rejection layers
         run: npm test
       - name: Detect targeted guard-removal mutations
         run: npm run test:mutation
