@@ -9,7 +9,7 @@
 
 ## Abstract
 
-SITLA Protocol defines a DID/VC circulation service on standard MCP and OAuth. The online profile uses public DIDs and issuer-signed selective-disclosure credentials; ZKP is an optional future profile, not a prerequisite for ordinary search or trade. Users retain portable roots and credentials, while requesters distinguish cryptographic verification from the decision to accept a counterparty. This draft defines the core trust boundaries, passkey-based access, evidence labels and fresh-account onboarding and verifier-owned continuity. Optional profiles cover disconnected operation, externally published proof packages and open-market workflows.
+SITLA Protocol defines a DID/VC circulation service on standard MCP and OAuth. The online profile uses public DIDs and complete issuer-signed credentials with whole-VC license and DID recipient policies; selective-disclosure credentials are rejected. Party-agreed E2EE/ZKP contents remain opaque to SITLA. Operator-verified ZKP is an optional future profile, not a prerequisite for ordinary search or trade. Users retain portable roots and credentials, while requesters distinguish cryptographic verification from the decision to accept a counterparty. This draft defines the core trust boundaries, passkey-based access, evidence labels and fresh-account onboarding and verifier-owned continuity. Optional profiles cover disconnected operation, externally published proof packages and open-market workflows.
 
 - **Portable:** independent wallets can resolve roots and present supported credentials without the original operator.
 - **Explicit assurance:** signatures, issuer assertions, ZKP and business acceptance have different meanings.
@@ -132,7 +132,7 @@ As checked November 14, 2026, [RFC 9964](https://www.rfc-editor.org/rfc/rfc9964)
 
 *Preserve the issuer's original statement. A custody mandate grants only its stated use.*
 
-**PORT-1.** Preserve original signed bytes, subject/holder bindings, securing-format versions, selective-disclosure material, expiry, issuer scope, status and accepted continuity/delegation evidence. An issuer's identity and authority are accepted under the requester's policy; public registration creates no anchor. Without accepted official or other independent issuer evidence, a claim may remain a self-description. The buyer may accept that limitation.
+**PORT-1.** Preserve original signed bytes, subject/holder bindings, securing-format versions, signed whole-VC license/recipient metadata, expiry, issuer scope, status and accepted continuity/delegation evidence. Historical external securing formats may have their own disclosure material; preserving their original bytes for owner export does not make them admissible to the current whole-VC MCP. An issuer's identity and authority are accepted under the requester's policy; public registration creates no anchor. Without accepted official or other independent issuer evidence, a claim may remain a self-description. The buyer may accept that limitation.
 
 **ISSUE-1.** Parties define their own VC types and can issue them only through issuer approval or a specific issuance mandate. Unknown business semantics do not automatically prevent safe storage/transport, but unsupported cryptography cannot be labeled verified. Schemas and proof implementations can be published externally as in the [Proof Package Profile](protocol-packages.md).
 

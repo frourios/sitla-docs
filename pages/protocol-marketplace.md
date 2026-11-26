@@ -4,7 +4,7 @@
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
 **Date:** November 15, 2026
 
-For current online circulation, [Online MCP](protocol-online.md) requires issuer-signed selective-disclosure credentials. Each published field identifies its original credential, disclosure path and issuer. Work record meanings remain market-defined; a service delivery receipt is not the author's credential signature. An absent predicate is obtained by requesting an issuer's new/derived credential through ordinary paid work, not by treating a custodian's calculation as an issuer assertion.
+For current online circulation, [Online MCP](protocol-online.md) requires complete issuer-signed credentials with whole-VC license and DID recipient policies. Public trust-reference links identify their original CC0 credential and issuer; publishing them makes the complete source VC available as evidence. Selective-disclosure formats and disclosure paths are not accepted. Work record meanings remain market-defined; a service delivery receipt is not the author's credential signature. An absent predicate is obtained by requesting an issuer's new/derived credential through ordinary paid work, not by treating a custodian's calculation as an issuer assertion.
 
 ## 1. Open-Market Scope
 

@@ -126,7 +126,7 @@ Exports include complete signed originals, issuer/root authority, approvals, cur
 
 ## 9. Credential direct messages
 
-The [Credential DM](protocol-dm.md) profile adds an opt-in DID-addressed inbox, sender blocks, atomic quotas, original selective-disclosure credential delivery and generic email notices. Reception is not credential import, acceptance or a new job. Direct sessions and holder approval protect mutations; read mandates have no DM scope. Original bodies and delivery receipts use the same private R2 vault, with mailbox rights in D1. Delivery, SMTP acceptance, retrieval and explicit account acknowledgement are distinct events.
+The [Credential DM](protocol-dm.md) profile adds an opt-in DID-addressed inbox, sender blocks, atomic quotas, complete signed credential delivery under its license and DID recipient policy and generic email notices. Reception is not credential import, acceptance or a new job. Direct sessions and holder approval protect mutations; read mandates have no DM scope. Original bodies and delivery receipts use the same private R2 vault, with mailbox rights in D1. Delivery, SMTP acceptance, retrieval and explicit account acknowledgement are distinct events.
 
 
 ## Payment entry

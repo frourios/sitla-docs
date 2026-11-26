@@ -79,3 +79,8 @@ The [historical SD-JWT WebAuthn export vectors](artifacts/payments-v2/sd-jwt-pas
 
 
 The current [complete-VC policy vectors](artifacts/circulation-v2/credentials.json) contain 3 signed positive and 14 negative cases, including incompatible licenses, forbidden configuration/public policies, hidden SD-JWT structures, expiry, holder binding and allowlist tampering. The [complete-VC WebAuthn export vectors](artifacts/circulation-v2/passkey-export.json) add 1 positive and 6 negatives. Node and Python independently check signatures, policies, manifests and the passkey approval; neither interprets opaque ciphertext or ZKP payloads. Historical SD-JWT suites remain regression checks only. The current MCP rejects that format.
+
+
+## TLA+ protocol models
+
+[`formal/README.md`](formal/README.md) maps four bounded state-machine models to conditional payment decisions, uncertain provider effects, collection-authority withdrawal and one-time approval execution. Java 21 and Python 3.10+ run `npm run test:formal` (or `python3 formal/check.py`). The runner verifies a SHA-256-pinned TLC 1.7.4 JAR, exhaustively checks the configured safety/temporal properties, and requires eight guard-removal variants to produce named counterexamples. This repository's CI runs the checker; the parent application's CI tests its implementation separately. These are model results under explicit bounds and environment assumptions, not proofs that application code or a payment provider implements the models.

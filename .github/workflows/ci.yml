@@ -36,10 +36,43 @@ jobs:
       - name: Install locked Python verification dependencies
         run: |
           python -m pip install --require-hashes --only-binary=:all: -r tests/requirements.lock
-      - name: Verify selective disclosure with independent Python
+      - name: Verify historical selective-disclosure fixtures with independent Python
         run: python tests/verify_sd_jwt.py
       - name: Verify core, profiles and payment records with independent Python
         run: npm run test:python
+
+  formal:
+    name: TLA+ safety, liveness and counterexamples
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+      - name: Set up Python for the model checker
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Set up Java for pinned TLC
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Cache hash-pinned TLC JAR
+        uses: actions/cache@v6
+        with:
+          path: formal/.cache/tla2tools.jar
+          key: ${{ runner.os }}-tlc-${{ hashFiles('formal/tools.lock.json') }}
+      - name: Model-check four protocols and eight weakened guards
+        run: python3 formal/check.py
+      - name: Retain TLC results and counterexample traces
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: formal-verification
+          path: formal/.cache/reports/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 7
 
   signoff:
     name: Contributor sign-off

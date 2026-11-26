@@ -38,7 +38,7 @@ Pairwise envelopes do not hide stable credential IDs, reusable holder keys or ro
 
 **OFF-5.** Supported presentation routes are direct/selective issuer disclosure, a device-generated ZKP, or a deliberately reusable precomputed proof followed by fresh holder-key approval. The precomputed relation binds the authorized presentation key, subject, predicate parameters, purpose/recipient class and lifetime. That key then signs the verifier challenge, audience, event and exact proof digest. Verify both parts and their association. Signing next to an unrelated cached proof is invalid. Reuse may be linkable; a fresh signature does not refresh status or prove a new arbitrary predicate.
 
-A WebAuthn RP-bound passkey is not a general offline peer signing API. Use the separately authorized wallet key and actual supported presentation profile. Partial credential disclosure follows its securing format; [RFC 9901 SD-JWT](https://www.rfc-editor.org/rfc/rfc9901) does not automatically provide arbitrary predicates or unlinkability.
+A WebAuthn RP-bound passkey is not a general offline peer signing API. Use the separately authorized wallet key and actual supported presentation profile. These external/offline presentation routes do not change current MCP admission: SITLA accepts only complete signed VCs and does not verify party-agreed E2EE or ZKP contents. Outside that MCP boundary, partial credential disclosure follows its separately supported securing format; [RFC 9901 SD-JWT](https://www.rfc-editor.org/rfc/rfc9901) does not automatically provide arbitrary predicates or unlinkability.
 
 ## 4. DIDComm Transport and Minimum Paper Route
 
