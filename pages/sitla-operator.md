@@ -76,7 +76,7 @@ For production webhook configuration, subscribe the platform endpoint to `charge
 
 ## Credential vault and online transport
 
-The current [online profile](protocol-online.md) uses MCP/OAuth/DPoP with signed tool request/response credentials and `SITLA-sd-jwt/1` selective disclosure. OAuth issuer and callback/resource URLs remain HTTPS. Discover the operator DID through `get_operator_identity`, then pin or independently accept its root; discovery alone is not trust.
+The current [online profile](protocol-online.md) uses MCP/OAuth/DPoP with signed tool request/response credentials and `SITLA-vc-jwt/1` complete-VC circulation. OAuth issuer and callback/resource URLs remain HTTPS. Discover the operator DID through `get_operator_identity`, then pin or independently accept its root; discovery alone is not trust.
 
 Exact signed originals, approvals and paid snapshots use the private `VC_VAULT` R2 bucket. D1 retains indexes, public projections and transaction controls; Durable Objects retain sessions, replay and issuance authority. This R2 vault is not media hosting and exposes no public bucket URL. Operator-side custody is readable to the service, not end-to-end encryption from the operator.
 

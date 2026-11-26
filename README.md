@@ -2,10 +2,10 @@
 
 https://sitla.frourio.com
 
-This public repository contains the English SITLA Protocol **v0.12 design draft**:
+This public repository contains the English SITLA Protocol **v0.13 design draft**:
 
 - [Credential Direct Messages](pages/protocol-dm.md): opt-in DID inboxes, original signatures, delivery receipts and email notification without work or payment.
-- [Online MCP circulation](pages/protocol-online.md): standard MCP/OAuth, public issuer DIDs, SD-JWT, private vault and external trust-reference publication.
+- [Online MCP circulation](pages/protocol-online.md): standard MCP/OAuth, public issuer DIDs, complete signed VCs, private vault and external trust-reference publication.
 - [Core](pages/protocol.md): identity, access, evidence, fresh accounts after key loss and external continuity.
 - [Media References](pages/protocol-media.md): external URLs, content integrity and optional hosting; no media store is required.
 - [Account Lifecycle](pages/protocol-lifecycle.md): logout scopes, mandate withdrawal and account deletion states.
@@ -33,11 +33,11 @@ The word “draft” describes technical maturity, not repository visibility or 
 
 ## Verify this repository independently
 
-Use Node.js 26: `npm ci --ignore-scripts`, then `npm test`, `npm run test:mutation` and `npm run secretlint`. For the independent Python verifier, use Python 3.12, install `tests/requirements.txt` in a virtual environment, and run `python tests/verify_vectors.py` and `python tests/verify_sd_jwt.py`. CI runs both implementations on pushes and pull requests without the application repository. The stable wire/1 fixture set covers request hashes, DID documents, replacement/revocation chains, signed approvals/service assertions and schema/semantic/signature rejection layers. Python also reproduces the frozen v0.1 and legacy v0.2 DID/signatures. The document revision is 0.12; it is independent from `sitla-wire/1` and `SITLA/root/1`.
+Use Node.js 26: `npm ci --ignore-scripts`, then `npm test`, `npm run test:mutation` and `npm run secretlint`. For the independent Python verifier, use Python 3.12, install `tests/requirements.txt` in a virtual environment, and run `python tests/verify_vectors.py` and `python tests/verify_sd_jwt.py`. CI runs both implementations on pushes and pull requests without the application repository. The stable wire/1 fixture set covers request hashes, DID documents, replacement/revocation chains, signed approvals/service assertions and schema/semantic/signature rejection layers. Python also reproduces the frozen v0.1 and legacy v0.2 DID/signatures. The document revision is 0.13; it is independent from `sitla-wire/1` and `SITLA/root/1`.
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting changes, including its license allocation, contributor patent grant and sign-off requirements. A passing fixture suite is not a claim of a production wallet, complete standardization or full DIDComm interoperability.
 
-The frozen core set has 8 schemas, 18 positive, 60 negative and 7 malformed-wire fixtures, including browser-shaped ES256 approval assertions. Targeted guard-removal tests detect 39 mutations (32 core/WebAuthn, 3 payment, 3 SD-JWT and 1 current export). See [RELEASING.md](RELEASING.md) for wire compatibility, patent-version review, sign-offs and publication steps.
+The frozen core set has 8 schemas, 18 positive, 60 negative and 7 malformed-wire fixtures, including browser-shaped ES256 approval assertions. Targeted guard-removal tests detect 42 mutations (32 core/WebAuthn, 3 payment, 3 historical SD-JWT, 1 export and 3 whole-VC policy guards). See [RELEASING.md](RELEASING.md) for wire compatibility, patent-version review, sign-offs and publication steps.
 
 CI installs Python verification dependencies from `tests/requirements.lock` with `--require-hashes --only-binary=:all:`. The lock includes official PyPI wheel hashes for every pinned dependency; `tests/requirements.txt` is the readable version list. Regenerate and review hashes when changing dependency versions.
 
@@ -51,7 +51,7 @@ The recommended `sitla-account/1` profile automatically binds an immutable accou
 
 Python now also checks the three account subject schemas (6 unsigned examples and identifier/transition negatives) and the lifecycle schemas (7 synthetic signed cases plus binding, freshness, scope, retention and signature-tampering negatives). `tests/verify_profiles.py` is invoked by `tests/verify_vectors.py` in the existing CI command; it imports no TypeScript. This coverage does not issue/verify complete account VCs, test a live uniqueness registry, execute real deletion or settlement, validate cross-operator migration or certify hardware/browser behavior. Payment tests add the scope described below; other optional profiles remain outside independent verification.
 
-Account URIs remain operator-bound. Long-lived qualifications should use holder-controlled roots as subjects and account URIs only as auxiliary claims when possible; v0.12 defines no interoperable cross-operator migration credential. Export is not automatic transfer of issuer acceptance.
+Account URIs remain operator-bound. Long-lived qualifications should use holder-controlled roots as subjects and account URIs only as auxiliary claims when possible; v0.13 defines no interoperable cross-operator migration credential. Export is not automatic transfer of issuer acceptance.
 
 Payment operators implement the provider-neutral payment duties. The optional [online payment artifacts](pages/protocol-payment-wire.md) now publish **6 frozen CC0 schemas, 15 signed positive and 35 negative synthetic records, 2 signed evidence pages and 5 bundle negatives**, plus the deferred-destination v2 schema and the separate WebAuthn attachment supplement. Node and independent Python check operator JWS, original Ed25519 holder approvals authorized by ML-DSA roots, reviewed scope/amount/destination, event reconciliation/history and manifest member integrity. CI runs these through the existing commands. No TypeScript or private application is imported by Python. Work-specific schemas remain market-defined.
 
@@ -59,11 +59,11 @@ These fixtures do not reproduce Stripe Sandbox, current provider/account/dispute
 
 The [Online MCP Adapter](pages/protocol-online.md) declares an optional executable online subset and its securing/status conventions. Application Worker, SMTP and Stripe integration tests are maintained in the application repository; they do not extend this repository's independently verified fixture scope.
 
-The current online securing profile is `SITLA-sd-jwt/1`. Legacy direct-JWS payment fixtures stay frozen and do not certify the new runtime envelope. Independent Python verification of existing wire/account/lifecycle/payment vectors remains distinct from the new selective-disclosure fixture checks. Neither suite certifies an arbitrary wallet or draft-standard conformance.
+The current online securing profile is `SITLA-vc-jwt/1`, with signed whole-object license and recipient policy. SD-JWT is refused by the current MCP. Legacy direct-JWS payment fixtures stay frozen and do not certify the new runtime envelope. Independent Python verification of existing wire/account/lifecycle/payment vectors remains distinct from the new selective-disclosure fixture checks. Neither suite certifies an arbitrary wallet or draft-standard conformance.
 
 All new payment paths require seller connection before collection, in both live and Sandbox mode. The former pre-connection collection legal-review gate has been removed along with that flow. See [Stripe Japan](pages/protocol-stripe-jp.md).
 
-The circulation fixture supplement adds 1 positive and 11 rejection cases to the original 2 positive and 4 negative cases. The payment WebAuthn supplement adds 1 positive and 1 signed semantic negative with independently supplied synthetic RP enrollment. The current SD-JWT export supplement below additionally covers the current serialization; no synthetic fixture proves live enrollment history or runtime export completeness.
+The circulation fixture supplement adds 1 positive and 11 rejection cases to the original 2 positive and 4 negative cases. The payment WebAuthn supplement adds 1 positive and 1 signed semantic negative with independently supplied synthetic RP enrollment. The historical SD-JWT export supplement below additionally covers the former SD-JWT serialization; no synthetic fixture proves live enrollment history or runtime export completeness.
 
 
 ### Third-party reproduction milestone
@@ -71,4 +71,11 @@ The circulation fixture supplement adds 1 positive and 11 rejection cases to the
 An external implementation should publish its repository revision, language/toolchain version, selected profiles, fixture file digests and positive/negative results. It must independently reproduce canonical bytes, root and holder signature verification, payment semantics, enrollment-bound WebAuthn approval and selective disclosure rather than call the bundled reference or an operator endpoint. Record unsupported profiles and discrepancies separately. Live provider, legal, custody and application-state claims remain out of scope of fixture reproduction. No external Rust/Go implementation or audit is claimed until independently published results are available.
 
 
-The [current SD-JWT WebAuthn export vectors](artifacts/payments-v2/sd-jwt-passkey-export.json) add one positive export and five negative exports: invalid manifest signature, missing approval attachment, altered disclosure, substituted VC copy and an issuer-signed amount mismatch against the original passkey approval. The [reference verifier](reference/payment-export.ts) checks manifest member digests, original SD-JWT issuer/disclosures, root-authorized issuer key, payment scope and the WebAuthn approval against independently accepted RP enrollment. Node and Python verify the same bytes independently. Keys embedded in an export alone establish no trust. This covers synthetic current-format export verification; live provider execution, enrollment-history availability, status freshness and omitted pages still require deployment checks.
+The [historical SD-JWT WebAuthn export vectors](artifacts/payments-v2/sd-jwt-passkey-export.json) add one positive export and five negative exports: invalid manifest signature, missing approval attachment, altered disclosure, substituted VC copy and an issuer-signed amount mismatch against the original passkey approval. The [reference verifier](reference/payment-export.ts) checks manifest member digests, original SD-JWT issuer/disclosures, root-authorized issuer key, payment scope and the WebAuthn approval against independently accepted RP enrollment. Node and Python verify the same bytes independently. Keys embedded in an export alone establish no trust. This covers synthetic historical SD-JWT export verification; live provider execution, enrollment-history availability, status freshness and omitted pages still require deployment checks.
+
+## Internal-use data permission
+
+[SITLAシステム内部利用許諾 1.0](LICENSE-SITLA-INTERNAL-1.0.md) defines the limited permission for private DID documents, email registration credentials and other internal-use records. Identifier: `LicenseRef-SITLA-Internal-1.0`. It follows the service terms and privacy policy and grants no public reuse rights. Public availability and licensing are separate decisions. This document introduces permission wording; automatic runtime assignment is not implemented by adding it.
+
+
+The current [complete-VC policy vectors](artifacts/circulation-v2/credentials.json) contain 3 signed positive and 14 negative cases, including incompatible licenses, forbidden configuration/public policies, hidden SD-JWT structures, expiry, holder binding and allowlist tampering. The [complete-VC WebAuthn export vectors](artifacts/circulation-v2/passkey-export.json) add 1 positive and 6 negatives. Node and Python independently check signatures, policies, manifests and the passkey approval; neither interprets opaque ciphertext or ZKP payloads. Historical SD-JWT suites remain regression checks only. The current MCP rejects that format.

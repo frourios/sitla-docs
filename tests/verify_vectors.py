@@ -328,3 +328,6 @@ verify_profiles(canonical, b64, time)
 
 from verify_payments import verify_payments
 verify_payments(canonical, b64, verify_passkey)
+
+from verify_complete_vc import verify_vectors as verify_complete_vectors
+verify_complete_vectors()

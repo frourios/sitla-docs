@@ -1,6 +1,6 @@
 # Account Lifecycle Profile
 
-*SITLA Protocol v0.12 — Core Lifecycle Semantics and Optional Exchange Profile*\
+*SITLA Protocol v0.13 — Core Lifecycle Semantics and Optional Exchange Profile*\
 **Exchange profile:** `sitla-account-lifecycle/1`\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 

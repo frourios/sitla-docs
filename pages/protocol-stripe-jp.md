@@ -1,6 +1,6 @@
 # Stripe Japan Payment Adapter
 
-**SITLA Protocol v0.12 — optional deployment adapter, not Core conformance**\
+**SITLA Protocol v0.13 — optional deployment adapter, not Core conformance**\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 ## 1. Separation from the protocol

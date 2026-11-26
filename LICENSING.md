@@ -13,6 +13,7 @@ The copyright and related rights controlled by Frourio, Inc. in the following sp
 - `artifacts/payments-v1/**`
 - `artifacts/payments-v2/**`
 - `artifacts/circulation-v1/**`
+- `artifacts/circulation-v2/**`
 - `pages/protocol-media.md`
 - `pages/protocol-lifecycle.md`
 - `artifacts/lifecycle-v1/**`
@@ -33,10 +34,14 @@ The copyright and related rights controlled by Frourio, Inc. in the following sp
 - `pages/protocol-packages.md`
 - `pages/protocol-marketplace.md`
 
-See [the complete CC0 text](LICENSE-CC0-1.0.txt) and [the canonical legal code](https://creativecommons.org/publicdomain/zero/1.0/). The same scope applies to faithful generated HTML/Markdown copies of these texts; website chrome and logos are separate. Attribution, permission, registration and payment to SITLA are not conditions for reuse of these specifications, including commercial implementation and modified versions. The current specification is v0.12; CC0 does not turn a modified profile into a compatible implementation.
+See [the complete CC0 text](LICENSE-CC0-1.0.txt) and [the canonical legal code](https://creativecommons.org/publicdomain/zero/1.0/). The same scope applies to faithful generated HTML/Markdown copies of these texts; website chrome and logos are separate. Attribution, permission, registration and payment to SITLA are not conditions for reuse of these specifications, including commercial implementation and modified versions. The current specification is v0.13; CC0 does not turn a modified profile into a compatible implementation.
 
 This dedication does not relicense existing application software, documentation tooling, terms/privacy policies, `pages/business-model.md`, `pages/sitla-operator.md`, logos or other brand assets. Those materials retain their existing applicable terms. Referenced or quoted third-party standards, papers, proof packages and other external works retain their owners’ terms. CC0 does not waive or license trademarks or patents and does not imply certification, endorsement or a security warranty. This scope notice does not add conditions to CC0.
 
 The `reference/` and `tests/` code is separately Apache-2.0; see [its license](reference/LICENSE). [TRADEMARKS.md](TRADEMARKS.md) permits accurate descriptive compatibility statements. [PATENTS.md](PATENTS.md) provides a separate royalty-free grant for essential claims controlled by Frourio in this specification version; CC0 itself remains unchanged.
 
 Contributions follow [CONTRIBUTING.md](CONTRIBUTING.md). Specification/schema/vector contributions use CC0-1.0; reference and test code uses Apache-2.0. The v0.1 and legacy v0.2 artifact directories are frozen historical fixture sets. Document revisions and the stable wire profile have independent version identifiers. The raw fixture policy resources under `artifacts/wire-v1/policies/` are CC0-1.0, like the schemas and vectors.
+
+## User data intended for internal use
+
+The [SITLA Internal Use Permission 1.0](LICENSE-SITLA-INTERNAL-1.0.md) (`LicenseRef-SITLA-Internal-1.0`) is a separate limited permission for records supplied for SITLA service operations, including email registration and configuration VCs. Current MCP public DID documents require CC0 and accept no recipient list; the internal permission is not an admission rule for a private DID upload. It does not dedicate those records to CC0 or extend the documentation license to user data. The permission text and service terms/privacy policy govern its scope; external issuers retain their rights and conditions. The permission text itself is service legal material outside the CC0 specification list above.

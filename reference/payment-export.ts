@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 import { createPublicKey, verify } from "node:crypto";
 import { canonical, decodeBase64url, parseCanonical, deriveDid, validateSemantics } from "./codec.ts";
+import { verifyCompleteCredential } from "./credential-jwt.ts";
 import { verifySDJWT, materializeVC } from "./sd-jwt.ts";
 import { paymentDigest as digest, verifyPaymentApproval, validatePaymentSubject } from "./payments.ts";
 import type { RegisteredCredential } from "./webauthn.ts";
@@ -20,8 +21,9 @@ export async function verifyPaymentExport(bundle:any, operator:string, key:any, 
  check(new Set(bundle.records.map((r:any)=>r.id)).size===bundle.records.length);
  check(canonical(manifest.attachments)===canonical(bundle.attachments.map((a:any)=>({kind:a.kind,reference:a.reference,digest:digest(a)}))));
  for(const r of bundle.records){
-  check(r.format==="application/dc+sd-jwt");
-  const decoded=await verifySDJWT(r.secured,key),vc=materializeVC(decoded.payload);
+  const full=bundle.schema.adapter==="SITLA-vc-jwt/1";
+  check(full ? r.format==="application/vc+jwt"&&bundle.schema.contentType==="application/vc+jwt" : bundle.schema.adapter==="SITLA-sd-jwt/1"&&r.format==="application/dc+sd-jwt");
+  const vc=full ? (await verifyCompleteCredential(r.secured,key)).vc : materializeVC((await verifySDJWT(r.secured,key)).payload);
   check(vc.issuer===operator&&vc.id.endsWith("/"+r.id)&&canonical(vc)===canonical(r.vc)&&r.digest===digest(vc));
   const authority=r.authority, grant=authority.authorization;
   check(deriveDid(authority.descriptor)===operator&&grant.payload.root===operator);

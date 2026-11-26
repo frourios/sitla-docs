@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: CC0-1.0 -->
 # Credential Direct Messages
 
-**Specification revision: 0.12. Profile: `sitla-credential-dm/1`. Draft.**
+**Specification revision: 0.13. Profile: `sitla-credential-dm/1`. Draft.**
 
 *A DM delivers a signed credential. It does not create a job, charge money or approve its claims.*
 
@@ -23,7 +23,7 @@ Schemas and commercial meanings are market-defined. A request for a free credent
 
 **DM-4.** `send_credential_dm` addresses an exact public `recipientDid`. The reference requires exactly one active local account for that DID, an enabled inbox and no block. Unknown, inactive, ambiguous or self destinations are rejected. The delivery transaction rechecks account state, DID, preferences, blocks and quotas atomically; a prior review is not admission authority. A DID rotation before admission invalidates the old destination. A previously admitted message retains its original DID and account binding; a new independent account never inherits that inbox.
 
-The reference deployment accepts at most 32 KiB of compact SD-JWT per message, subject also to existing canonical request/approval limits. Fixed UTC quotas are 20 accepted deliveries per sender account/hour, 100 per sender account/day and 100 per recipient account/day. A rejected delivery and a retry of the same admitted operation do not consume another quota. Deleting a message does not reset the quota. These limits are deployment policy, not universal protocol constants.
+The reference deployment accepts at most 32 KiB of compact complete-VC JWS per message, subject also to existing canonical request/approval limits. Fixed UTC quotas are 20 accepted deliveries per sender account/hour, 100 per sender account/day and 100 per recipient account/day. A rejected delivery and a retry of the same admitted operation do not consume another quota. Deleting a message does not reset the quota. These limits are deployment policy, not universal protocol constants.
 
 ## 3. Sending, receipts and notification
 
@@ -33,7 +33,7 @@ Prepare `send_credential_dm` with `{recipientDid, credential:{secured,authority}
 
 The message ID is UUIDv7 and fixed by the prepared operation. Replaying the admitted operation returns the same delivery rather than sending again, charging or consuming another quota. Retrying with a new operation is a new message. The operator persists exact credential bytes in the private vault before publishing a D1 delivery index. Recipients receive no R2 public URL. A failure before admission can leave an unreferenced private object; it does not establish delivery.
 
-**DM-6.** After admission the operator issues `urn:sitla:credential:CredentialDMDelivery:1`, secured with `SITLA-sd-jwt/1`. Its subject includes the authenticated sender DID, message ID, immutable recipient DID, delivery timestamp, canonical-string SHA-256 `credentialDigest`, `event: inbox-delivery`, `humanReadProven:false`, and `acceptedAsCredential:false`. This attests only an operator inbox event. It is not an issuer's endorsement, a work acceptance, an email-provider signature or proof of human reading. The sender and recipient can retrieve this receipt with the message; ordinary signed tool-response bindings still apply.
+**DM-6.** After admission the operator issues `urn:sitla:credential:CredentialDMDelivery:1`, secured with `SITLA-vc-jwt/1`. Its subject includes the authenticated sender DID, message ID, immutable recipient DID, delivery timestamp, canonical-string SHA-256 `credentialDigest`, `event: inbox-delivery`, `humanReadProven:false`, and `acceptedAsCredential:false`. This attests only an operator inbox event. It is not an issuer's endorsement, a work acceptance, an email-provider signature or proof of human reading. The sender and recipient can retrieve this receipt with the message; ordinary signed tool-response bindings still apply.
 
 Original admission, receipt issuance and SMTP are not one transaction. A failed receipt/notification handoff remains a durable finalization job; the operator retries without another message. A message can be listed before its delivery receipt is ready and returns a null receipt until finalized. The reference attempts finalization/SMTP retry for up to seven days. Permanent unavailability need not produce a signed receipt or successful email; clients reconcile the existing message, never assume a timeout means no delivery.
 
@@ -60,3 +60,6 @@ Account quiescence stops new delivery and normal inbox access. A completed accou
 3. Recipient receives a generic email, lists the inbox and fetches the message through authenticated MCP.
 4. Recipient verifies issuer/root authority and status under its own policy, optionally acknowledges the message, and separately decides whether to import/use the credential or respond.
 5. Either party may delete its own copy. A free exchange never needs a job or payment-provider account.
+
+
+Current SITLA MCP admission, publication and delivery use the signed whole-VC [license and DID recipient policy](protocol-online.md#41-signed-license-and-recipient-metadata). Optional E2EE/ZKP payloads are opaque to the operator. This does not change frozen historical fixtures or imply content-proof verification.

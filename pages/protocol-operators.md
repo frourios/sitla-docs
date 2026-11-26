@@ -1,6 +1,6 @@
 # Operator Profile
 
-*SITLA Protocol v0.12 — Required Configuration and Interoperability Profile*\
+*SITLA Protocol v0.13 — Required Configuration and Interoperability Profile*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)\
 **Date:** November 15, 2026
 
@@ -36,13 +36,13 @@ An illustrative descriptor uses reserved example domains and symbolic digests; i
 ```json
 {
   "protocol": "sitla-wire/1",
-  "specification_revision": "0.12",
+  "specification_revision": "0.13",
   "wire_profiles": ["sitla-wire/1", "SITLA/webauthn-approval/1"],
   "operator_id": "https://operator.example",
   "descriptor_revision": "deployment-1",
   "issued_at": "2026-11-14T00:00:00Z",
   "expires_at": "2026-12-14T00:00:00Z",
-  "profiles": [{"id":"core","version":"0.12","spec_digest":"<authenticated-spec-digest>"}],
+  "profiles": [{"id":"core","version":"0.13","spec_digest":"<authenticated-spec-digest>"}],
   "endpoints": {"mcp":"https://operator.example/mcp"},
   "policy_refs": {"recovery":{"uri":"https://operator.example/policies/recovery","digest":"<authenticated-policy-digest>"}},
   "unsupported_profiles": ["disaster-offline", "proof-packages", "marketplace"]
@@ -77,7 +77,7 @@ Exports retain original issuer signatures, status references and accepted key hi
 | OP-4 | Present another operator’s token, local account UUID or continuity VC as local login authority | Wrong audience/authority is rejected; continuity needs explicit acceptance |
 | OP-5 | Exchange incompatible profiles or matching package versions with different digests | Explicit mismatch, never a silent downgrade or substituted artifact |
 
-Conformance statements identify Core and each optional profile/revision, actual compatible artifacts and independent test results. The [SITLA deployment](sitla-operator.md) is one operator’s provisional configuration; its implementation status is not the status of every protocol implementation. The specification remains v0.12 and is not yet a complete production wire standard.
+Conformance statements identify Core and each optional profile/revision, actual compatible artifacts and independent test results. The [SITLA deployment](sitla-operator.md) is one operator’s provisional configuration; its implementation status is not the status of every protocol implementation. The specification remains v0.13 and is not yet a complete production wire standard.
 
 Optional [Account Identifiers](protocol-identifiers.md) use the canonical operator origin to scope automatically assigned account references. The `sitla-account/1` profile requires no human-selected name. No custom public alias capability is provided. Default profile URLs/QR payloads use the immutable account URI and preserve the user’s disclosure/access settings. A short display prefix such as `sitla` is only a locally authenticated alias. Declaring this optional profile also declares its accepted VC securing/status adapters and issuer namespace authority; it does not change the mandatory wire/1 schema contracts.
 

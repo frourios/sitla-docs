@@ -235,6 +235,8 @@ def verify_payments(canonical, b64, verify_passkey):
     # Approval checks use the RP's HTTPS operator, independently of the credential issuer DID.
     fixture = {**sd_fixture, "expectedIssuer": sd_fixture["approvalOperator"]}
 
+    full_format = False
+    from verify_complete_vc import verify_complete_vc
     def sd_export(bundle):
         key = sd_fixture["acceptedOperatorKey"]
         hp, pp, signature = bundle["signedManifest"].split(".")
@@ -249,8 +251,8 @@ def verify_payments(canonical, b64, verify_passkey):
         require(len({r["id"] for r in bundle["records"]}) == len(bundle["records"]), "duplicate_records")
         require(m["attachments"] == [{"kind": a["kind"], "reference": a["reference"], "digest": digest(a)} for a in bundle["attachments"]], "manifest_attachments")
         for r in bundle["records"]:
-            require(r["format"] == "application/dc+sd-jwt", "record_format")
-            payload = verify_sd(r["secured"], key)
+            require(r["format"] == ("application/vc+jwt" if full_format else "application/dc+sd-jwt"), "record_format")
+            payload = verify_complete_vc(r["secured"], key) if full_format else verify_sd(r["secured"], key)
             vc = {k: v for k, v in payload.items() if k not in ("iss","sub","vct","jti","iat","exp","nbf","cnf")}
             require(vc == r["vc"] and r["digest"] == digest(vc) and vc["issuer"] == m["operator"] and vc["id"].endswith("/"+r["id"]), "record_copy")
             authority = r["authority"]
@@ -278,4 +280,19 @@ def verify_payments(canonical, b64, verify_passkey):
             pass
         else:
             raise AssertionError(item["id"] + ": SD-JWT export negative accepted")
-    print("Independent current SD-JWT WebAuthn export verification passed: 1 positive, 5 negatives.")
+    print("Independent historical SD-JWT WebAuthn export verification passed: 1 positive, 5 negatives.")
+
+    full_format = True
+    sd_fixture = json.loads((root / "circulation-v2/passkey-export.json").read_text())
+    fixture = {**sd_fixture, "expectedIssuer": sd_fixture["approvalOperator"]}
+    schemas["conditional-instruction"] = Draft202012Validator(json.loads((root / "circulation-v2/schemas/conditional-instruction.schema.json").read_text()))
+    for item in sd_fixture["positive"]:
+        sd_export(item["bundle"])
+    for item in sd_fixture["negative"]:
+        try:
+            sd_export(item["bundle"])
+        except Exception:
+            pass
+        else:
+            raise AssertionError(item["id"] + ": complete-VC export negative accepted")
+    print("Independent complete-VC WebAuthn export verification passed: 1 positive, 6 negatives.")

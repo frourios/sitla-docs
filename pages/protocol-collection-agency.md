@@ -1,6 +1,6 @@
 # Collection Agency
 
-**SITLA Protocol v0.12 — service profile `sitla-collection-agency/1`**
+**SITLA Protocol v0.13 — service profile `sitla-collection-agency/1`**
 
 ## 1. Common rule
 
@@ -68,3 +68,6 @@ The current Stripe adapter admits no new pre-connection collections through any 
 | AGENCY-VC-1–3 | Both parties export signed authority and capture facts after withdrawal; private profile values are absent; multi-seller receipts contain only their own scope |
 
 The application tests run the real reservation SQL against SQLite and exercise provider failures through mocks. Worker/Stripe Sandbox integration additionally uses actual holder approvals, Checkout, capture, CLI webhooks, transfers and refunds. The public Node/Python [payment fixtures](protocol-payment-wire.md) independently check synthetic records and evidence pages; they do not reproduce private application/Stripe tests. These application lifecycle tests are not a third-party legal/security audit or a licensing decision.
+
+
+Current SITLA MCP admission, publication and delivery use the signed whole-VC [license and DID recipient policy](protocol-online.md#41-signed-license-and-recipient-metadata). Optional E2EE/ZKP payloads are opaque to the operator. This does not change frozen historical fixtures or imply content-proof verification.

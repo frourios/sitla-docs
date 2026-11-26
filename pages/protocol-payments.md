@@ -1,6 +1,6 @@
 # Portable Payment Records
 
-*SITLA Protocol v0.12 — Required for Operator-Mediated Marketplace Payments*\
+*SITLA Protocol v0.13 — Required for Operator-Mediated Marketplace Payments*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 The [Collection Agency](protocol-collection-agency.md) profile covers seller-authorized receipt, capture-time price debt discharge and prospective withdrawal across supported payment paths.
@@ -126,3 +126,6 @@ The current tool does not make live Stripe API calls during a read. Coverage beg
 Log requester/context/counterparty and read time without duplicating private case data. The authorized recipient may retain the signed assertion for its transaction; access is not blanket permission to publish it. Publish purpose-limited disclosure, retention and correction/contest procedures. Normal access logs are removed on account erasure; necessary financial observations follow the separate financial retention rules.
 
 Application tests cover access/mandate isolation, signed output, retained previous-owner cases, multi-seller privacy, missing/partial history, frozen destinations, mode separation, latest-state deduplication, provider-link failures and deletion retention. Worker/MCP tests exercise proposal rejection and accepted-party access. These are application checks, not an addition to the public payment-VC fixture counts or a third-party/legal audit.
+
+
+Current SITLA MCP admission, publication and delivery use the signed whole-VC [license and DID recipient policy](protocol-online.md#41-signed-license-and-recipient-metadata). Optional E2EE/ZKP payloads are opaque to the operator. This does not change frozen historical fixtures or imply content-proof verification.
