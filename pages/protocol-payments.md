@@ -1,6 +1,6 @@
 # Portable Payment Records
 
-*SITLA Protocol v0.8 — Required for Operator-Mediated Marketplace Payments*\
+*SITLA Protocol v0.9 — Required for Operator-Mediated Marketplace Payments*\
 **License:** [CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 The [Collection Agency](protocol-collection-agency.md) profile covers seller-authorized receipt, capture-time price debt discharge and prospective withdrawal across supported payment paths.

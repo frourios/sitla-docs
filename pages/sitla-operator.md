@@ -66,7 +66,7 @@ The [Collection Agency](protocol-collection-agency.md) profile covers direct/car
 
 ## Deferred seller connection
 
-The deferred online payment binding allows work payments before seller Stripe connection. An eligible net amount remains an unsettled payable until the original seller completes verified Standard Connect OAuth and is eligible to receive transfers. There is no minimum amount for connection or settlement, and no accumulation policy after connection. Preserve the signed collection authority, original seller and existing transaction conditions; assign an unassigned destination once, reconcile outstanding amounts and remit promptly. See [Stripe Japan](protocol-stripe-jp.md). Runtime discovery remains authoritative for the deployed version. Existing payments-v1 signed records remain unchanged.
+The deferred online payment binding implements work payments before seller Stripe connection as a technical capability. Live admission is separately subject to [JP-DEFER-1–4](protocol-stripe-jp.md); the repository does not establish that the required production policy or approval is in place. An eligible net amount remains an unsettled payable until the original seller completes verified Standard Connect OAuth and is eligible to receive transfers. There is no minimum amount for connection or settlement, and no accumulation policy after connection. Preserve the signed collection authority, original seller and existing transaction conditions; assign an unassigned destination once, reconcile outstanding amounts and remit promptly. See [Stripe Japan](protocol-stripe-jp.md). Runtime discovery remains authoritative for the deployed version. Existing payments-v1 signed records remain unchanged.
 
 ## Assessment and disclosure gaps
 

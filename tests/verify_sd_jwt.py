@@ -75,11 +75,12 @@ def verify(compact, key):
     assert len(used)==len(disclosures)
     return result
 
-vectors=json.loads((Path(__file__).parent.parent/'artifacts/circulation-v1/vectors.json').read_text())
-for item in vectors['positive']:
-    assert verify(item['secured'],vectors['publicKey'])['credentialSubject']['claims']==item['claims'], item['id']
-for item in vectors['negative']:
-    try: verify(item['secured'],vectors['publicKey'])
-    except Exception: pass
-    else: raise AssertionError(item['id'])
-print(f"circulation-v1: {len(vectors['positive'])} positive, {len(vectors['negative'])} negative (independent Python)")
+for filename in ("vectors.json", "supplemental-vectors.json"):
+    vectors=json.loads((Path(__file__).parent.parent/'artifacts/circulation-v1'/filename).read_text())
+    for item in vectors['positive']:
+        assert verify(item['secured'],vectors['publicKey'])['credentialSubject']['claims']==item['claims'], item['id']
+    for item in vectors['negative']:
+        try: verify(item['secured'],vectors['publicKey'])
+        except Exception: pass
+        else: raise AssertionError(item['id'])
+    print(f"circulation-v1/{filename}: {len(vectors['positive'])} positive, {len(vectors['negative'])} negative (independent Python)")

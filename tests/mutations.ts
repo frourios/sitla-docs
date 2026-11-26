@@ -3,7 +3,7 @@
 // Targeted guard-removal tests, not a claim of exhaustive mutation coverage.
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { cp, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -46,7 +46,38 @@ try {
     assert.match(result.stderr, /AssertionError/, `Mutation failed outside an expected test assertion: ${mutation.name}\n${result.stderr}`);
     await writeFile(join(temporary, mutation.file), original);
   }
-  console.log(`All ${mutations.length} targeted security mutations were detected.`);
+  // Run the public payment and circulation tests against isolated copies, never deployed code.
+  const supplemental = [
+    { file: "payments.ts", test: "payments.test.ts", name: "payment-amount-reconciliation", from: 'check(subject.platformFeeMinor + subject.sellerNetMinor === subject.originalGrossMinor, "event_amounts")', to: 'void 0' },
+    { file: "payments.ts", test: "payments.test.ts", name: "payment-inspection-consistency", from: 'check(subject.inspection.performanceDigest === subject.instruction.performanceDigest, "inspection_digest")', to: 'void 0' },
+    { file: "payments.ts", test: "payments.test.ts", name: "payment-attachment-integrity", from: 'check(subject.approval.evidenceDigest === paymentDigest(evidence), "payment_approval_digest")', to: 'void 0' },
+    { file: "sd-jwt.ts", test: "sd-jwt.test.ts", name: "circulation-duplicate-disclosure", from: 'disclosed.has(key) ||', to: '' },
+    { file: "sd-jwt.ts", test: "sd-jwt.test.ts", name: "circulation-key-reference-policy", from: 'header.jku ||', to: '' },
+    { file: "sd-jwt.ts", test: "sd-jwt.test.ts", name: "circulation-unreferenced-disclosure", from: 'if (used.size !== disclosed.size) fail("sd_jwt_unreferenced_disclosure");', to: 'void 0;' },
+  ];
+  await mkdir(join(temporary, "reference"));
+  await mkdir(join(temporary, "tests"));
+  for (const file of ["codec.ts", "payments.ts", "sd-jwt.ts", "webauthn.ts"])
+    await cp(new URL(file, reference), join(temporary, "reference", file));
+  await symlink(fileURLToPath(new URL("../artifacts", import.meta.url)), join(temporary, "artifacts"), "dir");
+  for (const test of ["payments.test.ts", "sd-jwt.test.ts"]) {
+    await cp(new URL(test, import.meta.url), join(temporary, "tests", test));
+    execFileSync(process.execPath, ["--test", join(temporary, "tests", test)], { timeout: 20000, stdio: "pipe" });
+  }
+  for (const mutation of supplemental) {
+    const original = await readFile(new URL(mutation.file, reference), "utf8");
+    assert.ok(original.includes(mutation.from), `Missing mutation target: ${mutation.name}`);
+    const target = join(temporary, "reference", mutation.file);
+    await writeFile(target, original.replace(mutation.from, mutation.to));
+    execFileSync(process.execPath, ["--input-type=module", "-e", `await import(${JSON.stringify(pathToFileURL(target).href)})`], { timeout: 10000, stdio: "pipe" });
+    const result = spawnSync(process.execPath, ["--test", join(temporary, "tests", mutation.test)], { timeout: 20000, encoding: "utf8" });
+    assert.equal(result.status, 1, `Surviving mutation: ${mutation.name}
+${result.stdout}
+${result.stderr}`);
+    assert.match(result.stdout + result.stderr, /AssertionError/, `Mutation failed outside test assertion: ${mutation.name}`);
+    await writeFile(target, original);
+  }
+  console.log(`All ${mutations.length + supplemental.length} targeted security mutations were detected.`);
 } finally {
   await rm(temporary, { recursive: true, force: true });
 }

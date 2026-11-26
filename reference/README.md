@@ -10,7 +10,7 @@ The files use erasable TypeScript. Node.js 26 can import `codec.ts` directly wit
 
 `webauthn.ts` verifies the named ES256 approval profile using independently enrolled RP credentials and the original clientDataJSON bytes. It does not perform browser enrollment, attest hardware, provide an approval UI, maintain a replay/counter/epoch database or execute payments. Those remain authenticated RP duties. The JSON DID adapter explicitly rejects JSON-LD representation requests.
 
-`policy_digest` and operator policy references hash exact resource bytes, including whitespace/newlines; fixture policy bytes are published under `artifacts/wire-v1/policies/`. Wire records use `sitla-wire/1`, stable native contexts such as `SITLA/root/1`, and stable approval/service domains. Prose revision 0.8 is documentary metadata, not a signature invalidation switch. Legacy v0.1/v0.2 fixtures retain their original contexts and byte identities.
+`policy_digest` and operator policy references hash exact resource bytes, including whitespace/newlines; fixture policy bytes are published under `artifacts/wire-v1/policies/`. Wire records use `sitla-wire/1`, stable native contexts such as `SITLA/root/1`, and stable approval/service domains. Prose revision 0.9 is documentary metadata, not a signature invalidation switch. Legacy v0.1/v0.2 fixtures retain their original contexts and byte identities.
 
 Run `npm run test:mutation` for targeted guard-removal checks, independently of `npm test`. The mutation runner imports each temporary mutant before testing so syntax/import failures cannot masquerade as detected security omissions. It checks 32 selected guards; it is not exhaustive or a production-verifier claim.
 

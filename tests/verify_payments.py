@@ -11,14 +11,14 @@ from dilithium_py.ml_dsa import ML_DSA_44
 from jsonschema import Draft202012Validator
 
 
-def verify_payments(canonical, b64):
+def verify_payments(canonical, b64, verify_passkey):
     root = Path(__file__).resolve().parents[1] / "artifacts"
     fixture = json.loads((root / "payments-v1/vectors/payments.json").read_text())
     schemas = {}
     deferred_schema = json.loads((root / "payments-v2" / "schemas" / "collection-authorization.schema.json").read_text())
     Draft202012Validator.check_schema(deferred_schema)
     schemas["collection-authorization-v2"] = Draft202012Validator(deferred_schema)
-    for folder, names in [("payments-v1", ["collection-authorization", "conditional-instruction", "payment-event", "online-vc", "export-manifest", "evidence-bundle"]), ("wire-v1", ["approved-action", "operational-key-authorization", "request-evidence"])]:
+    for folder, names in [("payments-v1", ["collection-authorization", "conditional-instruction", "payment-event", "online-vc", "export-manifest", "evidence-bundle"]), ("wire-v1", ["approved-action", "passkey-approved-action", "operational-key-authorization", "request-evidence"])]:
         for name in names:
             schema = json.loads((root / folder / "schemas" / (name + ".schema.json")).read_text())
             Draft202012Validator.check_schema(schema)
@@ -117,9 +117,18 @@ def verify_payments(canonical, b64):
         require(ML_DSA_44.verify(b64(descriptor["identityPublicKey"], 1312), encoded(g), b64(grant["signature"]["value"], 2420), ctx=b"SITLA/root/1"), "payment_root_signature")
         require(instant(g["expires_at"]) > instant(g["issued_at"]) and (g["sequence"] == 0) == (g["predecessor_digest"] is None), "invalid_predecessor")
         require(len({k["id"] for k in g["keys"]}) == len(g["keys"]), "duplicate_key_id")
-        key = next((k for k in g["keys"] if k["id"] == sig["key_id"]), None)
-        require(key and key["suite"] == "Ed25519" and key["role"] == "assertion" and schemas["approved-action"].is_valid({"payload": p, "signature": sig}), "payment_approval_key")
-        edverify({"x": key["public_key"]}, sig["value"], encoded(p), "payment_holder_signature")
+        if sig["suite"] == "WebAuthn-P256":
+            credential = fixture.get("trustedEnrollment")
+            response = sig["response"]
+            require(credential and response["type"] == "public-key" and response["id"] == credential["id"] == response["rawId"], "payment_passkey_enrollment")
+            browser = response["response"]
+            assertion = {"payload": p, "proof": {"profile": "SITLA/webauthn-approval/1", "suite": "WebAuthn-ES256", "credential_id":response["id"], "client_data_json": browser["clientDataJSON"], "authenticator_data": browser["authenticatorData"], "signature": browser["signature"], "user_handle": browser.get("userHandle")}}
+            require(schemas["passkey-approved-action"].is_valid(assertion), "payment_approval_schema")
+            verify_passkey(assertion, credential, grant)
+        else:
+            key = next((k for k in g["keys"] if k["id"] == sig["key_id"]), None)
+            require(key and key["suite"] == "Ed25519" and key["role"] == "assertion" and schemas["approved-action"].is_valid({"payload": p, "signature": sig}), "payment_approval_key")
+            edverify({"x": key["public_key"]}, sig["value"], encoded(p), "payment_holder_signature")
         require(instant(p["expires_at"]) > instant(p["issued_at"]), "invalid_lifetime")
         require(32 <= len(b64(p["challenge"])) <= 64, "invalid_challenge")
         require(p["policy_digest"] == hashlib.sha256(e["policyBytes"].encode()).hexdigest(), "policy_digest_mismatch")
@@ -198,3 +207,24 @@ def verify_payments(canonical, b64):
         else:
             raise AssertionError(item["id"] + ": bundle negative accepted")
     print(f"Independent payment verification passed: 6 schemas, {len(fixture['positive'])} signed positive, {len(fixture['negative'])} negative records, 2 signed bundle pages and 5 bundle negatives; no live processor or legal verification.")
+
+    fixture = json.loads((root / "payments-v2/passkey-settlement.json").read_text())
+    for item in fixture["positive"]:
+        run(item)
+    for item in fixture["negative"]:
+        try:
+            run(item)
+        except ValueError as error:
+            require(str(error) == item["error"], item["id"] + ": wrong passkey rejection: " + str(error))
+        else:
+            raise AssertionError(item["id"] + ": passkey negative accepted")
+    enrollment = fixture.pop("trustedEnrollment")
+    try:
+        run(fixture["positive"][0])
+    except ValueError as error:
+        require(str(error) == "payment_passkey_enrollment", "missing trusted enrollment rejection")
+    else:
+        raise AssertionError("missing trusted enrollment accepted")
+    finally:
+        fixture["trustedEnrollment"] = enrollment
+    print("Independent supplemental WebAuthn payment verification passed: 1 positive, 1 signed negative, missing trusted enrollment rejected.")

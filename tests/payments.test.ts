@@ -25,3 +25,15 @@ test("signed evidence pages bind records, attachments, keys and metadata without
   for (const item of vectors.bundles.negative) assert.throws(() => verifyPaymentBundle(item.value, vectors.acceptedKeys, vectors.expectedIssuer, schemas), { message: item.error }, item.id);
   assert.throws(() => verifyPaymentBundle(vectors.bundles.positive[0], {}, vectors.expectedIssuer, schemas), /bundle_issuer_key/);
 });
+
+test("supplemental WebAuthn payment attachment requires independently trusted enrollment and binds the payment amount", async () => {
+  const fixture = JSON.parse(await readFile(new URL("../artifacts/payments-v2/passkey-settlement.json", import.meta.url),"utf8"));
+  function verifyPasskey(item: any, registered = fixture.trustedEnrollment) {
+    const subject = verifyPaymentCredential(item.record,fixture.acceptedKeys,fixture.expectedIssuer,schemas);
+    verifyPaymentApproval(subject,item.evidence,schemas,fixture.expectedIssuer,registered);
+  }
+  for (const item of fixture.positive) assert.doesNotThrow(()=>verifyPasskey(item));
+  for (const item of fixture.negative) assert.throws(()=>verifyPasskey(item),{message:item.error});
+  const original = fixture.positive[0], subject = verifyPaymentCredential(original.record,fixture.acceptedKeys,fixture.expectedIssuer,schemas);
+  assert.throws(()=>verifyPaymentApproval(subject,original.evidence,schemas,fixture.expectedIssuer),/payment_passkey_enrollment/);
+});

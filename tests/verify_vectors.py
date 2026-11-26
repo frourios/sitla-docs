@@ -327,4 +327,4 @@ from verify_profiles import verify_profiles
 verify_profiles(canonical, b64, time)
 
 from verify_payments import verify_payments
-verify_payments(canonical, b64)
+verify_payments(canonical, b64, verify_passkey)

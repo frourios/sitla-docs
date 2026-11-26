@@ -1,6 +1,6 @@
 # Collection Agency
 
-**SITLA Protocol v0.8 — service profile `sitla-collection-agency/1`**
+**SITLA Protocol v0.9 — service profile `sitla-collection-agency/1`**
 
 ## 1. Common rule
 
@@ -44,9 +44,9 @@ Existing reservations may continue to payment or capture under their existing au
 
 ## 3.1. Deferred destination extension
 
-An adapter may support sales without an existing provider connection as specified in [Stripe Japan](protocol-stripe-jp.md). For that binding, AGENCY-4 and AGENCY-6 permit an explicitly unassigned destination instead of an active provider binding, provided the exact seller account, processor/mode, scope and later assignment conditions are authorized and frozen. AGENCY-7 permits the first assignment under that authority only to the verified connection of the original seller; once assigned, the destination remains immutable. Withdrawal, reassociation and deletion do not transfer ownership of unsettled amounts. Preserve original approval and capture records and append binding and actual transfer observations; do not represent an unassigned destination as a provider account ID.
+An adapter may support sales without an existing provider connection only under its approved, disclosed deployment policy as specified in [Stripe Japan](protocol-stripe-jp.md). For that binding, AGENCY-4 and AGENCY-6 permit an explicitly unassigned destination instead of an active provider binding, provided the exact seller account, processor/mode, scope and later assignment conditions are authorized and frozen. AGENCY-7 permits the first assignment under that authority only to the verified connection of the original seller; once assigned, the destination remains immutable. Withdrawal, reassociation and deletion do not transfer ownership of unsettled amounts. Preserve original approval and capture records and append binding and actual transfer observations; do not represent an unassigned destination as a provider account ID.
 
-The current payment wire profile retains its required destination fields. A deferred-destination binding must publish its own versioned evidence and tests before use.
+If pre-connection collection is not approved for the deployment, listing and negotiation remain available but live collection requires a verified destination. The current payment wire profile retains its required destination fields. A deferred-destination binding must publish its own versioned evidence and tests before use.
 
 ## 4. Portable evidence and privacy
 

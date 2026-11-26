@@ -3,6 +3,7 @@
 import { createPublicKey, verify } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { Ajv2020 } from "ajv/dist/2020.js";
+import { validateWebAuthnApproval, type RegisteredCredential } from "./webauthn.ts";
 import { canonical, sha256, decodeBase64url, parseCanonical, deriveDid, validateSemantics } from "./codec.ts";
 
 type Value = Record<string, any>;
@@ -13,7 +14,7 @@ export async function paymentSchemas() {
   const result = new Map();
   for (const name of paymentSchemaNames) result.set(name, ajv.compile(JSON.parse(await readFile(new URL(`../artifacts/payments-v1/schemas/${name}.schema.json`, import.meta.url), "utf8"))));
   result.set("collection-authorization-v2", ajv.compile(JSON.parse(await readFile(new URL("../artifacts/payments-v2/schemas/collection-authorization.schema.json", import.meta.url), "utf8"))));
-  for (const name of ["approved-action", "operational-key-authorization", "request-evidence"]) result.set(name, ajv.compile(JSON.parse(await readFile(new URL(`../artifacts/wire-v1/schemas/${name}.schema.json`, import.meta.url), "utf8"))));
+  for (const name of ["approved-action", "passkey-approved-action", "operational-key-authorization", "request-evidence"]) result.set(name, ajv.compile(JSON.parse(await readFile(new URL(`../artifacts/wire-v1/schemas/${name}.schema.json`, import.meta.url), "utf8"))));
   return result;
 }
 export const paymentDigest = (value: unknown) => sha256(canonical(value));
@@ -74,8 +75,8 @@ export function verifyPaymentCredential(record: Value, acceptedKeys: Value, expe
   validatePaymentSubject(subject);
   return subject;
 }
-/** Approval attachment for the Ed25519 path; caller supplies historical trust/status policy. */
-export function verifyPaymentApproval(subject: Value, evidence: Value, schemas: Map<string, any>, expectedIssuer: string) {
+/** Approval attachment; caller supplies historical trust/status policy and independently accepted RP enrollment for WebAuthn. */
+export function verifyPaymentApproval(subject: Value, evidence: Value, schemas: Map<string, any>, expectedIssuer: string, credential?: RegisteredCredential) {
   check(subject.approval.evidenceDigest === paymentDigest(evidence), "payment_approval_digest");
   const { payload, signature, request, reviewedContext, arguments: args, identity } = evidence;
   const { grant, descriptor } = identity;
@@ -87,9 +88,19 @@ export function verifyPaymentApproval(subject: Value, evidence: Value, schemas: 
   check(deriveDid(descriptor) === grant.payload.root, "payment_holder_root");
   check(verify(null, Buffer.from(canonical(grant.payload)), { key: createPublicKey({ key: { kty: "AKP", alg: "ML-DSA-44", pub: descriptor.identityPublicKey }, format: "jwk" }), context: Buffer.from("SITLA/root/1") }, decodeBase64url(grant.signature.value)), "payment_root_signature");
   validateSemantics("operational-key-authorization", grant, { descriptor });
-  check(key?.suite === "Ed25519" && key.role === "assertion" && schemas.get("approved-action")({ payload, signature }), "payment_approval_key");
-  check(verify(null, Buffer.from(canonical(payload)), createPublicKey({ key: { kty: "OKP", crv: "Ed25519", x: key.public_key }, format: "jwk" }), decodeBase64url(signature.value)), "payment_holder_signature");
-  validateSemantics("approved-action", { payload, signature }, { request, policyBytes: Buffer.from(evidence.policyBytes) });
+  if (signature.suite === "WebAuthn-P256") {
+    const response = signature.response;
+    check(credential && response?.type === "public-key" && response.id === credential.id && response.rawId === credential.id, "payment_passkey_enrollment");
+    const proof = { profile: "SITLA/webauthn-approval/1", suite: "WebAuthn-ES256", credential_id: response.id, client_data_json: response.response.clientDataJSON, authenticator_data: response.response.authenticatorData, signature: response.response.signature, user_handle: response.response.userHandle ?? null };
+    const assertion = { payload, proof };
+    check(schemas.get("passkey-approved-action")(assertion), "payment_approval_schema");
+    validateWebAuthnApproval(assertion, credential!, grant);
+    validateSemantics("passkey-approved-action", assertion, { request, policyBytes: Buffer.from(evidence.policyBytes) });
+  } else {
+    check(key?.suite === "Ed25519" && key.role === "assertion" && schemas.get("approved-action")({ payload, signature }), "payment_approval_key");
+    check(verify(null, Buffer.from(canonical(payload)), createPublicKey({ key: { kty: "OKP", crv: "Ed25519", x: key.public_key }, format: "jwk" }), decodeBase64url(signature.value)), "payment_holder_signature");
+    validateSemantics("approved-action", { payload, signature }, { request, policyBytes: Buffer.from(evidence.policyBytes) });
+  }
   check(payload.event_reference === subject.approval.operationId && payload.payload_digest === paymentDigest(reviewedContext) && request.subject_reference === `urn:sha256:${paymentDigest(reviewedContext)}` && canonical(args) === canonical(reviewedContext.arguments), "payment_approval_binding");
   const operation = ["sitla-collection-authorization/1", "sitla-collection-authorization/2"].includes(subject.profile) ? subject.scope.kind === "profile" ? "authorize_profile_collection" : "accept_work" : ({ "collection-authorize": "authorize_escrow_collection", deposit: "notify_escrow_deposit", accept: "accept_escrow", refund: "refund_escrow", settle: "settle_escrow" } as Value)[subject.action];
   const actor = ["sitla-collection-authorization/1", "sitla-collection-authorization/2"].includes(subject.profile) ? subject.seller : ["deposit", "settle"].includes(subject.action) ? subject.buyer : subject.seller;

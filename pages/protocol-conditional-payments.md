@@ -1,6 +1,6 @@
 # Conditional Payment Instructions
 
-**SITLA Protocol v0.8 — optional profile `sitla-conditional-payment/1`**
+**SITLA Protocol v0.9 — optional profile `sitla-conditional-payment/1`**
 
 ## 1. Purpose and scope
 
@@ -124,7 +124,10 @@ Unit tests mock provider observations to exercise deadlines and faults. The appl
 | Buyer loses all accepted keys after seller acceptance, before a committed settlement | No replacement buyer instruction; seller may refund, otherwise the fixed deadline refunds gross | Even completed/delivered work may go unpaid through this flow; no operator adjudication substitutes for inspection authorization |
 | Seller loses all accepted keys before collection authority | No new Checkout under that transaction | Renegotiate a new transaction if parties choose; never transfer old authority |
 | Seller loses all accepted keys after collection but before acceptance | Seller cannot accept/refund by signature; fixed deadline refunds | Rebinding does not let the new account accept the old offer |
-| Seller loses all accepted keys after acceptance | Existing buyer may still settle to the frozen old destination; otherwise deadline refund | The new account does not receive old custody or change the destination; old seller cannot send a discretionary refund instruction |
+| Seller loses all accepted keys after acceptance | Existing buyer may still settle under the original authority; otherwise deadline refund | If a destination is assigned, use it unchanged. If unassigned, retain the seller obligation and use the approved alternative settlement process; the new account cannot take it over |
 | Release/refund already durably committed before key loss | Finish/reconcile that same provider effect using its original idempotency key | Key loss neither changes the decision nor creates a second charge or competing release |
 
 Direct-work capture has no conditional inspection gate: its existing collection/remittance duties survive key loss and cannot be billed again. Manual card authorization alone is not payment; only an already authorized permitted capture path within the provider window may collect it, otherwise it expires/cancels. Buyers/sellers should retain backups and export evidence before starting long work; split milestones or another expressly agreed supported payment method can limit exposure, but this profile guarantees no compensation for work when required authorization is unavailable. Legal claims and provider/statutory processes remain separate.
+
+
+**HOLD-LOSS-2.** Where a valid settlement was committed before loss of the seller's keys and no provider destination was assigned, the obligation does not vanish or become available to a newly enrolled account. Follow the deployment's approved age/exposure limits and alternative settlement procedure, including independent verification of the claimant and applicable legal rights; this is not a replacement holder approval or an account-recovery feature. Report unresolved settlement separately from successful transfer. Preserve the original transaction and authorization evidence for both parties. A real deployment must demonstrate these cases, including closure and provider failure, before enabling pre-connection collection.
